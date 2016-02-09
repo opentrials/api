@@ -2,15 +2,26 @@
   "name": "opentrials-api",
   "version": "0.0.1",
   "private": true,
-  "description": "New Swagger API Project",
-  "keywords": [],
-  "author": "",
-  "license": "",
-  "main": "app.js",
+  "description": "API for OpenTrials.net.",
+  "license": "MIT",
+  "keywords": [
+    "opentrials"
+  ],
+  "homepage": "https://github.com/opentrials/api",
+  "bugs": "https://github.com/opentrials/api/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opentrials/api.git"
+  },
+  "author": "Open Knowledge <info@okfn.org> (https://okfn.org)",
+  "contributors": [
+    "Vitor Baptista <vitor@vitorbaptista.com> (http://vitorbaptista.com)"
+  ],
   "dependencies": {
-    "hapi": "^10.0.0",
+    "hapi": "^13.0.0",
     "swagger-hapi": "^0.1.0"
   },
+  "main": "app.js",
   "devDependencies": {
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^5.0.0",
@@ -21,6 +32,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha",
+    "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js"
   }
 }
