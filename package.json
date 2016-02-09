@@ -12,11 +12,15 @@
     "swagger-hapi": "^0.1.0"
   },
   "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^5.0.0",
+    "mocha": "^2.4.5",
     "should": "^7.1.0",
     "supertest": "^1.0.0"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "swagger project test"
+    "test": "mocha",
+    "lint": "eslint *.js **/*.js"
   }
 }
