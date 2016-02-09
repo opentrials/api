@@ -1,12 +1,10 @@
+const config = require('./config');
 const SwaggerHapi = require('swagger-hapi');
 const Hapi = require('hapi');
 const app = new Hapi.Server();
-const config = {
-  appRoot: __dirname, // required config
-};
 
-SwaggerHapi.create(config, (err, swaggerHapi) => {
-  const port = process.env.PORT || 10010;
+SwaggerHapi.create(config.swaggerHapi, (err, swaggerHapi) => {
+  const port = config.port;
   if (err) { throw err; }
 
   app.connection({ port });
