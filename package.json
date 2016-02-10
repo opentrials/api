@@ -19,6 +19,8 @@
   ],
   "dependencies": {
     "bookshelf": "^0.9.1",
+    "good": "^6.6.0",
+    "good-console": "^5.3.1",
     "hapi": "^13.0.0",
     "knex": "^0.9.0",
     "sqlite3": "^3.1.1",

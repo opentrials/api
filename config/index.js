@@ -6,6 +6,18 @@ const config = {
   swaggerHapi: {
     appRoot: path.join(__dirname, '..'),
   },
+
+  hapi: {
+    plugins: [{
+      register: require('good'),
+      options: {
+        reporters: [{
+          reporter: require('good-console'),
+          events: { log: '*', reponse: '*' },
+        }],
+      },
+    }],
+  },
 };
 
 const knexConfig = require(path.join(__dirname, '..', './knexfile'))[config.env];
