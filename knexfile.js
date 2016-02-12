@@ -1,9 +1,13 @@
-'use strict';
+require('dotenv').config();
 
 const db = {
+  production: {
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+  },
   development: {
-    client: 'sqlite3',
-    connection: 'api.db',
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
   },
   test: {
     client: 'sqlite3',
