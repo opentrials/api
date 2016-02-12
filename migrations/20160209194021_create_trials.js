@@ -1,5 +1,3 @@
-'use strict';
-
 exports.up = (knex) => (
   knex.schema.createTableIfNotExists('trials', (table) => {
     table.increments();

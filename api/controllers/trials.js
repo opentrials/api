@@ -1,5 +1,3 @@
-'use strict';
-
 const Trial = require('../models/trial');
 
 function _convertTimestamps(trial) {

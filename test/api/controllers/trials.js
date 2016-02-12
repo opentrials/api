@@ -1,5 +1,3 @@
-'use strict';
-
 const trialsController = require('../../../api/controllers/trials');
 const Trial = require('../../../api/models/trial');
 
