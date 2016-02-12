@@ -34,12 +34,10 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "should": "^7.1.0",
-    "sqlite3": "^3.1.1",
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "start": "node app.js",
-    "test": "export NODE_ENV=test && npm run migrate && mocha",
+    "test": "mocha",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
     "coverage": "istanbul cover _mocha",
