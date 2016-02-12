@@ -1,3 +1,5 @@
+'use strict';
+
 const config = require('./config');
 const SwaggerHapi = require('swagger-hapi');
 const Hapi = require('hapi');
