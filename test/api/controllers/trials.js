@@ -12,9 +12,9 @@ describe('Trials', () => {
     config.bookshelf.knex('trials').truncate()
   ))
 
-  describe('GET /trials', () => {
+  describe('GET /v1/trials', () => {
     it('returns empty list if there\'re no trials', () => (
-      server.inject('/trials')
+      server.inject('/v1/trials')
         .then((response) => {
           response.statusCode.should.equal(200);
           JSON.parse(response.result).should.deepEqual([]);
@@ -24,7 +24,7 @@ describe('Trials', () => {
     it('returns the list of trials', () => (
       new Trial({ title: 'foo' }).save()
         .then((model) => (
-          server.inject('/trials')
+          server.inject('/v1/trials')
             .then((response) => {
               response.statusCode.should.equal(200);
 
@@ -43,9 +43,9 @@ describe('Trials', () => {
     ));
   });
 
-  describe('GET /trials/{id}', () => {
+  describe('GET /v1/trials/{id}', () => {
     it('returns 404 if there\'s no trial with the received ID', () => (
-      server.inject('/trials/51')
+      server.inject('/v1/trials/51')
         .then((response) => {
           response.statusCode.should.equal(404);
         })
@@ -54,7 +54,7 @@ describe('Trials', () => {
     it('returns the Trial', () => (
       new Trial({ title: 'foo' }).save()
         .then((model) => (
-          server.inject('/trials/'+model.attributes.id)
+          server.inject('/v1/trials/'+model.attributes.id)
             .then((response) => {
               response.statusCode.should.equal(200);
 
