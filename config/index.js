@@ -1,7 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const config = {
-  env: process.env.NODE_ENV || 'development',
+  host: process.env.HOST || 'localhost',
   port: process.env.PORT || 10010,
 
   swaggerHapi: {
@@ -21,7 +21,8 @@ const config = {
   },
 };
 
-const knexConfig = require(path.join(__dirname, '..', './knexfile'))[config.env];
+const env = process.env.NODE_ENV || 'development';
+const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];
 const knex = require('knex')(knexConfig);
 config.bookshelf = require('bookshelf')(knex);
 
