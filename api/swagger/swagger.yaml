@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: OpenTrials API
-host: localhost:10010
+host: opentrials-api.herokuapp.com
 basePath: /
 schemes:
   - http
