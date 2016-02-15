@@ -1,6 +1,8 @@
 # api
 
 [![Travis Build Status](https://travis-ci.org/opentrials/api.svg?branch=master)](https://travis-ci.org/opentrials/api)
+[![Coveralls](http://img.shields.io/coveralls/opentrials/api.svg?branch=master)](https://coveralls.io/r/opentrials/api?branch=master)
+
 
 The OpenTrials API service.
 
