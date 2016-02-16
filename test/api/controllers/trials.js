@@ -4,12 +4,12 @@ const Trial = require('../../../api/models/trial');
 describe('Trials', () => {
   before(() => (
     config.bookshelf.knex.migrate.latest().then(() => (
-      config.bookshelf.knex('trials').truncate()
+      config.bookshelf.knex('trials').select().del()
     ))
   ));
 
   afterEach(() => (
-    config.bookshelf.knex('trials').truncate()
+    config.bookshelf.knex('trials').select().del()
   ))
 
   describe('GET /v1/trials', () => {
@@ -22,7 +22,7 @@ describe('Trials', () => {
     ));
 
     it('returns the list of trials', () => (
-      new Trial({ title: 'foo' }).save()
+      trialFixture().save()
         .then((model) => (
           server.inject('/v1/trials')
             .then((response) => {
@@ -31,13 +31,9 @@ describe('Trials', () => {
               const result = JSON.parse(response.result);
               result.should.have.length(1);
 
-              // FIXME: The model coming from the API use ISO time for
-              // timestamps, and the one coming from Trial don't.
-              // They should both return the same.
-              model.attributes.created_at = model.attributes.created_at.toISOString();
-              model.attributes.updated_at = model.attributes.updated_at.toISOString();
-
-              result.should.deepEqual([model.attributes]);
+              result.should.deepEqual([
+                { id: model.attributes.id },
+              ]);
             })
         ))
     ));
@@ -45,14 +41,14 @@ describe('Trials', () => {
 
   describe('GET /v1/trials/{id}', () => {
     it('returns 404 if there\'s no trial with the received ID', () => (
-      server.inject('/v1/trials/51')
+      server.inject('/v1/trials/foo')
         .then((response) => {
           response.statusCode.should.equal(404);
         })
     ));
 
     it('returns the Trial', () => (
-      new Trial({ title: 'foo' }).save()
+      trialFixture().save()
         .then((model) => (
           server.inject('/v1/trials/'+model.attributes.id)
             .then((response) => {
@@ -60,15 +56,27 @@ describe('Trials', () => {
 
               const result = JSON.parse(response.result);
 
-              // FIXME: The model coming from the API use ISO time for
-              // timestamps, and the one coming from Trial don't.
-              // They should both return the same.
-              model.attributes.created_at = model.attributes.created_at.toISOString();
-              model.attributes.updated_at = model.attributes.updated_at.toISOString();
-
-              result.should.deepEqual(model.attributes);
+              result.should.deepEqual({ id: model.attributes.id });
             })
         ))
     ));
   });
 });
+
+function trialFixture() {
+  const attributes = {
+    primary_register: 'primary_register',
+    primary_id: 'primary_id',
+    secondary_ids: JSON.stringify([]),
+    registration_date: new Date('2016-01-01'),
+    public_title: 'public_title',
+    brief_summary: 'brief_summary',
+    recruitment_status: 'recruitment_status',
+    eligibility_criteria: JSON.stringify('[]'),
+    study_type: 'study_type',
+    study_design: 'study_design',
+    study_phase: 'study_phase',
+  }
+
+  return new Trial(attributes);
+}

@@ -10,8 +10,8 @@ const db = {
     connection: process.env.DATABASE_URL,
   },
   test: {
-    client: 'sqlite3',
-    connection: ':memory:',
+    client: 'pg',
+    connection: process.env.TEST_DATABASE_URL,
   },
 };
 
