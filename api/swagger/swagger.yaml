@@ -46,7 +46,7 @@ paths:
           in: path
           description: ID of the trial
           required: true
-          type: integer
+          type: string
       responses:
         "200":
           description: Success
@@ -65,19 +65,9 @@ definitions:
   Trial:
     required:
       - id
-      - created_at
-      - updated_at
     properties:
       id:
-        type: integer
-      title:
         type: string
-      created_at:
-        type: string
-        format: date-time
-      updated_at:
-        type: string
-        format: date-time
   TrialsList:
     type: array
     items:

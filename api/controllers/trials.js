@@ -10,6 +10,9 @@ function getTrial(req, res) {
   const id = req.swagger.params.id.value;
 
   return new Trial({ id: id }).fetch()
+    .catch((err) => {
+      // FIXME: We're ignoring errors for now, but we should at least log them.
+    })
     .then((trial) => {
       if (trial) {
         _convertTimestamps(trial);
