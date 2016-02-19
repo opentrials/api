@@ -48,11 +48,11 @@ Relationship tables:
 
 ### ER Diagram
 
-![diagram](https://raw.githubusercontent.com/opentrials/warehouse/master/docs/database.png)
+![diagram](https://raw.githubusercontent.com/opentrials/api/master/docs/database.png)
 
 ### Schema Declaration
 
-https://github.com/opentrials/warehouse/blob/master/warehouse/database/schema.py
+https://github.com/opentrials/api/blob/master/migrations/20160216120159_create_initial_schema.js
 
 ### Warehouse-to-Database Script Example
 
@@ -60,7 +60,7 @@ https://github.com/opentrials/warehouse/blob/master/warehouse/database/nct.py
 
 ### Test Dump
 
-https://raw.githubusercontent.com/opentrials/warehouse/master/docs/database.sql
+https://raw.githubusercontent.com/opentrials/api/master/docs/database.sql
 
 ## TODO
 
