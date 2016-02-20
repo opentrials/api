@@ -2,7 +2,6 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: OpenTrials API
-host: opentrials-api.herokuapp.com
 basePath: /v1
 schemes:
   - http
@@ -65,9 +64,19 @@ definitions:
   Trial:
     required:
       - id
+      - public_title
+      - brief_summary
+      - registration_date
     properties:
       id:
         type: string
+      public_title:
+        type: string
+      brief_summary:
+        type: string
+      registration_date:
+        type: string
+        format: date-time
   TrialsList:
     type: array
     items:

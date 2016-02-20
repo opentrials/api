@@ -3,7 +3,12 @@ const bookshelf = require('../../config').bookshelf;
 
 const Trial = bookshelf.Model.extend({
   tableName: 'trials',
-  visible: ['id'],
+  visible: [
+    'id',
+    'public_title',
+    'brief_summary',
+    'registration_date',
+  ],
   initialize: function () {
     this.on('saving', this.addIdIfNeeded);
   },

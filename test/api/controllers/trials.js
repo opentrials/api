@@ -31,9 +31,12 @@ describe('Trials', () => {
               const result = JSON.parse(response.result);
               result.should.have.length(1);
 
-              result.should.deepEqual([
-                { id: model.attributes.id },
-              ]);
+              result.should.deepEqual([{
+                id: model.attributes.id,
+                brief_summary: model.attributes.brief_summary,
+                public_title: model.attributes.public_title,
+                registration_date: model.attributes.registration_date.toISOString(),
+              }]);
             })
         ))
     ));
@@ -56,7 +59,12 @@ describe('Trials', () => {
 
               const result = JSON.parse(response.result);
 
-              result.should.deepEqual({ id: model.attributes.id });
+              result.should.deepEqual({
+                id: model.attributes.id,
+                brief_summary: model.attributes.brief_summary,
+                public_title: model.attributes.public_title,
+                registration_date: model.attributes.registration_date.toISOString(),
+              });
             })
         ))
     ));
