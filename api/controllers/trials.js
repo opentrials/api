@@ -3,7 +3,7 @@ const Trial = require('../models/trial');
 function getTrial(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Trial({ id: id }).fetch()
+  return new Trial({ id: id }).fetch({ withRelated: 'locations' })
     .catch((err) => {
       // FIXME: We're ignoring errors for now, but we should at least log them.
     })
@@ -18,7 +18,7 @@ function getTrial(req, res) {
 }
 
 function listTrials(req, res) {
-  return new Trial().fetchAll()
+  return new Trial().fetchAll({ withRelated: 'locations' })
     .then((trials) => (
       res.json(trials)
     ));

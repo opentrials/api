@@ -36,6 +36,7 @@ describe('Trials', () => {
                 brief_summary: model.attributes.brief_summary,
                 public_title: model.attributes.public_title,
                 registration_date: model.attributes.registration_date.toISOString(),
+                locations: [],
               }]);
             })
         ))
@@ -64,6 +65,7 @@ describe('Trials', () => {
                 brief_summary: model.attributes.brief_summary,
                 public_title: model.attributes.public_title,
                 registration_date: model.attributes.registration_date.toISOString(),
+                locations: [],
               });
             })
         ))

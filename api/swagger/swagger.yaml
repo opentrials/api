@@ -67,6 +67,7 @@ definitions:
       - public_title
       - brief_summary
       - registration_date
+      - locations
     properties:
       id:
         type: string
@@ -77,10 +78,40 @@ definitions:
       registration_date:
         type: string
         format: date-time
+      locations:
+        type: array
+        items:
+          $ref: '#/definitions/TrialLocation'
   TrialsList:
     type: array
     items:
       $ref: '#/definitions/Trial'
+
+  TrialLocation:
+    required:
+      - role
+      - location
+    properties:
+      role:
+        type: string
+        enum:
+          - recruitment_countries
+          - other
+      location:
+        $ref: '#/definitions/Location'
+  Location:
+    required:
+      - name
+      - type
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - country
+          - city
+          - other
   ErrorResponse:
     required:
       - message
