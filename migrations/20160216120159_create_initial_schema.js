@@ -1,5 +1,3 @@
-// Changed UUID => ID
-// Tables are plural
 exports.up = (knex) => {
   const createSources = knex.schema.createTable('sources', (table) => {
     table.uuid('id')
