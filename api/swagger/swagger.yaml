@@ -90,14 +90,14 @@ definitions:
   TrialLocation:
     required:
       - role
-      - location
+      - attributes
     properties:
       role:
         type: string
         enum:
           - recruitment_countries
           - other
-      location:
+      attributes:
         $ref: '#/definitions/Location'
   Location:
     required:
@@ -119,13 +119,13 @@ definitions:
   TrialIntervention:
     required:
       - role
-      - intervention
+      - attributes
     properties:
       role:
         type: string
         enum:
           - other
-      intervention:
+      attributes:
         $ref: '#/definitions/Intervention'
   Intervention:
     required:

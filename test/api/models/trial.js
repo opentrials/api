@@ -54,7 +54,7 @@ describe('Trial', () => {
           should(trial.toJSON().locations).deepEqual([
             {
               role: 'recruitment_countries',
-              'location': loc.toJSON(),
+              attributes: loc.toJSON(),
             }
           ]);
         });
@@ -92,7 +92,7 @@ describe('Trial', () => {
           should(trial.toJSON().interventions).deepEqual([
             {
               role: 'other',
-              intervention: intervention.toJSON(),
+              attributes: intervention.toJSON(),
             }
           ]);
         });

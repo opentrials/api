@@ -18,33 +18,20 @@ const Trial = BaseModel.extend({
     const attributes = this.attributes;
     const relations = this.relations;
 
-    let locations = [];
-    if (relations.locations) {
-      locations = relations.locations.map((loc) => {
-        const locAttributes = loc.toJSON();
-        const role = locAttributes._pivot_role;
-        delete locAttributes._pivot_role;
+    attributes.locations = [];
+    attributes.interventions = [];
+
+    for (let relationName of Object.keys(relations)) {
+      attributes[relationName] = relations[relationName].map((model) => {
+        const attributes = model.toJSON();
+        delete attributes._pivot_role;
 
         return {
-          role: loc.pivot.attributes.role,
-          'location': locAttributes,
-        };
+          role: model.pivot.attributes.role,
+          attributes: attributes,
+        }
       });
     }
-    attributes.locations = locations;
-
-    let interventions = [];
-    if (relations.interventions) {
-      interventions = relations.interventions.map((loc) => {
-        const locAttributes = loc.toJSON();
-
-        return {
-          role: loc.pivot.attributes.role,
-          intervention: loc.toJSON(),
-        };
-      });
-    }
-    attributes.interventions = interventions;
 
     return attributes;
   },

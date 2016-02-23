@@ -28,16 +28,10 @@ describe('Trials', () => {
               response.statusCode.should.equal(200);
 
               const result = JSON.parse(response.result);
-              result.should.have.length(1);
+              const expectedResult = model.toJSON();
+              expectedResult.registration_date = expectedResult.registration_date.toISOString()
 
-              result.should.deepEqual([{
-                id: model.attributes.id,
-                brief_summary: model.attributes.brief_summary,
-                public_title: model.attributes.public_title,
-                registration_date: model.attributes.registration_date.toISOString(),
-                locations: [],
-                interventions: [],
-              }]);
+              result.should.deepEqual([expectedResult]);
             })
         ))
     ));
@@ -59,15 +53,10 @@ describe('Trials', () => {
               response.statusCode.should.equal(200);
 
               const result = JSON.parse(response.result);
+              const expectedResult = model.toJSON();
+              expectedResult.registration_date = expectedResult.registration_date.toISOString()
 
-              result.should.deepEqual({
-                id: model.attributes.id,
-                brief_summary: model.attributes.brief_summary,
-                public_title: model.attributes.public_title,
-                registration_date: model.attributes.registration_date.toISOString(),
-                locations: [],
-                interventions: [],
-              });
+              result.should.deepEqual(expectedResult);
             })
         ))
     ));
