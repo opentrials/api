@@ -1,5 +1,6 @@
 require('./location');
 require('./intervention');
+require('./person');
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
@@ -13,6 +14,7 @@ const Trial = BaseModel.extend({
     'registration_date',
     'locations',
     'interventions',
+    'persons',
   ],
   serialize: function(options) {
     const attributes = this.attributes;
@@ -20,6 +22,7 @@ const Trial = BaseModel.extend({
 
     attributes.locations = [];
     attributes.interventions = [];
+    attributes.persons = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
@@ -42,6 +45,10 @@ const Trial = BaseModel.extend({
   interventions: function () {
     return this.belongsToMany('Intervention', 'trials_interventions',
         'trial_id', 'intervention_id').withPivot(['role']);
+  },
+  persons: function () {
+    return this.belongsToMany('Person', 'trials_persons',
+        'trial_id', 'person_id').withPivot(['role']);
   },
 });
 

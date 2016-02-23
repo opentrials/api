@@ -69,6 +69,7 @@ definitions:
       - registration_date
       - locations
       - interventions
+      - persons
     properties:
       id:
         type: string
@@ -87,6 +88,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialIntervention'
+      persons:
+        type: array
+        items:
+          $ref: '#/definitions/TrialPerson'
   TrialsList:
     type: array
     items:
@@ -141,6 +146,33 @@ definitions:
       type:
         enum:
           - drug
+          - other
+          - null
+
+  TrialPerson:
+    required:
+      - attributes
+    properties:
+      role:
+        enum:
+          - principal_investigator
+          - public_queries
+          - scientific_queries
+          - other
+          - null
+      attributes:
+        $ref: '#/definitions/Person'
+  Person:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        enum:
           - other
           - null
 

@@ -12,7 +12,7 @@ describe('Trial', () => {
   });
 
   describe('locations', () => {
-    it('is an empty array if there\'re no locations', () => {
+    it('is an empty array if there\'re none', () => {
       should(new Trial().toJSON().locations).deepEqual([]);
     });
 
@@ -46,7 +46,7 @@ describe('Trial', () => {
   });
 
   describe('interventions', () => {
-    it('is an empty array if there\'re no interventions', () => {
+    it('is an empty array if there\'re none', () => {
       should(new Trial().toJSON().interventions).deepEqual([]);
     });
 
@@ -74,6 +74,41 @@ describe('Trial', () => {
             {
               role: 'other',
               attributes: intervention.toJSON(),
+            }
+          ]);
+        });
+    });
+  });
+
+  describe('persons', () => {
+    it('is an empty array if there\'re none', () => {
+      should(new Trial().toJSON().persons).deepEqual([]);
+    });
+
+    it('adds the persons and its metadata from relationship into the resulting JSON', () => {
+      let trial_id;
+      let person;
+
+      return fixtures.trial().save()
+        .then((trial) => {
+          trial_id = trial.id;
+
+          return fixtures.person().save().then((_person) => {
+            person = _person;
+
+            return trial.persons().attach({
+              person_id: person.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            });
+          });
+        }).then((trial) => {
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'persons' })
+        }).then((trial) => {
+          should(trial.toJSON().persons).deepEqual([
+            {
+              role: 'other',
+              attributes: person.toJSON(),
             }
           ]);
         });

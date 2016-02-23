@@ -10,6 +10,8 @@ function clearDB() {
     'locations',
     'trials_interventions',
     'interventions',
+    'trials_persons',
+    'persons',
     'trials',
   ];
   const deferred = config.bookshelf.knex.migrate.latest();

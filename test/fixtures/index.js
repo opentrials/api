@@ -2,6 +2,7 @@ const uuid = require('node-uuid');
 const Trial = require('../../api/models/trial');
 const Location = require('../../api/models/location');
 const Intervention = require('../../api/models/intervention');
+const Person = require('../../api/models/person');
 
 function trialFixture() {
   const attributes = {
@@ -35,10 +36,20 @@ function interventionFixture() {
   const attributes = {
     name: 'Placebo',
     type: 'drug',
-    data: JSON.stringify({}),
+    data: JSON.stringify(''),
   };
 
   return new Intervention(attributes);
+}
+
+function personFixture() {
+  const attributes = {
+    name: 'John Smith',
+    type: 'other',
+    data: JSON.stringify(''),
+  };
+
+  return new Person(attributes);
 }
 
 function trialWithRelated() {
@@ -63,6 +74,13 @@ function trialWithRelated() {
               context: JSON.stringify(''),
             })
         )),
+        personFixture().save().then((person) => (
+            trial.persons().attach({
+              person_id: person.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            })
+        )),
       ]);
     }).then(() => {
       return new Trial({ id: trial_id })
@@ -79,5 +97,6 @@ module.exports = {
   trial: trialFixture,
   'location': locationFixture,
   intervention: interventionFixture,
+  person: personFixture,
   trialWithRelated: trialWithRelated,
 }
