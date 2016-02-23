@@ -1,15 +1,10 @@
 const trialsController = require('../../../api/controllers/trials');
+const Trial = require('../../../api/models/trial');
 
 describe('Trials', () => {
-  before(() => (
-    config.bookshelf.knex.migrate.latest().then(() => (
-      config.bookshelf.knex('trials').select().del()
-    ))
-  ));
+  before(clearDB)
 
-  afterEach(() => (
-    config.bookshelf.knex('trials').select().del()
-  ))
+  afterEach(clearDB)
 
   describe('GET /v1/trials', () => {
     it('returns empty list if there\'re no trials', () => (
@@ -20,9 +15,9 @@ describe('Trials', () => {
         })
     ));
 
-    it('returns the list of trials', () => (
-      fixtures.trial().save()
-        .then((model) => (
+    it('returns the list of trials', () => {
+      return fixtures.trialWithRelated()
+        .then((model) =>
           server.inject('/v1/trials')
             .then((response) => {
               response.statusCode.should.equal(200);
@@ -33,8 +28,8 @@ describe('Trials', () => {
 
               result.should.deepEqual([expectedResult]);
             })
-        ))
-    ));
+        );
+    });
   });
 
   describe('GET /v1/trials/{id}', () => {
@@ -46,7 +41,7 @@ describe('Trials', () => {
     ));
 
     it('returns the Trial', () => (
-      fixtures.trial().save()
+      fixtures.trialWithRelated()
         .then((model) => (
           server.inject('/v1/trials/'+model.attributes.id)
             .then((response) => {

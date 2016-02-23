@@ -3,22 +3,9 @@ const Trial = require('../../../api/models/trial');
 const Location = require('../../../api/models/location');
 
 describe('Trial', () => {
-  before(() => (
-    config.bookshelf.knex.migrate.latest()
-      .then(() => config.bookshelf.knex('trials_locations').select().del())
-      .then(() => config.bookshelf.knex('locations').select().del())
-      .then(() => config.bookshelf.knex('trials_interventions').select().del())
-      .then(() => config.bookshelf.knex('interventions').select().del())
-      .then(() => config.bookshelf.knex('trials').select().del())
-  ));
+  before(clearDB)
 
-  afterEach(() => (
-    config.bookshelf.knex('trials_locations').select().del()
-      .then(() => config.bookshelf.knex('locations').select().del())
-      .then(() => config.bookshelf.knex('trials_interventions').select().del())
-      .then(() => config.bookshelf.knex('interventions').select().del())
-      .then(() => config.bookshelf.knex('trials').select().del())
-  ));
+  afterEach(clearDB)
 
   it('exists', () => {
     should.exist(Trial);

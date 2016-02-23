@@ -41,8 +41,43 @@ function interventionFixture() {
   return new Intervention(attributes);
 }
 
+function trialWithRelated() {
+  let trial_id;
+
+  return trialFixture().save()
+    .then((trial) => {
+      trial_id = trial.id;
+
+      return Promise.all([
+        interventionFixture().save().then((intervention) => (
+            trial.interventions().attach({
+              intervention_id: intervention.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            })
+        )),
+        locationFixture().save().then((loc) => (
+            trial.locations().attach({
+              location_id: loc.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            })
+        )),
+      ]);
+    }).then(() => {
+      return new Trial({ id: trial_id })
+        .fetch({
+          withRelated: [
+            'locations',
+            'interventions'
+          ]
+        });
+    });
+}
+
 module.exports = {
   trial: trialFixture,
   'location': locationFixture,
   intervention: interventionFixture,
+  trialWithRelated: trialWithRelated,
 }
