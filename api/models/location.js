@@ -9,6 +9,7 @@ const Location = bookshelf.Model.extend({
     'id',
     'name',
     'type',
+    '_pivot_role',
   ],
   initialize: function () {
     this.on('saving', this.addIdIfNeeded);
@@ -20,7 +21,7 @@ const Location = bookshelf.Model.extend({
   },
   trials: function () {
     return this.belongsToMany('Trial', 'trials_locations',
-      'location_id', 'trial_id');
+      'location_id', 'trial_id').withPivot(['role']);
   },
 });
 

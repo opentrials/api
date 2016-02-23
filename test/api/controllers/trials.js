@@ -1,5 +1,4 @@
 const trialsController = require('../../../api/controllers/trials');
-const Trial = require('../../../api/models/trial');
 
 describe('Trials', () => {
   before(() => (
@@ -22,7 +21,7 @@ describe('Trials', () => {
     ));
 
     it('returns the list of trials', () => (
-      trialFixture().save()
+      fixtures.trial().save()
         .then((model) => (
           server.inject('/v1/trials')
             .then((response) => {
@@ -52,7 +51,7 @@ describe('Trials', () => {
     ));
 
     it('returns the Trial', () => (
-      trialFixture().save()
+      fixtures.trial().save()
         .then((model) => (
           server.inject('/v1/trials/'+model.attributes.id)
             .then((response) => {
@@ -72,21 +71,3 @@ describe('Trials', () => {
     ));
   });
 });
-
-function trialFixture() {
-  const attributes = {
-    primary_register: 'primary_register',
-    primary_id: 'primary_id',
-    secondary_ids: JSON.stringify([]),
-    registration_date: new Date('2016-01-01'),
-    public_title: 'public_title',
-    brief_summary: 'brief_summary',
-    recruitment_status: 'recruitment_status',
-    eligibility_criteria: JSON.stringify('[]'),
-    study_type: 'study_type',
-    study_design: 'study_design',
-    study_phase: 'study_phase',
-  }
-
-  return new Trial(attributes);
-}
