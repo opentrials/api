@@ -68,6 +68,7 @@ definitions:
       - brief_summary
       - registration_date
       - locations
+      - interventions
     properties:
       id:
         type: string
@@ -82,6 +83,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialLocation'
+      interventions:
+        type: array
+        items:
+          $ref: '#/definitions/TrialIntervention'
   TrialsList:
     type: array
     items:
