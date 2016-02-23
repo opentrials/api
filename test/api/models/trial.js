@@ -7,6 +7,16 @@ describe('Trial', () => {
     config.bookshelf.knex.migrate.latest()
       .then(() => config.bookshelf.knex('trials_locations').select().del())
       .then(() => config.bookshelf.knex('locations').select().del())
+      .then(() => config.bookshelf.knex('trials_interventions').select().del())
+      .then(() => config.bookshelf.knex('interventions').select().del())
+      .then(() => config.bookshelf.knex('trials').select().del())
+  ));
+
+  afterEach(() => (
+    config.bookshelf.knex('trials_locations').select().del()
+      .then(() => config.bookshelf.knex('locations').select().del())
+      .then(() => config.bookshelf.knex('trials_interventions').select().del())
+      .then(() => config.bookshelf.knex('interventions').select().del())
       .then(() => config.bookshelf.knex('trials').select().del())
   ));
 
@@ -15,16 +25,10 @@ describe('Trial', () => {
   });
 
   describe('locations', () => {
-    afterEach(() => (
-      config.bookshelf.knex('trials_locations').select().del()
-        .then(() => config.bookshelf.knex('locations').select().del())
-        .then(() => config.bookshelf.knex('trials').select().del())
-    ));
-
     it('is an empty array if there\'re no locations', () => {
       return fixtures.trial().save()
         .then((trial) => {
-          trial.toJSON().locations.should.deepEqual([]);
+          should(trial.toJSON().locations).deepEqual([]);
         });
     });
 
@@ -47,10 +51,48 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
-          trial.toJSON().locations.should.deepEqual([
+          should(trial.toJSON().locations).deepEqual([
             {
               role: 'recruitment_countries',
               'location': loc.toJSON(),
+            }
+          ]);
+        });
+    });
+  });
+
+  describe('interventions', () => {
+    it('is an empty array if there\'re no interventions', () => {
+      return fixtures.trial().save()
+        .then((trial) => {
+          should(trial.toJSON().interventions).deepEqual([]);
+        });
+    });
+
+    it('adds the interventions and its metadata from relationship into the resulting JSON', () => {
+      let trial_id;
+      let intervention;
+
+      return fixtures.trial().save()
+        .then((trial) => {
+          trial_id = trial.id;
+
+          return fixtures.intervention().save().then((_intervention) => {
+            intervention = _intervention;
+
+            return trial.interventions().attach({
+              intervention_id: intervention.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            });
+          });
+        }).then((trial) => {
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'interventions' })
+        }).then((trial) => {
+          should(trial.toJSON().interventions).deepEqual([
+            {
+              role: 'other',
+              intervention: intervention.toJSON(),
             }
           ]);
         });

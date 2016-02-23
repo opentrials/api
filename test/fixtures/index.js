@@ -1,6 +1,7 @@
 const uuid = require('node-uuid');
 const Trial = require('../../api/models/trial');
 const Location = require('../../api/models/location');
+const Intervention = require('../../api/models/intervention');
 
 function trialFixture() {
   const attributes = {
@@ -21,16 +22,27 @@ function trialFixture() {
 }
 
 function locationFixture() {
-  const loc = {
+  const attributes = {
     name: 'UK',
     type: 'country',
     data: JSON.stringify(''),
   };
 
-  return new Location(loc);
+  return new Location(attributes);
+}
+
+function interventionFixture() {
+  const attributes = {
+    name: 'Placebo',
+    type: 'drug',
+    data: JSON.stringify({}),
+  };
+
+  return new Intervention(attributes);
 }
 
 module.exports = {
   trial: trialFixture,
   'location': locationFixture,
+  intervention: interventionFixture,
 }

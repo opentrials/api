@@ -112,6 +112,34 @@ definitions:
           - country
           - city
           - other
+
+  TrialIntervention:
+    required:
+      - role
+      - intervention
+    properties:
+      role:
+        type: string
+        enum:
+          - other
+      intervention:
+        $ref: '#/definitions/Intervention'
+  Intervention:
+    required:
+      - id
+      - name
+      - type
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - drug
+          - other
+
   ErrorResponse:
     required:
       - message

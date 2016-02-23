@@ -36,6 +36,7 @@ describe('Trials', () => {
                 public_title: model.attributes.public_title,
                 registration_date: model.attributes.registration_date.toISOString(),
                 locations: [],
+                interventions: [],
               }]);
             })
         ))
@@ -65,6 +66,7 @@ describe('Trials', () => {
                 public_title: model.attributes.public_title,
                 registration_date: model.attributes.registration_date.toISOString(),
                 locations: [],
+                interventions: [],
               });
             })
         ))
