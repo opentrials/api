@@ -1,9 +1,9 @@
 require('./trial');
 
-const uuid = require('node-uuid');
 const bookshelf = require('../../config').bookshelf;
+const BaseModel = require('./base');
 
-const Location = bookshelf.Model.extend({
+const Location = BaseModel.extend({
   tableName: 'locations',
   visible: [
     'id',
@@ -11,14 +11,6 @@ const Location = bookshelf.Model.extend({
     'type',
     '_pivot_role',
   ],
-  initialize: function () {
-    this.on('saving', this.addIdIfNeeded);
-  },
-  addIdIfNeeded: (model) => {
-    if (!model.attributes.id) {
-      model.attributes.id = uuid.v1();
-    }
-  },
   trials: function () {
     return this.belongsToMany('Trial', 'trials_locations',
       'location_id', 'trial_id').withPivot(['role']);

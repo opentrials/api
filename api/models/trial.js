@@ -1,9 +1,9 @@
 require('./location');
 
-const uuid = require('node-uuid');
 const bookshelf = require('../../config').bookshelf;
+const BaseModel = require('./base');
 
-const Trial = bookshelf.Model.extend({
+const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
@@ -32,14 +32,6 @@ const Trial = bookshelf.Model.extend({
     attributes.locations = locations;
 
     return attributes;
-  },
-  initialize: function () {
-    this.on('saving', this.addIdIfNeeded);
-  },
-  addIdIfNeeded: (model) => {
-    if (!model.attributes.id) {
-      model.attributes.id = uuid.v1();
-    }
   },
   locations: function () {
     return this.belongsToMany('Location', 'trials_locations',
