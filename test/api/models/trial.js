@@ -13,10 +13,7 @@ describe('Trial', () => {
 
   describe('locations', () => {
     it('is an empty array if there\'re no locations', () => {
-      return fixtures.trial().save()
-        .then((trial) => {
-          should(trial.toJSON().locations).deepEqual([]);
-        });
+      should(new Trial().toJSON().locations).deepEqual([]);
     });
 
     it('adds the locations and its metadata from relationship into the resulting JSON', () => {
@@ -50,10 +47,7 @@ describe('Trial', () => {
 
   describe('interventions', () => {
     it('is an empty array if there\'re no interventions', () => {
-      return fixtures.trial().save()
-        .then((trial) => {
-          should(trial.toJSON().interventions).deepEqual([]);
-        });
+      should(new Trial().toJSON().interventions).deepEqual([]);
     });
 
     it('adds the interventions and its metadata from relationship into the resulting JSON', () => {
