@@ -278,7 +278,6 @@ exports.up = (knex) => {
     table.uuid('id').primary();
 
     table.text('name')
-      .unique()  // FIXME: Why do we have this unique constraint?
       .notNullable();
     table.enu('type', [
       'other',
