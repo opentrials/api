@@ -94,59 +94,55 @@ definitions:
 
   TrialLocation:
     required:
-      - role
       - attributes
     properties:
       role:
-        type: string
         enum:
           - recruitment_countries
           - other
+          - null
       attributes:
         $ref: '#/definitions/Location'
   Location:
     required:
       - id
       - name
-      - type
     properties:
       id:
         type: string
       name:
         type: string
       type:
-        type: string
         enum:
           - country
           - city
           - other
+          - null
 
   TrialIntervention:
     required:
-      - role
       - attributes
     properties:
       role:
-        type: string
         enum:
           - other
+          - null
       attributes:
         $ref: '#/definitions/Intervention'
   Intervention:
     required:
       - id
       - name
-      - type
     properties:
       id:
         type: string
       name:
         type: string
       type:
-        type: string
         enum:
           - drug
           - other
+          - null
 
   ErrorResponse:
     required:
