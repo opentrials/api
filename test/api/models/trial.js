@@ -38,12 +38,13 @@ describe('Trial', () => {
 
           return fixtures.location().save().then((_loc) => {
             loc = _loc;
-            return trial.locations().attach(_loc);
+            return trial.locations().attach({
+              location_id: _loc.id,
+              role: 'recruitment_countries',
+              context: JSON.stringify(''),
+            });
           });
         }).then((trial) => {
-          return trial.updatePivot({ role: 'recruitment_countries' });
-        }).then((trial) => {
-          // Reload the trial so we fetch the locations as well
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
           trial.toJSON().locations.should.deepEqual([
