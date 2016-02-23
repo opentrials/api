@@ -101,9 +101,12 @@ definitions:
         $ref: '#/definitions/Location'
   Location:
     required:
+      - id
       - name
       - type
     properties:
+      id:
+        type: string
       name:
         type: string
       type:
