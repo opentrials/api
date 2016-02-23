@@ -16,7 +16,7 @@ const Trial = BaseModel.extend({
     'interventions',
     'persons',
   ],
-  serialize: function(options) {
+  serialize: function (options) {
     const attributes = this.attributes;
     const relations = this.relations;
 
@@ -28,11 +28,15 @@ const Trial = BaseModel.extend({
       attributes[relationName] = relations[relationName].map((model) => {
         const attributes = model.toJSON();
         delete attributes._pivot_role;
-
-        return {
-          role: model.pivot.attributes.role,
+        const result = {
           attributes: attributes,
         }
+
+        if (model.pivot.attributes.role) {
+          result.role = model.pivot.attributes.role;
+        };
+
+        return result;
       });
     }
 

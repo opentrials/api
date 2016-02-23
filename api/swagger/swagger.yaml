@@ -102,10 +102,10 @@ definitions:
       - attributes
     properties:
       role:
+        type: string
         enum:
           - recruitment_countries
           - other
-          - null
       attributes:
         $ref: '#/definitions/Location'
   Location:
@@ -118,20 +118,20 @@ definitions:
       name:
         type: string
       type:
+        type: string
         enum:
           - country
           - city
           - other
-          - null
 
   TrialIntervention:
     required:
       - attributes
     properties:
       role:
+        type: string
         enum:
           - other
-          - null
       attributes:
         $ref: '#/definitions/Intervention'
   Intervention:
@@ -144,22 +144,22 @@ definitions:
       name:
         type: string
       type:
+        type: string
         enum:
           - drug
           - other
-          - null
 
   TrialPerson:
     required:
       - attributes
     properties:
       role:
+        type: string
         enum:
           - principal_investigator
           - public_queries
           - scientific_queries
           - other
-          - null
       attributes:
         $ref: '#/definitions/Person'
   Person:
@@ -172,9 +172,9 @@ definitions:
       name:
         type: string
       type:
+        type: string
         enum:
           - other
-          - null
 
   ErrorResponse:
     required:

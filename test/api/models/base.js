@@ -8,4 +8,10 @@ describe('BaseModel', () => {
     base.trigger('saving', base);
     should.exist(base.attributes.id);
   });
+
+  it('removes null attributes when serializing', () => {
+    const base = new BaseModel({ foo: null });
+
+    base.toJSON().should.not.have.ownProperty('foo');
+  });
 });
