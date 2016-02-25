@@ -25,6 +25,7 @@ const env = process.env.NODE_ENV || 'development';
 const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];
 const knex = require('knex')(knexConfig);
 config.bookshelf = require('bookshelf')(knex);
+config.bookshelf.plugin('registry');
 config.bookshelf.plugin('visibility');
 
 module.exports = config;

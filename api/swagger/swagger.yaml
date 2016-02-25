@@ -67,6 +67,9 @@ definitions:
       - public_title
       - brief_summary
       - registration_date
+      - locations
+      - interventions
+      - persons
     properties:
       id:
         type: string
@@ -77,10 +80,102 @@ definitions:
       registration_date:
         type: string
         format: date-time
+      locations:
+        type: array
+        items:
+          $ref: '#/definitions/TrialLocation'
+      interventions:
+        type: array
+        items:
+          $ref: '#/definitions/TrialIntervention'
+      persons:
+        type: array
+        items:
+          $ref: '#/definitions/TrialPerson'
   TrialsList:
     type: array
     items:
       $ref: '#/definitions/Trial'
+
+  TrialLocation:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - recruitment_countries
+          - other
+      attributes:
+        $ref: '#/definitions/Location'
+  Location:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - country
+          - city
+          - other
+
+  TrialIntervention:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - other
+      attributes:
+        $ref: '#/definitions/Intervention'
+  Intervention:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - drug
+          - other
+
+  TrialPerson:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - principal_investigator
+          - public_queries
+          - scientific_queries
+          - other
+      attributes:
+        $ref: '#/definitions/Person'
+  Person:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - other
+
   ErrorResponse:
     required:
       - message

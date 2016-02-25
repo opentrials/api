@@ -2,15 +2,9 @@ const trialsController = require('../../../api/controllers/trials');
 const Trial = require('../../../api/models/trial');
 
 describe('Trials', () => {
-  before(() => (
-    config.bookshelf.knex.migrate.latest().then(() => (
-      config.bookshelf.knex('trials').select().del()
-    ))
-  ));
+  before(clearDB)
 
-  afterEach(() => (
-    config.bookshelf.knex('trials').select().del()
-  ))
+  afterEach(clearDB)
 
   describe('GET /v1/trials', () => {
     it('returns empty list if there\'re no trials', () => (
@@ -21,25 +15,21 @@ describe('Trials', () => {
         })
     ));
 
-    it('returns the list of trials', () => (
-      trialFixture().save()
-        .then((model) => (
+    it('returns the list of trials', () => {
+      return fixtures.trialWithRelated()
+        .then((model) =>
           server.inject('/v1/trials')
             .then((response) => {
               response.statusCode.should.equal(200);
 
               const result = JSON.parse(response.result);
-              result.should.have.length(1);
+              const expectedResult = model.toJSON();
+              expectedResult.registration_date = expectedResult.registration_date.toISOString()
 
-              result.should.deepEqual([{
-                id: model.attributes.id,
-                brief_summary: model.attributes.brief_summary,
-                public_title: model.attributes.public_title,
-                registration_date: model.attributes.registration_date.toISOString(),
-              }]);
+              result.should.deepEqual([expectedResult]);
             })
-        ))
-    ));
+        );
+    });
   });
 
   describe('GET /v1/trials/{id}', () => {
@@ -51,40 +41,19 @@ describe('Trials', () => {
     ));
 
     it('returns the Trial', () => (
-      trialFixture().save()
+      fixtures.trialWithRelated()
         .then((model) => (
           server.inject('/v1/trials/'+model.attributes.id)
             .then((response) => {
               response.statusCode.should.equal(200);
 
               const result = JSON.parse(response.result);
+              const expectedResult = model.toJSON();
+              expectedResult.registration_date = expectedResult.registration_date.toISOString()
 
-              result.should.deepEqual({
-                id: model.attributes.id,
-                brief_summary: model.attributes.brief_summary,
-                public_title: model.attributes.public_title,
-                registration_date: model.attributes.registration_date.toISOString(),
-              });
+              result.should.deepEqual(expectedResult);
             })
         ))
     ));
   });
 });
-
-function trialFixture() {
-  const attributes = {
-    primary_register: 'primary_register',
-    primary_id: 'primary_id',
-    secondary_ids: JSON.stringify([]),
-    registration_date: new Date('2016-01-01'),
-    public_title: 'public_title',
-    brief_summary: 'brief_summary',
-    recruitment_status: 'recruitment_status',
-    eligibility_criteria: JSON.stringify('[]'),
-    study_type: 'study_type',
-    study_design: 'study_design',
-    study_phase: 'study_phase',
-  }
-
-  return new Trial(attributes);
-}
