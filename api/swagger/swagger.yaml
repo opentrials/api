@@ -13,6 +13,28 @@ produces:
 paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
+  /search:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      description: Search stuff
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /trials:
     x-swagger-router-controller: trials
     get:
@@ -175,6 +197,18 @@ definitions:
         type: string
         enum:
           - other
+
+  SearchResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Trial'
 
   ErrorResponse:
     required:
