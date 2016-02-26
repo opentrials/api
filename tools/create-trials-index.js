@@ -25,7 +25,7 @@ new Trial().fetchAll({ withRelated: relatedModels })
       body: bulkBody,
     });
   }).then((resp) => {
-    console.info(resp.items.length + ' trials successfully reindexed into ElasticSearch.');
+    console.info(`${resp.items.length} trials successfully reindexed into ElasticSearch.`);
     process.exit();
   }).catch((err) => {
     throw err;
