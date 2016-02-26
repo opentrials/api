@@ -25,6 +25,12 @@ paths:
           in: query
           description: The search query
           type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
       responses:
         "200":
           description: Success

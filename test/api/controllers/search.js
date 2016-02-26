@@ -1,3 +1,4 @@
+const should = require('should');
 const sinon = require('sinon');
 const elasticsearch = require('../../../config').elasticsearch;
 
@@ -82,6 +83,36 @@ describe('Search', () => {
 
       return server.inject('/v1/search')
         .then((response) => response.statusCode.should.equal(500));
+    });
+
+    describe('pagination', () => {
+      beforeEach(() => {
+        searchStub.returns(Promise.reject(new Error('Ignore ES result')))
+      });
+
+      it('defaults to first page and 20 items per page', () => {
+        return server.inject('/v1/search')
+          .then(() => {
+            searchStub.calledWithMatch({ from: 0, size: 20 }).should.be.true();
+          });
+      });
+
+      it('allows getting other pages', () => {
+        return server.inject('/v1/search?page=2')
+          .then(() => {
+            searchStub.calledWithMatch({ from: 20, size: 20 }).should.be.true();
+          });
+      });
+
+      it('validates that page is greater than 1', () => {
+        return server.inject('/v1/search?page=0')
+          .then((response) => {
+            const result = JSON.parse(response.result);
+
+            should(result.failedValidation).be.true();
+            should(result.code).equal('MINIMUM');
+          });
+      });
     });
   });
 });
