@@ -31,6 +31,13 @@ paths:
           type: integer
           minimum: 1
           default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
       responses:
         "200":
           description: Success

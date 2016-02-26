@@ -21,6 +21,7 @@ describe('Search', () => {
     it('returns empty list if no trials were found', () => {
       const esResult = {
         hits: {
+          total: 0,
           hits: [],
         },
       };
@@ -42,6 +43,7 @@ describe('Search', () => {
       trial.attributes.id = 'd429efb2-dbf1-11e5-b5d2-0a1d41d68578';
       const esResult = {
         hits: {
+          total: 1,
           hits: [
             { _source: trial.toJSON() },
           ],
@@ -98,19 +100,74 @@ describe('Search', () => {
       });
 
       it('allows getting other pages', () => {
-        return server.inject('/v1/search?page=2')
+        return server.inject('/v1/search?page=3&per_page=20')
           .then(() => {
-            searchStub.calledWithMatch({ from: 20, size: 20 }).should.be.true();
+            searchStub.calledWithMatch({ from: 40, size: 20 }).should.be.true();
+          });
+      });
+
+      it('allows changing number of items per page', () => {
+        return server.inject('/v1/search?per_page=33')
+          .then(() => {
+            searchStub.calledWithMatch({ from: 0, size: 33 }).should.be.true();
+          });
+      });
+
+      it('total_count contains the number of items in total, not per page', () => {
+        const trial = fixtures.trial();
+        trial.attributes.id = 'd429efb2-dbf1-11e5-b5d2-0a1d41d68578';
+        const esResult = {
+          hits: {
+            total: 51,
+            hits: [
+              { _source: trial.toJSON() },
+            ]
+          }
+        };
+
+        searchStub.returns(Promise.resolve(esResult));
+
+        return server.inject('/v1/search')
+          .then((response) => {
+            const result = JSON.parse(response.result);
+
+            should(result.total_count).equal(esResult.hits.total);
           });
       });
 
       it('validates that page is greater than 1', () => {
+        // FIXME: Should return error HTTP status code
         return server.inject('/v1/search?page=0')
           .then((response) => {
             const result = JSON.parse(response.result);
 
             should(result.failedValidation).be.true();
             should(result.code).equal('MINIMUM');
+            should(result.paramName).equal('page');
+          });
+      });
+
+      it('validates that items per page is greater than 10', () => {
+        // FIXME: Should return error HTTP status code
+        return server.inject('/v1/search?per_page=9')
+          .then((response) => {
+            const result = JSON.parse(response.result);
+
+            should(result.failedValidation).be.true();
+            should(result.code).equal('MINIMUM');
+            should(result.paramName).equal('per_page');
+          });
+      });
+
+      it('validates that items per page is smaller than 100', () => {
+        // FIXME: Should return error HTTP status code
+        return server.inject('/v1/search?per_page=101')
+          .then((response) => {
+            const result = JSON.parse(response.result);
+
+            should(result.failedValidation).be.true();
+            should(result.code).equal('MAXIMUM');
+            should(result.paramName).equal('per_page');
           });
       });
     });

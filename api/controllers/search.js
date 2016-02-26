@@ -2,7 +2,7 @@ const client = require('../../config').elasticsearch;
 
 function search(req, res) {
   const page = req.swagger.params.page.value;
-  const perPage = 20;
+  const perPage = req.swagger.params.per_page.value;
   const searchQuery = {
     q: req.swagger.params.q.value,
     from: (page - 1) * perPage,
@@ -12,7 +12,7 @@ function search(req, res) {
   return client.search(searchQuery)
     .then((esResult) => {
       res.json({
-        total_count: esResult.hits.hits.length,
+        total_count: esResult.hits.total,
         items: esResult.hits.hits.map((hit) => hit._source),
       });
     })
