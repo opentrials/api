@@ -17,7 +17,7 @@ paths:
     x-swagger-router-controller: search
     get:
       tags:
-        - search
+        - trials
       description: Search stuff
       operationId: search
       parameters:
