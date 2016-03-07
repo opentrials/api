@@ -23,6 +23,7 @@
   "dependencies": {
     "bookshelf": "^0.9.2",
     "dotenv": "^2.0.0",
+    "elasticsearch": "^9.0.2",
     "good": "^6.6.0",
     "good-console": "^5.3.1",
     "hapi": "^13.0.0",
@@ -40,6 +41,7 @@
     "mocha": "^2.4.5",
     "nodemon": "^1.8.1",
     "should": "^8.2.2",
+    "sinon": "^1.17.3",
     "sqlite3": "^3.1.1",
     "supertest": "^1.0.0"
   },
@@ -51,6 +53,7 @@
     "precoveralls": "npm run coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "reindex": "node --use_strict ./tools/create-trials-index.js"
   }
 }

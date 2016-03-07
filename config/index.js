@@ -1,4 +1,5 @@
 require('dotenv').config();
+const elasticsearch = require('elasticsearch');
 const path = require('path');
 const config = {
   host: process.env.HOST || 'localhost',
@@ -19,6 +20,10 @@ const config = {
       },
     }],
   },
+
+  elasticsearch: new elasticsearch.Client({
+    host: process.env.ELASTICSEARCH_URL,
+  }),
 };
 
 const env = process.env.NODE_ENV || 'development';

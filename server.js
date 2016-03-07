@@ -15,7 +15,6 @@ SwaggerHapi.create(config.swaggerHapi, (err, swaggerHapi) => {
   });
   server.address = () => ({ port });
 
-
   server.register(plugins, (_err) => {
     if (_err) { throw _err; }
     server.start(() => {

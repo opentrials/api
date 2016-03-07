@@ -13,25 +13,41 @@ produces:
 paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
-  /trials:
-    x-swagger-router-controller: trials
+  /search:
+    x-swagger-router-controller: search
     get:
       tags:
         - trials
-      description: Returns list of trials
-      # used as the method name of the controller
-      operationId: list
+      description: Search trials
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/TrialsList"
-        # responses may fall through to errors
+            $ref: "#/definitions/SearchResults"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
   /trials/{id}:
     x-swagger-router-controller: trials
     get:
@@ -92,10 +108,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialPerson'
-  TrialsList:
-    type: array
-    items:
-      $ref: '#/definitions/Trial'
 
   TrialLocation:
     required:
@@ -175,6 +187,18 @@ definitions:
         type: string
         enum:
           - other
+
+  SearchResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Trial'
 
   ErrorResponse:
     required:

@@ -17,14 +17,6 @@ function getTrial(req, res) {
     });
 }
 
-function listTrials(req, res) {
-  return new Trial().fetchAll({ withRelated: ['locations', 'interventions'] })
-    .then((trials) => (
-      res.json(trials)
-    ));
-}
-
 module.exports = {
   get: getTrial,
-  list: listTrials,
 }
