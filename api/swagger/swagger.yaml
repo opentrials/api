@@ -18,7 +18,7 @@ paths:
     get:
       tags:
         - trials
-      description: Search stuff
+      description: Search trials
       operationId: search
       parameters:
         - name: q
