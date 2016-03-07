@@ -12,6 +12,9 @@ SwaggerHapi.create(config.swaggerHapi, (err, swaggerHapi) => {
   server.connection({
     host: config.host,
     port,
+    routes: {
+      cors: true,
+    },
   });
   server.address = () => ({ port });
 
