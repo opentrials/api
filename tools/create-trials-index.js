@@ -8,7 +8,8 @@ const relatedModels = [
   'interventions',
 ];
 
-new Trial().fetchAll({ withRelated: relatedModels })
+client.indices.create({ index: 'trials' })
+  .then(() => new Trial().fetchAll({ withRelated: relatedModels }))
   .then((trials) => {
     const bulkBody = trials.models.reduce((result, trial) => {
       const action = {
