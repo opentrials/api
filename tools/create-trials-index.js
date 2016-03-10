@@ -7,8 +7,76 @@ const relatedModels = [
   'locations',
   'interventions',
 ];
+const trialsIndex = {
+  index: 'trials',
+  body: {
+    mappings: {
+      trial: {
+        properties: {
+          brief_summary: {
+            type: 'string',
+          },
+          id: {
+            type: 'string',
+            index: 'not_analyzed',
+          },
+          interventions: {
+            properties: {
+              attributes: {
+                properties: {
+                  id: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+          locations: {
+            properties: {
+              attributes: {
+                properties: {
+                  id: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                  name: {
+                    type: 'string',
+                    copy_to: 'location',
+                  },
+                  type: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                },
+              },
+              role: {
+                type: 'string',
+                index: 'not_analyzed',
+              },
+            },
+          },
+          location: {
+            type: 'string',
+          },
+          public_title: {
+            type: 'string',
+          },
+          registration_date: {
+            type: 'date',
+            format: 'strict_date_optional_time||epoch_millis',
+          },
+        },
+      },
+    },
+  },
+};
 
-client.indices.create({ index: 'trials' })
+client.indices.delete({ index: 'trials' })
+  .then(() => client.indices.create(trialsIndex))
   .then(() => new Trial().fetchAll({ withRelated: relatedModels }))
   .then((trials) => {
     const bulkBody = trials.models.reduce((result, trial) => {
