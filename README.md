@@ -1,5 +1,6 @@
 # api
 
+[![Gitter](https://img.shields.io/gitter/room/opentrials/chat.svg)](https://gitter.im/opentrials/chat)
 [![Travis Build Status](https://travis-ci.org/opentrials/api.svg?branch=master)](https://travis-ci.org/opentrials/api)
 [![Coveralls](http://img.shields.io/coveralls/opentrials/api.svg?branch=master)](https://coveralls.io/r/opentrials/api?branch=master)
 [![Dependency Status](https://david-dm.org/opentrials/api.svg)](https://david-dm.org/opentrials/api)
