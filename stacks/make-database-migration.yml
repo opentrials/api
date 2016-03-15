@@ -1,0 +1,8 @@
+# Migrate
+# run database migrations
+
+main:
+  image: opentrialsrobot/api
+  command: npm run migrate
+  environment:
+    OPENTRIALS_WAREHOUSE_URL:

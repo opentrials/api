@@ -1,0 +1,10 @@
+*
+!api/
+!config/
+!migrations/
+!tools/
+!knexfile.json
+!nodemon.json
+!package.json
+!server.js
+# ...
