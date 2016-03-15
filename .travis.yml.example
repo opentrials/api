@@ -1,0 +1,25 @@
+sudo:
+  false
+
+language:
+  node_js
+
+python:
+  - 5.6
+
+services:
+  - docker
+
+install:
+  - make develop
+
+script:
+  - make build
+  - make lint
+  - make test
+
+deploy:
+  - provider: script
+    script: make deploy
+    on:
+      condition: '`git show -s --format=%B ${TRAVIS_COMMIT} | grep "\[deploy\]"`'
