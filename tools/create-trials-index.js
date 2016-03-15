@@ -75,7 +75,7 @@ const trialsIndex = {
   },
 };
 
-client.indices.delete({ index: 'trials' })
+client.indices.delete({ index: 'trials', ignore: 404 })
   .then(() => client.indices.create(trialsIndex))
   .then(() => new Trial().fetchAll({ withRelated: relatedModels }))
   .then((trials) => {
