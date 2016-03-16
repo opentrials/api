@@ -18,7 +18,7 @@
     "Vitor Baptista <vitor@vitorbaptista.com> (http://vitorbaptista.com)"
   ],
   "engines": {
-    "node": "5.6.0"
+    "node": "5.8.0"
   },
   "dependencies": {
     "bookshelf": "^0.9.2",
