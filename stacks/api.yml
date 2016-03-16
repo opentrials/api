@@ -1,0 +1,18 @@
+# Run it with `docker-compose -f stacks/api.yml up`
+# after `set -a; source .env`
+
+balancer:
+  image: nginx
+  restart: always
+  ports:
+    - '80:80'
+  links:
+    - website
+
+server:
+  image: opentrialsrobot/api
+  restart: always
+  command: node --use_strict server.js
+  environment:
+    OPENTRIALS_DATABASE_URL:
+    OPENTRIALS_SEARCHENGINE_URL:
