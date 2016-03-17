@@ -54,7 +54,8 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "start": "nodemon server.js",
+    "start": "node --use_strict server.js",
+    "dev": "nodemon server.js",
     "reindex": "node --use_strict ./tools/create-trials-index.js"
   }
 }

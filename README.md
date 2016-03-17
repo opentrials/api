@@ -16,4 +16,5 @@ PostgreSQL instance. If needed, you can also change the other configuration
 options in that file.
 
 Run `npm install` to install the dependencies, and then you can start this
-application usin `npm start`.
+application using `npm start`. You can also use `npm run dev` to have the
+server autoreload when the code changes.
