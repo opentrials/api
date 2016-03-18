@@ -1,19 +1,20 @@
-version: '2'
-services:
-  db:
-    image: postgres:9.5
-  elasticsearch:
-    image: elasticsearch:2.2
-  web:
-    build: .
-    command: npm start
-    ports:
-      - "10010:80"
-    volumes:
-      - .:/app
-    environment:
-      - DATABASE_URL=postgres://postgres@db:5432/postgres
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    depends_on:
-      - db
-      - elasticsearch
+web:
+  image: opentrials/api
+  command: bash -c "./tools/wait-for-it.sh db:5432 && ./tools/wait-for-it.sh elasticsearch:9200 && npm start"
+  ports:
+    - "10010:80"
+  environment:
+    DATABASE_URL: postgres://postgres@db:5432/postgres
+    ELASTICSEARCH_URL: http://elasticsearch:9200
+  restart: always
+  links:
+    - db
+    - elasticsearch
+
+db:
+  image: postgres:9.5
+  restart: always
+
+elasticsearch:
+  image: elasticsearch:2.2
+  restart: always
