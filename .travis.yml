@@ -14,3 +14,13 @@ services:
 before_script:
   - psql -c 'create database opentrials_api_test;' -U postgres
 script: npm run coveralls
+
+before_deploy:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker build -t opentrials/api:$TRAVIS_COMMIT .
+deploy:
+  provider: script
+  script: docker push opentrials/api
+  on:
+    condition: "$TRAVIS_PULL_REQUEST == false"
+    branch: master
