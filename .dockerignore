@@ -1,0 +1,8 @@
+*
+!api/
+!config/
+!migrations/
+!seeds/
+!tools/
+!*.json
+!*.js
