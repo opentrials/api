@@ -24,10 +24,11 @@ script: npm run coveralls
 before_deploy:
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   - docker build -t opentrials/api:$TRAVIS_COMMIT .
-  - docker tag opentrials/api:$TRAVIS_COMMIT opentrials/api:latest
 deploy:
   provider: script
   script: docker push opentrials/api
   on:
     condition: "$TRAVIS_PULL_REQUEST == false"
     branch: master
+after_deploy:
+  - docker tag opentrials/api:$TRAVIS_COMMIT opentrials/api:latest
