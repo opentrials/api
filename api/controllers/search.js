@@ -19,6 +19,7 @@ function search(req, res) {
     })
     .catch((err) => {
       res.finish();
+      throw err;
     });
 }
 

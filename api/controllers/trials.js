@@ -5,7 +5,8 @@ function getTrial(req, res) {
 
   return new Trial({ id: id }).fetch({ withRelated: ['locations', 'interventions'] })
     .catch((err) => {
-      // FIXME: We're ignoring errors for now, but we should at least log them.
+      res.finish();
+      throw err;
     })
     .then((trial) => {
       if (trial) {

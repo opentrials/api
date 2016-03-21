@@ -8,7 +8,7 @@ describe('Trials', () => {
 
   describe('GET /v1/trials/{id}', () => {
     it('returns 404 if there\'s no trial with the received ID', () => (
-      server.inject('/v1/trials/foo')
+      server.inject('/v1/trials/eb1af997-3e9c-4f31-895f-002ec1cfa196')
         .then((response) => {
           response.statusCode.should.equal(404);
         })

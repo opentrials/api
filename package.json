@@ -18,7 +18,7 @@
     "Vitor Baptista <vitor@vitorbaptista.com> (http://vitorbaptista.com)"
   ],
   "engines": {
-    "node": "5.6.0"
+    "node": "5.8.0"
   },
   "dependencies": {
     "bookshelf": "^0.9.2",
@@ -53,7 +53,9 @@
     "precoveralls": "npm run coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
-    "start": "nodemon server.js",
+    "seed": "knex seed:run",
+    "start": "node --use_strict server.js",
+    "dev": "nodemon server.js",
     "reindex": "node --use_strict ./tools/create-trials-index.js"
   }
 }
