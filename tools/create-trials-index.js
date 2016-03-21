@@ -75,27 +75,51 @@ const trialsIndex = {
   },
 };
 
-client.indices.delete({ index: 'trials', ignore: 404 })
-  .then(() => client.indices.create(trialsIndex))
-  .then(() => new Trial().fetchAll({ withRelated: relatedModels }))
-  .then((trials) => {
-    const bulkBody = trials.models.reduce((result, trial) => {
-      const action = {
-        index: {
-          _index: 'trials',
-          _type: 'trial',
-          _id: trial.id,
-        },
-      };
-      return result.concat([action, trial.toJSON()]);
-    }, []);
+function indexTrials(trials) {
+  const bulkBody = trials.models.reduce((result, trial) => {
+    const action = {
+      index: {
+        _index: 'trials',
+        _type: 'trial',
+        _id: trial.id,
+      },
+    };
+    return result.concat([action, trial.toJSON()]);
+  }, []);
 
-    return client.bulk({
-      body: bulkBody,
-    });
+  return client.bulk({
+    body: bulkBody,
   }).then((resp) => {
-    console.info(`${resp.items.length} trials successfully reindexed into ElasticSearch.`);
-    process.exit();
-  }).catch((err) => {
-    throw err;
+    console.info(`${resp.items.length} trials successfully reindexed.`);
+    return resp;
   });
+}
+
+let chain = client.indices.delete({ index: 'trials', ignore: 404 })
+  .then(() => client.indices.create(trialsIndex));
+
+Trial.count().then((numberOfTrials) => {
+  // Index trials in bulk going through `bufferLength` trials at a time.
+  const bufferLength = 1000;
+  let offset = 0;
+  console.info(`${numberOfTrials} trials being indexed (${bufferLength} at a time).`);
+
+  do {
+    const queryParams = {
+      limit: bufferLength,
+      offset,
+    };
+    chain = chain
+      .then(() => Trial.query(queryParams).fetchAll({ withRelated: relatedModels }))
+      .then(indexTrials);
+    offset = offset + bufferLength;
+  } while (offset + bufferLength <= numberOfTrials);
+
+  chain = chain
+    .then(() => process.exit())
+    .catch((err) => {
+      throw err;
+    });
+
+  return chain;
+});
