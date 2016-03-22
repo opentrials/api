@@ -77,7 +77,7 @@ const trialsIndex = {
 
 function indexTrials(trials) {
   if (trials.length === 0) {
-    return;
+    return undefined;
   }
 
   const bulkBody = trials.models.reduce((result, trial) => {
@@ -91,7 +91,7 @@ function indexTrials(trials) {
     return result.concat([action, trial.toJSON()]);
   }, []);
 
-  client.bulk({
+  return client.bulk({
     body: bulkBody,
   }).then((resp) => {
     console.info(`${resp.items.length} trials successfully reindexed.`);
