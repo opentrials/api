@@ -122,6 +122,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialIntervention'
+      problems:
+        type: array
+        items:
+          $ref: '#/definitions/TrialProblem'
       persons:
         type: array
         items:
@@ -177,6 +181,31 @@ definitions:
         type: string
         enum:
           - drug
+          - other
+
+  TrialProblem:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - other
+      attributes:
+        $ref: '#/definitions/Problem'
+  Problem:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - condition
           - other
 
   TrialPerson:

@@ -10,6 +10,8 @@ function clearDB() {
     'locations',
     'trials_interventions',
     'interventions',
+    'trials_problems',
+    'problems',
     'trials_persons',
     'persons',
     'trials',

@@ -80,6 +80,41 @@ describe('Trial', () => {
     });
   });
 
+  describe('problems', () => {
+    it('is an empty array if there\'re none', () => {
+      should(new Trial().toJSON().problems).deepEqual([]);
+    });
+
+    it('adds the problems and its metadata from relationship into the resulting JSON', () => {
+      let trial_id;
+      let problem;
+
+      return fixtures.trial().save()
+        .then((trial) => {
+          trial_id = trial.id;
+
+          return fixtures.problem().save().then((_problem) => {
+            problem = _problem;
+
+            return trial.problems().attach({
+              problem_id: problem.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            });
+          });
+        }).then((trial) => {
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'problems' })
+        }).then((trial) => {
+          should(trial.toJSON().problems).deepEqual([
+            {
+              role: 'other',
+              attributes: problem.toJSON(),
+            }
+          ]);
+        });
+    });
+  });
+
   describe('persons', () => {
     it('is an empty array if there\'re none', () => {
       should(new Trial().toJSON().persons).deepEqual([]);
