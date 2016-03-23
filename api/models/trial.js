@@ -16,6 +16,7 @@ const Trial = BaseModel.extend({
     'interventions',
     'problems',
     'persons',
+    'organisations',
   ],
   serialize: function (options) {
     const attributes = this.attributes;
@@ -25,6 +26,7 @@ const Trial = BaseModel.extend({
     attributes.interventions = [];
     attributes.problems = [];
     attributes.persons = [];
+    attributes.organisations = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
@@ -59,6 +61,10 @@ const Trial = BaseModel.extend({
   persons: function () {
     return this.belongsToMany('Person', 'trials_persons',
         'trial_id', 'person_id').withPivot(['role']);
+  },
+  organisations: function () {
+    return this.belongsToMany('Organisation', 'trials_organisations',
+      'trial_id', 'organisation_id').withPivot(['role']);
   },
 });
 

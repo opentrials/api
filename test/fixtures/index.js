@@ -4,6 +4,7 @@ const Location = require('../../api/models/location');
 const Intervention = require('../../api/models/intervention');
 const Problem = require('../../api/models/problem');
 const Person = require('../../api/models/person');
+const Organisation = require('../../api/models/organisation');
 
 function trialFixture() {
   const attributes = {
@@ -63,6 +64,16 @@ function personFixture() {
   return new Person(attributes);
 }
 
+function organisationFixture() {
+  const attributes = {
+    name: 'PharmaCo',
+    type: 'other',
+    data: JSON.stringify(''),
+  };
+
+  return new Organisation(attributes);
+}
+
 function trialWithRelated() {
   let trial_id;
 
@@ -99,6 +110,13 @@ function trialWithRelated() {
               context: JSON.stringify(''),
             })
         )),
+        organisationFixture().save().then((organisation) => (
+            trial.organisations().attach({
+              organisation_id: organisation.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            })
+        )),
       ]);
     }).then(() => {
       return new Trial({ id: trial_id })
@@ -108,6 +126,7 @@ function trialWithRelated() {
             'interventions',
             'problems',
             'persons',
+            'organisations',
           ]
         });
     });
@@ -119,5 +138,6 @@ module.exports = {
   intervention: interventionFixture,
   problem: problemFixture,
   person: personFixture,
+  organisation: organisationFixture,
   trialWithRelated: trialWithRelated,
 }

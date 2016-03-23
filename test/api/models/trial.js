@@ -149,4 +149,39 @@ describe('Trial', () => {
         });
     });
   });
+
+  describe('organisations', () => {
+    it('is an empty array if there\'re none', () => {
+      should(new Trial().toJSON().organisations).deepEqual([]);
+    });
+
+    it('adds the organisations and its metadata from relationship into the resulting JSON', () => {
+      let trial_id;
+      let organisation;
+
+      return fixtures.trial().save()
+        .then((trial) => {
+          trial_id = trial.id;
+
+          return fixtures.organisation().save().then((_organisation) => {
+            organisation = _organisation;
+
+            return trial.organisations().attach({
+              organisation_id: organisation.id,
+              role: 'other',
+              context: JSON.stringify(''),
+            });
+          });
+        }).then((trial) => {
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'organisations' })
+        }).then((trial) => {
+          should(trial.toJSON().organisations).deepEqual([
+            {
+              role: 'other',
+              attributes: organisation.toJSON(),
+            }
+          ]);
+        });
+    });
+  });
 });

@@ -7,6 +7,7 @@ function getTrial(req, res) {
     'interventions',
     'problems',
     'persons',
+    'organisations',
   ];
 
   return new Trial({ id: id }).fetch({ withRelated: relatedModels })

@@ -104,6 +104,7 @@ definitions:
       - locations
       - interventions
       - persons
+      - organisations
     properties:
       id:
         type: string
@@ -130,6 +131,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialPerson'
+      organisations:
+        type: array
+        items:
+          $ref: '#/definitions/TrialOrganisation'
 
   TrialLocation:
     required:
@@ -222,6 +227,33 @@ definitions:
       attributes:
         $ref: '#/definitions/Person'
   Person:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - other
+
+  TrialOrganisation:
+    required:
+      - attributes
+    properties:
+      role:
+        type: string
+        enum:
+          - primary_sponsor
+          - sponsor
+          - funder
+          - other
+      attributes:
+        $ref: '#/definitions/Organisation'
+  Organisation:
     required:
       - id
       - name
