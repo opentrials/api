@@ -107,6 +107,7 @@ function trialWithRelated() {
             'locations',
             'interventions',
             'problems',
+            'persons',
           ]
         });
     });
