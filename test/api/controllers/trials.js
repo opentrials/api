@@ -21,9 +21,10 @@ describe('Trials', () => {
             .then((response) => {
               response.statusCode.should.equal(200);
 
+              // Convert and load from JSON so things like Dates get
+              // properly stringified and we can compare with the API's output.
+              const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
               const result = JSON.parse(response.result);
-              const expectedResult = model.toJSON();
-              expectedResult.registration_date = expectedResult.registration_date.toISOString()
 
               result.should.deepEqual(expectedResult);
             })
