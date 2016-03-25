@@ -1,6 +1,8 @@
 require('./location');
 require('./intervention');
+require('./problem');
 require('./person');
+require('./organisation');
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
