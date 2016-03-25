@@ -4,6 +4,7 @@ require('./problem');
 require('./person');
 require('./organisation');
 
+const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
 const relatedModels = [
@@ -18,6 +19,7 @@ const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
+    'url',
     'public_title',
     'brief_summary',
     'registration_date',
@@ -25,6 +27,8 @@ const Trial = BaseModel.extend({
   serialize: function (options) {
     const attributes = this.attributes;
     const relations = this.relations;
+
+    attributes.url = helpers.urlFor(this);
 
     attributes.locations = [];
     attributes.interventions = [];

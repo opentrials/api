@@ -98,6 +98,7 @@ definitions:
   Trial:
     required:
       - id
+      - url
       - public_title
       - brief_summary
       - registration_date
@@ -107,6 +108,8 @@ definitions:
       - organisations
     properties:
       id:
+        type: string
+      url:
         type: string
       public_title:
         type: string
