@@ -26,10 +26,14 @@ const trialsIndex = {
                   },
                   name: {
                     type: 'string',
+                    copy_to: 'intervention',
                   },
                 },
               },
             },
+          },
+          intervention: {
+            type: 'string',
           },
           locations: {
             properties: {
@@ -57,6 +61,71 @@ const trialsIndex = {
           },
           location: {
             type: 'string',
+          },
+          problems: {
+            properties: {
+              attributes: {
+                properties: {
+                  id: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                  name: {
+                    type: 'string',
+                    copy_to: 'problem',
+                  },
+                },
+              },
+            },
+          },
+          problem: {
+            type: 'string',
+          },
+          persons: {
+            properties: {
+              attributes: {
+                properties: {
+                  id: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  type: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                },
+              },
+              role: {
+                type: 'string',
+                index: 'not_analyzed',
+              },
+            },
+          },
+          organisations: {
+            properties: {
+              attributes: {
+                properties: {
+                  id: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                  name: {
+                    type: 'string',
+                  },
+                  type: {
+                    type: 'string',
+                    index: 'not_analyzed',
+                  },
+                },
+              },
+              role: {
+                type: 'string',
+                index: 'not_analyzed',
+              },
+            },
           },
           public_title: {
             type: 'string',
