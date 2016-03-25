@@ -11,6 +11,16 @@ describe('Trial', () => {
     should.exist(Trial);
   });
 
+  it('should define the relatedModels', () => {
+    Trial.relatedModels.should.deepEqual([
+      'locations',
+      'interventions',
+      'problems',
+      'persons',
+      'organisations',
+    ]);
+  });
+
   describe('locations', () => {
     it('is an empty array if there\'re none', () => {
       should(new Trial().toJSON().locations).deepEqual([]);

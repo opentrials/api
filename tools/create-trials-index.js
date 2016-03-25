@@ -3,10 +3,6 @@
 const client = require('../config').elasticsearch;
 const Trial = require('../api/models/trial');
 
-const relatedModels = [
-  'locations',
-  'interventions',
-];
 const trialsIndex = {
   index: 'trials',
   body: {
@@ -113,7 +109,7 @@ Trial.count().then((numberOfTrials) => {
       offset,
     };
     chain = chain
-      .then(() => Trial.query(queryParams).fetchAll({ withRelated: relatedModels }))
+      .then(() => Trial.query(queryParams).fetchAll({ withRelated: Trial.relatedModels }))
       .then(indexTrials);
     offset = offset + bufferLength;
   } while (offset + bufferLength <= numberOfTrials);

@@ -2,15 +2,8 @@ const Trial = require('../models/trial');
 
 function getTrial(req, res) {
   const id = req.swagger.params.id.value;
-  const relatedModels = [
-    'locations',
-    'interventions',
-    'problems',
-    'persons',
-    'organisations',
-  ];
 
-  return new Trial({ id: id }).fetch({ withRelated: relatedModels })
+  return new Trial({ id: id }).fetch({ withRelated: Trial.relatedModels })
     .catch((err) => {
       res.finish();
       throw err;

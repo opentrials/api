@@ -6,6 +6,13 @@ require('./organisation');
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+const relatedModels = [
+  'locations',
+  'interventions',
+  'problems',
+  'persons',
+  'organisations',
+];
 
 const Trial = BaseModel.extend({
   tableName: 'trials',
@@ -14,12 +21,7 @@ const Trial = BaseModel.extend({
     'public_title',
     'brief_summary',
     'registration_date',
-    'locations',
-    'interventions',
-    'problems',
-    'persons',
-    'organisations',
-  ],
+  ].concat(relatedModels),
   serialize: function (options) {
     const attributes = this.attributes;
     const relations = this.relations;
@@ -68,6 +70,8 @@ const Trial = BaseModel.extend({
     return this.belongsToMany('Organisation', 'trials_organisations',
       'trial_id', 'organisation_id').withPivot(['role']);
   },
+}, {
+  relatedModels,
 });
 
 module.exports = bookshelf.model('Trial', Trial);

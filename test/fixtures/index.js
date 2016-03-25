@@ -120,15 +120,7 @@ function trialWithRelated() {
       ]);
     }).then(() => {
       return new Trial({ id: trial_id })
-        .fetch({
-          withRelated: [
-            'locations',
-            'interventions',
-            'problems',
-            'persons',
-            'organisations',
-          ]
-        });
+        .fetch({ withRelated: Trial.relatedModels });
     });
 }
 
