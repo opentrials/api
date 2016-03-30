@@ -22,11 +22,11 @@ before_script:
 script: npm run coveralls
 
 before_deploy:
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "staging"; fi`
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-  - docker build -t opentrials/api:$TRAVIS_COMMIT -t opentrials/api:latest .
+  - docker build -t opentrials/api:$TRAVIS_COMMIT -t opentrials/api:$TAG .
 deploy:
   provider: script
   script: docker push opentrials/api
   on:
     condition: "$TRAVIS_PULL_REQUEST == false"
-    branch: master
