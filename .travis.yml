@@ -34,6 +34,7 @@ deploy:
     script:
       - export ENV=`if [ "$TAG" == "staging" ]; then echo "staging"; else echo "production"; fi`
       - export STACK_NAME="opentrials-api-$ENV"
+      - pip install docker-cloud
       - bash tools/deploy/deploy.sh $STACK_NAME
     on:
       all_branches: true
