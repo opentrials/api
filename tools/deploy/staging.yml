@@ -1,5 +1,5 @@
 web:
-  image: opentrials/api
+  image: opentrials/api:staging
   command: bash -c "./tools/wait-for-it.sh db:5432 && ./tools/wait-for-it.sh elasticsearch:9200 && npm start"
   ports:
     - "10010:80"

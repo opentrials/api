@@ -1,6 +1,6 @@
 web:
   image: opentrials/api
-  command: bash -c "./tools/wait-for-it.sh db:5432 && ./tools/wait-for-it.sh elasticsearch:9200 && npm start"
+  command: bash -c "./tools/wait-for-it.sh elasticsearch:9200 && npm start"
   ports:
     - "10010:80"
   environment:
@@ -8,12 +8,7 @@ web:
     ELASTICSEARCH_URL:
   restart: always
   links:
-    - db
     - elasticsearch
-
-db:
-  image: postgres:9.5
-  restart: always
 
 elasticsearch:
   image: elasticsearch:2.2

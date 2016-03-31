@@ -26,8 +26,14 @@ before_deploy:
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   - docker build -t opentrials/api:$TRAVIS_COMMIT -t opentrials/api:$TAG .
 deploy:
-  provider: script
-  script: docker push opentrials/api
-  on:
-    condition: $TRAVIS_PULL_REQUEST = "false"
-    all_branches: true
+  - provider: script
+    script: docker push opentrials/api
+    on:
+      all_branches: true
+  - provider: script
+    script:
+      - export ENV=`if [ "$TAG" == "staging" ]; then echo "staging"; else echo "production"; fi`
+      - export STACK_NAME="opentrials-api-$ENV"
+      - bash tools/deploy/deploy.sh $STACK_NAME
+    on:
+      all_branches: true
