@@ -13,6 +13,7 @@ produces:
 paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
+
   /search:
     x-swagger-router-controller: search
     get:
