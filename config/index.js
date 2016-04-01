@@ -1,4 +1,10 @@
 require('dotenv').config();
+
+if (!process.env.ELASTICSEARCH_URL) {
+  // Fallback to SEARCHBOX_URL if ELASTICSEARCH_URL isn't set.
+  process.env.ELASTICSEARCH_URL = process.env.SEARCHBOX_SSL_URL;
+}
+
 const elasticsearch = require('elasticsearch');
 const path = require('path');
 const config = {
