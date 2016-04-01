@@ -5,12 +5,6 @@
     "postdeploy": "npm run migrate && npm run seed && npm run reindex"
   },
   "env": {
-    "ELASTICSEARCH_URL": {
-      "required": true
-    },
-    "DATABASE_URL": {
-      "required": true
-    }
   },
   "addons": [
     "heroku-postgresql",
