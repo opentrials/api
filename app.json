@@ -1,0 +1,24 @@
+{
+  "name": "opentrials-api",
+  "description": "API for OpenTrials.net",
+  "scripts": {
+    "postdeploy": "npm run migrate && npm run seed && npm run reindex"
+  },
+  "env": {
+    "ELASTICSEARCH_URL": {
+      "required": true
+    },
+    "DATABASE_URL": {
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "searchbox"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
