@@ -29,5 +29,4 @@ deploy:
   provider: script
   script: docker push opentrials/api
   on:
-    condition: $TRAVIS_PULL_REQUEST = "false"
     all_branches: true
