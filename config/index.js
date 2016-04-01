@@ -2,7 +2,7 @@ require('dotenv').config();
 const elasticsearch = require('elasticsearch');
 const path = require('path');
 const config = {
-  host: process.env.HOST || 'localhost',
+  host: process.env.HOST || '0.0.0.0',
   port: process.env.PORT || 10010,
 
   swaggerHapi: {
