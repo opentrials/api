@@ -4,8 +4,8 @@ web:
   ports:
     - "10010:80"
   environment:
-    DATABASE_URL:
-    ELASTICSEARCH_URL:
+    DATABASE_URL: postgres://postgres@db:5432/postgres
+    ELASTICSEARCH_URL: http://elasticsearch:9200
   restart: always
   links:
     - db
