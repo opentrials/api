@@ -30,7 +30,7 @@ const config = {
 };
 
 if (!config.url) {
-  throw 'Please set the URL environment variable to a URL like "http://www.foo.com:10010".';
+  throw Error('Please set the URL environment variable to a URL like "http://www.foo.com:10010".');
 }
 
 const env = process.env.NODE_ENV || 'development';
