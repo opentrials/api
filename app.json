@@ -5,6 +5,10 @@
     "postdeploy": "npm run migrate && npm run seed && npm run reindex"
   },
   "env": {
+    "URL": {
+      "description": "Base URL for this app (e.g. http://api.opentrials.net)",
+      "required": true
+    }
   },
   "addons": [
     "heroku-postgresql",
