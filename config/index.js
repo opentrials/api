@@ -47,7 +47,7 @@ if (process.env.ELASTICSEARCH_AWS_REGION &&
     region: process.env.ELASTICSEARCH_AWS_REGION,
     accessKey: process.env.ELASTICSEARCH_AWS_ACCESS_KEY,
     secretKey: process.env.ELASTICSEARCH_AWS_SECRET_KEY,
-  }
+  };
 }
 config.elasticsearch = new elasticsearch.Client(elasticsearchConfig);
 
