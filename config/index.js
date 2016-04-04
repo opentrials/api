@@ -10,6 +10,7 @@ const path = require('path');
 const config = {
   host: process.env.HOST || '0.0.0.0',
   port: process.env.PORT || 10010,
+  url: process.env.URL,
 
   swaggerHapi: {
     appRoot: path.join(__dirname, '..'),
@@ -27,6 +28,10 @@ const config = {
     }],
   },
 };
+
+if (!config.url) {
+  throw 'Please set the URL environment variable to a URL like "http://www.foo.com:10010".';
+}
 
 const env = process.env.NODE_ENV || 'development';
 const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];

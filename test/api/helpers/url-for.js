@@ -7,6 +7,6 @@ describe('urlFor', () => {
     const trial = fixtures.trial();
     trial.id = uuid.v1();
 
-    urlFor(trial).should.equal(`http://0.0.0.0:10010/v1/trials/${trial.id}`);
+    urlFor(trial).should.equal(`${config.url}/v1/trials/${trial.id}`);
   });
 });
