@@ -185,7 +185,7 @@ Trial.count().then((numberOfTrials) => {
       .then(() => Trial.query(queryParams).fetchAll({ withRelated: Trial.relatedModels }))
       .then(indexTrials);
     offset = offset + bufferLength;
-  } while (offset + bufferLength <= numberOfTrials);
+  } while (offset <= numberOfTrials);
 
   chain = chain
     .then(() => process.exit())
