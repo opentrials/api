@@ -26,10 +26,6 @@ const config = {
       },
     }],
   },
-
-  elasticsearch: new elasticsearch.Client({
-    host: process.env.ELASTICSEARCH_URL,
-  }),
 };
 
 const env = process.env.NODE_ENV || 'development';
@@ -38,5 +34,21 @@ const knex = require('knex')(knexConfig);
 config.bookshelf = require('bookshelf')(knex);
 config.bookshelf.plugin('registry');
 config.bookshelf.plugin('visibility');
+
+// ElasticSearch
+const elasticsearchConfig = {
+  host: process.env.ELASTICSEARCH_URL,
+};
+if (process.env.ELASTICSEARCH_AWS_REGION &&
+    process.env.ELASTICSEARCH_AWS_ACCESS_KEY &&
+    process.env.ELASTICSEARCH_AWS_SECRET_KEY) {
+  elasticsearchConfig.connectionClass = require('http-aws-es');
+  elasticsearchConfig.amazonES = {
+    region: process.env.ELASTICSEARCH_AWS_REGION,
+    accessKey: process.env.ELASTICSEARCH_AWS_ACCESS_KEY,
+    secretKey: process.env.ELASTICSEARCH_AWS_SECRET_KEY,
+  }
+}
+config.elasticsearch = new elasticsearch.Client(elasticsearchConfig);
 
 module.exports = config;
