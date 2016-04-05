@@ -4,6 +4,8 @@
 [![Travis Build Status](https://travis-ci.org/opentrials/api.svg?branch=master)](https://travis-ci.org/opentrials/api)
 [![Coveralls](http://img.shields.io/coveralls/opentrials/api.svg?branch=master)](https://coveralls.io/r/opentrials/api?branch=master)
 [![Dependency Status](https://david-dm.org/opentrials/api.svg)](https://david-dm.org/opentrials/api)
+[![Issues](https://img.shields.io/badge/issue-tracker-orange.svg)](https://github.com/opentrials/opentrials/issues)
+[![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](http://docs.opentrials.net/en/latest/developers/)
 
 The OpenTrials API service.
 
