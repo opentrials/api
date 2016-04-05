@@ -147,6 +147,18 @@ describe('Search', () => {
           });
       });
 
+      it('validates that page is smaller than 100', () => {
+        // FIXME: Should return error HTTP status code
+        return server.inject('/v1/search?page=101')
+          .then((response) => {
+            const result = JSON.parse(response.result);
+
+            should(result.failedValidation).be.true();
+            should(result.code).equal('MAXIMUM');
+            should(result.paramName).equal('page');
+          });
+      });
+
       it('validates that items per page is greater than 10', () => {
         // FIXME: Should return error HTTP status code
         return server.inject('/v1/search?per_page=9')
