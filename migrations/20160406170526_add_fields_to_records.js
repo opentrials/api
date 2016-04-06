@@ -1,8 +1,8 @@
 exports.up = (knex) => {
 
   const addFields = knex.schema.table('records', (table) => {
-      table.text('reference').notNullable();
-      table.jsonb('extracted_data').notNullable();
+      table.text('reference').nullable();
+      table.jsonb('extracted_data').nullable();
   });
 
   return Promise.all([

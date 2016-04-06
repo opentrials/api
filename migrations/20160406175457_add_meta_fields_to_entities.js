@@ -14,10 +14,10 @@ exports.up = (knex) => {
   var operations = []
   tables.forEach((table) => {
       var addTimestamps = knex.schema.table(table, (table) => {
-          table.timestamp('created_at').notNullable();
-          table.timestamp('updated_at').notNullable();
-          table.specificType('links', 'text[]').notNullable();
-          table.specificType('facts', 'text[]').notNullable();
+          table.timestamp('created_at').nullable();
+          table.timestamp('updated_at').nullable();
+          table.specificType('links', 'text[]').nullable();
+          table.specificType('facts', 'text[]').nullable();
       });
       var addLinks = knex.schema.raw(
         'CREATE INDEX '+table+'_links_idx on '+table+' USING GIN(links)')
