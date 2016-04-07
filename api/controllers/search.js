@@ -1,10 +1,11 @@
 const client = require('../../config').elasticsearch;
 
-function search(req, res) {
+function search(req, res, indexType) {
   const page = req.swagger.params.page.value;
   const perPage = req.swagger.params.per_page.value;
   const searchQuery = {
     index: 'trials',
+    type: indexType,
     q: req.swagger.params.q.value,
     from: (page - 1) * perPage,
     size: perPage,
@@ -24,6 +25,15 @@ function search(req, res) {
     });
 }
 
+function searchTrials(req, res) {
+  return search(req, res, 'trial');
+}
+
+function searchLocations(req, res) {
+  return search(req, res, 'location');
+}
+
 module.exports = {
-  search: search,
+  searchTrials: searchTrials,
+  searchLocations: searchLocations,
 };

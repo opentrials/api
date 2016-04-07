@@ -1,3 +1,5 @@
+'use strict';
+
 require('./location');
 require('./intervention');
 require('./problem');

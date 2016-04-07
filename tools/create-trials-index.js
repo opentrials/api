@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
+'use strict';
 
 const client = require('../config').elasticsearch;
 const Trial = require('../api/models/trial');
+const Location = require('../api/models/location');
 
 const trialsIndex = {
   index: 'trials',
@@ -141,57 +143,78 @@ const trialsIndex = {
         },
       },
     },
+    location: {
+      properties: {
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'location',
+        },
+        type: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+      },
+    },
   },
 };
 
-function indexTrials(trials) {
-  if (trials.length === 0) {
+function bulkIndexEntities(entities, indexType) {
+  if (entities.length === 0) {
     return undefined;
   }
 
-  const bulkBody = trials.models.reduce((result, trial) => {
+  const bulkBody = entities.models.reduce((result, entity) => {
     const action = {
       index: {
         _index: 'trials',
-        _type: 'trial',
-        _id: trial.id,
+        _type: indexType,
+        _id: entity.id,
       },
     };
-    return result.concat([action, trial.toJSON()]);
+    return result.concat([action, entity.toJSON()]);
   }, []);
 
   return client.bulk({
     body: bulkBody,
-  }).then((resp) => {
-    console.info(`${resp.items.length} trials successfully reindexed.`);
   });
 }
 
-let chain = client.indices.delete({ index: 'trials', ignore: 404 })
-  .then(() => client.indices.create(trialsIndex));
+function indexModel(model, modelName, indexType, fetchOptions) {
+  return model.count().then((modelCount) => {
+    const bufferLength = 1000;
+    console.info(`${modelCount} ${modelName} being indexed (${bufferLength} at a time).`);
+    let offset = 0;
+    let chain = Promise.resolve();
 
-Trial.count().then((numberOfTrials) => {
-  // Index trials in bulk going through `bufferLength` trials at a time.
-  const bufferLength = 1000;
-  let offset = 0;
-  console.info(`${numberOfTrials} trials being indexed (${bufferLength} at a time).`);
+    do {
+      const queryParams = {
+        limit: bufferLength,
+        offset,
+      };
 
-  do {
-    const queryParams = {
-      limit: bufferLength,
-      offset,
-    };
-    chain = chain
-      .then(() => Trial.query(queryParams).fetchAll({ withRelated: Trial.relatedModels }))
-      .then(indexTrials);
-    offset = offset + bufferLength;
-  } while (offset <= numberOfTrials);
+      chain = chain
+        .then(() => model.query(queryParams).fetchAll(fetchOptions))
+        .then((entities) => bulkIndexEntities(entities, indexType))
+        .then((resp) => {
+          console.info(`${resp.items.length} ${modelName} successfully reindexed.`);
+        });
 
-  chain = chain
-    .then(() => process.exit())
-    .catch((err) => {
-      throw err;
-    });
+      offset = offset + bufferLength;
+    } while (offset <= modelCount);
 
-  return chain;
-});
+    return chain;
+  });
+}
+
+client.indices.delete({ index: 'trials', ignore: 404 })
+  .then(() => client.indices.create(trialsIndex))
+  .then(() => indexModel(Trial, 'trials', 'trial', { withRelated: Trial.relatedModels }))
+  .then(() => indexModel(Location, 'locations', 'location'))
+  .then(() => process.exit())
+  .catch((err) => {
+    throw err;
+  });

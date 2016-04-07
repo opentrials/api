@@ -14,13 +14,13 @@ paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
 
-  /search:
+  /search/trials:
     x-swagger-router-controller: search
     get:
       tags:
         - trials
       description: Search trials
-      operationId: search
+      operationId: searchTrials
       parameters:
         - name: q
           in: query
@@ -44,7 +44,43 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/SearchResults"
+            $ref: "#/definitions/TrialSearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/locations:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - locations
+      description: Search locations
+      operationId: searchLocations
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/LocationSearchResults"
         default:
           description: Error
           schema:
@@ -272,7 +308,7 @@ definitions:
         enum:
           - other
 
-  SearchResults:
+  TrialSearchResults:
     required:
       - total_count
       - items
@@ -283,6 +319,18 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Trial'
+
+  LocationSearchResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Location'
 
   LocationList:
     type: array
