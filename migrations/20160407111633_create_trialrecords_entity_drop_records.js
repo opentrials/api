@@ -67,7 +67,7 @@ exports.up = (knex) => {
 
   const dropTables = knex.schema
     .dropTableIfExists('trials_records')
-    .dropTableIfExists('records')
+    .dropTableIfExists('records');
 
   return Promise.all([
     createTrialrecords,
@@ -110,7 +110,7 @@ exports.down = (knex) => {
 
   const dropTables = knex.schema
     .dropTableIfExists('trials_trialrecords')
-    .dropTableIfExists('trialrecords')
+    .dropTableIfExists('trialrecords');
 
   return Promise.all([
     createRecords,
