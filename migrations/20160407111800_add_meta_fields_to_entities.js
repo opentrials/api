@@ -4,9 +4,9 @@ const tableNames = [
   'organisations',
   'persons',
   'problems',
-  'records',
   'sources',
   'trials',
+  'trialrecords',
 ];
 
 exports.up = (knex) => {
