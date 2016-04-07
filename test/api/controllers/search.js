@@ -68,11 +68,20 @@ describe('Search', () => {
     });
 
     it('passes the query string to elasticsearch', () => {
-      searchStub.returns(Promise.reject(new Error('ElasticSearch error')));
+      searchStub.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
 
       return server.inject('/v1/search?q=foo')
         .then(() => {
           searchStub.calledWithMatch({ q: 'foo' }).should.be.true();
+        });
+    });
+
+    it('defines the default operator as AND', () => {
+      searchStub.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+
+      return server.inject('/v1/search')
+        .then(() => {
+          searchStub.calledWithMatch({ defaultOperator: 'AND' }).should.be.true();
         });
     });
 
