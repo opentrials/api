@@ -1,6 +1,16 @@
 exports.up = (knex) => {
-  const createTrialrecords = knex.schema.createTable('trialrecords', (table) => {
+  const schema = knex.schema;
+
+  schema.createTable('trialrecords', (table) => {
     table.uuid('id').primary();
+
+    table.uuid('source_id')
+      .notNullable()
+      .references('sources.id');
+    table.text('source_url')
+      .notNullable();
+    table.jsonb('source_data')
+      .notNullable();
 
     table.text('primary_register')
       .notNullable();
@@ -40,15 +50,10 @@ exports.up = (knex) => {
     table.jsonb('secondary_outcomes')
       .nullable();
 
-    table.text('source_url')
-      .notNullable();
-    table.jsonb('source_data')
-      .notNullable();
-
     table.unique(['primary_register', 'primary_id']);
   });
 
-  const createTrialsTrialrecords = knex.schema.createTable('trials_trialrecords', (table) => {
+  schema.createTable('trials_trialrecords', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('trialrecord_id')
@@ -65,19 +70,16 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'trialrecord_id']);
   });
 
-  const dropTables = knex.schema
-    .dropTableIfExists('trials_records')
-    .dropTableIfExists('records')
+  schema.dropTableIfExists('trials_records');
+  schema.dropTableIfExists('records');
 
-  return Promise.all([
-    createTrialrecords,
-    createTrialsTrialrecords,
-    dropTables,
-  ]);
+  return schema;
 };
 
 exports.down = (knex) => {
-  const createRecords = knex.schema.createTable('records', (table) => {
+  const schema = knex.schema;
+
+  schema.createTable('records', (table) => {
     table.uuid('id').primary();
 
     table.uuid('source_id')
@@ -91,7 +93,7 @@ exports.down = (knex) => {
       .notNullable();
   });
 
-  const createTrialsRecords = knex.schema.createTable('trials_records', (table) => {
+  schema.createTable('trials_records', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('record_id')
@@ -108,13 +110,8 @@ exports.down = (knex) => {
     table.primary(['trial_id', 'record_id']);
   });
 
-  const dropTables = knex.schema
-    .dropTableIfExists('trials_trialrecords')
-    .dropTableIfExists('trialrecords')
+  schema.dropTableIfExists('trials_trialrecords');
+  schema.dropTableIfExists('trialrecords');
 
-  return Promise.all([
-    createRecords,
-    createTrialsRecords,
-    dropTables,
-  ]);
+  return schema;
 };
