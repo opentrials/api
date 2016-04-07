@@ -8,6 +8,7 @@ function search(req, res) {
     q: req.swagger.params.q.value,
     from: (page - 1) * perPage,
     size: perPage,
+    defaultOperator: 'AND',
   };
 
   return client.search(searchQuery)
