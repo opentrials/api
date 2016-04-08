@@ -1,5 +1,7 @@
 exports.up = (knex) => {
-  const createSources = knex.schema.createTable('sources', (table) => {
+  const schema = knex.schema;
+
+  schema.createTable('sources', (table) => {
     table.uuid('id')
       .primary();
     table.text('name')
@@ -14,7 +16,7 @@ exports.up = (knex) => {
     table.unique(['name', 'type']);
   });
 
-  const createTrials = knex.schema.createTable('trials', (table) => {
+  schema.createTable('trials', (table) => {
     table.uuid('id').primary();
 
     table.text('primary_register')
@@ -58,7 +60,7 @@ exports.up = (knex) => {
     table.unique(['primary_register', 'primary_id']);
   });
 
-  const createRecords = knex.schema.createTable('records', (table) => {
+  schema.createTable('records', (table) => {
     table.uuid('id').primary();
 
     table.uuid('source_id')
@@ -72,7 +74,7 @@ exports.up = (knex) => {
       .notNullable();
   });
 
-  const createTrialsRecords = knex.schema.createTable('trials_records', (table) => {
+  schema.createTable('trials_records', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('record_id')
@@ -89,7 +91,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'record_id']);
   });
 
-  const createPublications = knex.schema.createTable('publications', (table) => {
+  schema.createTable('publications', (table) => {
     table.uuid('id').primary();
 
     table.uuid('source_id')
@@ -105,7 +107,7 @@ exports.up = (knex) => {
     table.unique(['name', 'type']);
   });
 
-  const createTrialsPublications = knex.schema.createTable('trials_publications', (table) => {
+  schema.createTable('trials_publications', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('publication_id')
@@ -120,7 +122,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'publication_id']);
   });
 
-  const createDocuments = knex.schema.createTable('documents', (table) => {
+  schema.createTable('documents', (table) => {
     table.uuid('id').primary();
     table.uuid('source_id')
       .references('sources.id');
@@ -136,7 +138,7 @@ exports.up = (knex) => {
     table.unique(['name', 'type']);
   });
 
-  const createTrialsDocuments = knex.schema.createTable('trials_documents', (table) => {
+  schema.createTable('trials_documents', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('document_id')
@@ -151,7 +153,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'document_id']);
   });
 
-  const createProblems = knex.schema.createTable('problems', (table) => {
+  schema.createTable('problems', (table) => {
     table.uuid('id').primary();
 
     table.text('name')
@@ -166,7 +168,7 @@ exports.up = (knex) => {
     table.unique(['name', 'type']);
   });
 
-  const createTrialsProblems = knex.schema.createTable('trials_problems', (table) => {
+  schema.createTable('trials_problems', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('problem_id')
@@ -181,7 +183,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'problem_id']);
   });
 
-  const createInterventions = knex.schema.createTable('interventions', (table) => {
+  schema.createTable('interventions', (table) => {
     table.uuid('id').primary();
 
     table.text('name')
@@ -196,7 +198,7 @@ exports.up = (knex) => {
     table.unique(['name', 'type']);
   });
 
-  const createTrialsInterventions = knex.schema.createTable('trials_interventions', (table) => {
+  schema.createTable('trials_interventions', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('intervention_id')
@@ -211,7 +213,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'intervention_id']);
   });
 
-  const createLocations = knex.schema.createTable('locations', (table) => {
+  schema.createTable('locations', (table) => {
     table.uuid('id').primary();
 
     table.text('name')
@@ -227,7 +229,7 @@ exports.up = (knex) => {
     table.unique(['name', 'type']);
   });
 
-  const createTrialsLocations = knex.schema.createTable('trials_locations', (table) => {
+  schema.createTable('trials_locations', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('location_id')
@@ -243,7 +245,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'location_id']);
   });
 
-  const createOrganisations = knex.schema.createTable('organisations', (table) => {
+  schema.createTable('organisations', (table) => {
     table.uuid('id').primary();
 
     table.text('name')
@@ -256,7 +258,7 @@ exports.up = (knex) => {
       .notNullable();
   });
 
-  const createTrialsOrganisations = knex.schema.createTable('trials_organisations', (table) => {
+  schema.createTable('trials_organisations', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('organisation_id')
@@ -274,7 +276,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'organisation_id']);
   });
 
-  const createPersons = knex.schema.createTable('persons', (table) => {
+  schema.createTable('persons', (table) => {
     table.uuid('id').primary();
 
     table.text('name')
@@ -286,7 +288,7 @@ exports.up = (knex) => {
       .notNullable();
   });
 
-  const createTrialsPersons = knex.schema.createTable('trials_persons', (table) => {
+  schema.createTable('trials_persons', (table) => {
     table.uuid('trial_id')
       .references('trials.id');
     table.uuid('person_id')
@@ -304,26 +306,7 @@ exports.up = (knex) => {
     table.primary(['trial_id', 'person_id']);
   });
 
-  return Promise.all([
-    createSources,
-    createTrials,
-    createRecords,
-    createTrialsRecords,
-    createPublications,
-    createTrialsPublications,
-    createDocuments,
-    createTrialsDocuments,
-    createProblems,
-    createTrialsProblems,
-    createInterventions,
-    createTrialsInterventions,
-    createLocations,
-    createTrialsLocations,
-    createOrganisations,
-    createTrialsOrganisations,
-    createPersons,
-    createTrialsPersons,
-  ]);
+  return schema;
 };
 
 exports.down = (knex) => (
