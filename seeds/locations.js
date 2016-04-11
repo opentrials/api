@@ -6,6 +6,11 @@ exports.seed = (knex) => {
       type: 'country',
       data: JSON.stringify({}),
     }, {
+      id: '9025b75c-ffc7-11e5-86aa-5e5517507c66',
+      name: 'United States of America',
+      type: 'country',
+      data: JSON.stringify({}),
+    }, {
       id: '30433d28-fce8-11e5-86aa-5e5517507c66',
       name: 'United Kingdom',
       type: 'country',

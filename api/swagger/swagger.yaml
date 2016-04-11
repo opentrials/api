@@ -15,12 +15,12 @@ paths:
     x-swagger-pipe: swagger_raw
 
   /search/trials:
-    x-swagger-router-controller: search
+    x-swagger-router-controller: trials
     get:
       tags:
         - trials
       description: Search trials
-      operationId: searchTrials
+      operationId: search
       parameters:
         - name: q
           in: query
@@ -51,12 +51,12 @@ paths:
             $ref: "#/definitions/ErrorResponse"
 
   /search/locations:
-    x-swagger-router-controller: search
+    x-swagger-router-controller: locations
     get:
       tags:
         - locations
       description: Search locations
-      operationId: searchLocations
+      operationId: search
       parameters:
         - name: q
           in: query
