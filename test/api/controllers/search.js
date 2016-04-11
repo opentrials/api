@@ -16,18 +16,54 @@ describe('Search', () => {
     elasticsearch.search.restore();
   });
 
-  describe('GET /v1/search/locations', () => {
-    const url = '/v1/search/locations'
-
-    describe('basic search', basicSearchTests(url, fixtures.location));
-    describe('pagination', paginationTests(url));
-  });
-
-  describe('GET /v1/search/trials', () => {
-    const url = '/v1/search/trials'
+  describe('GET /v1/search', () => {
+    const url = '/v1/search'
 
     describe('basic search', basicSearchTests(url, fixtures.trial));
     describe('pagination', paginationTests(url));
+
+    it('passes the query string to elasticsearch', () => {
+      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+
+      return server.inject(`${url}?q=foo`)
+        .then(() => {
+          elasticsearch.search.calledWithMatch({ q: 'foo' }).should.be.true();
+        });
+    });
+  });
+
+  describe('GET /v1/search/autocomplete/location', () => {
+    const url = '/v1/search/autocomplete/location'
+
+    describe('basic search', basicSearchTests(url, fixtures.location));
+    describe('pagination', paginationTests(url));
+
+    it('passes an undefined query string to elasticsearch if called with empty query', () => {
+      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+
+      return server.inject(url)
+        .then(() => {
+          elasticsearch.search.calledWithMatch({ q: undefined }).should.be.true();
+        });
+    });
+
+    it('matches query on "name" field in elasticsearch', () => {
+      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      const expectedQueryParams = {
+        body: {
+          query: {
+            match: {
+              name: 'foo',
+            },
+          },
+        },
+      };
+
+      return server.inject(`${url}?q=foo`)
+        .then(() => {
+          elasticsearch.search.calledWithMatch(expectedQueryParams).should.be.true();
+        });
+    });
   });
 });
 
@@ -55,13 +91,11 @@ function basicSearchTests(url, createFixture) {
     });
 
     it('returns the found entities', () => {
-      const model = createFixture();
-      model.attributes.id = 'd429efb2-dbf1-11e5-b5d2-0a1d41d68578';
       const esResult = {
         hits: {
           total: 1,
           hits: [
-            { _source: JSON.stringify(model.toJSON()) },
+            { _source: JSON.stringify(createFixture()) },
           ],
         },
       };
@@ -78,15 +112,6 @@ function basicSearchTests(url, createFixture) {
             items: items,
           });
         })
-    });
-
-    it('passes the query string to elasticsearch', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
-
-      return server.inject(`${url}?q=foo`)
-        .then(() => {
-          elasticsearch.search.calledWithMatch({ q: 'foo' }).should.be.true();
-        });
     });
 
     it('defines the default operator as AND', () => {

@@ -150,15 +150,20 @@ const locationMapping = {
       index_analyzer: 'autocomplete',
       search_analyzer: 'standard',
     },
-    type: {
-      type: 'string',
-      index: 'not_analyzed',
-    },
   },
-}
+};
 
 const trialsIndex = {
   index: 'trials',
+  body: {
+    mappings: {
+      trial: trialMapping,
+    },
+  },
+};
+
+const autocompleteIndex = {
+  index: 'autocomplete',
   body: {
     settings: {
       analysis: {
@@ -182,13 +187,12 @@ const trialsIndex = {
       },
     },
     mappings: {
-      trial: trialMapping,
       location: locationMapping,
     },
   },
 };
 
-function bulkIndexEntities(entities, indexType) {
+function bulkIndexEntities(entities, index, indexType) {
   if (entities.length === 0) {
     return undefined;
   }
@@ -196,7 +200,7 @@ function bulkIndexEntities(entities, indexType) {
   const bulkBody = entities.models.reduce((result, entity) => {
     const action = {
       index: {
-        _index: 'trials',
+        _index: index,
         _type: indexType,
         _id: entity.id,
       },
@@ -209,10 +213,12 @@ function bulkIndexEntities(entities, indexType) {
   });
 }
 
-function indexModel(model, indexType, fetchOptions) {
+function indexModel(model, index, indexType, fetchOptions) {
   return model.count().then((modelCount) => {
     const bufferLength = 1000;
-    console.info(`${modelCount} entities being indexed in "${indexType}" (${bufferLength} at a time).`);
+    console.info(
+      `${modelCount} entities being indexed in "${index}/${indexType}" (${bufferLength} at a time).`
+    );
     let offset = 0;
     let chain = Promise.resolve();
 
@@ -224,7 +230,7 @@ function indexModel(model, indexType, fetchOptions) {
 
       chain = chain
         .then(() => model.query(queryParams).fetchAll(fetchOptions))
-        .then((entities) => bulkIndexEntities(entities, indexType))
+        .then((entities) => bulkIndexEntities(entities, index, indexType))
         .then((resp) => {
           console.info(`${resp.items.length} successfully reindexed.`);
         });
@@ -238,8 +244,10 @@ function indexModel(model, indexType, fetchOptions) {
 
 client.indices.delete({ index: 'trials', ignore: 404 })
   .then(() => client.indices.create(trialsIndex))
-  .then(() => indexModel(Trial, 'trial', { withRelated: Trial.relatedModels }))
-  .then(() => indexModel(Location, 'location'))
+  .then(() => indexModel(Trial, 'trials', 'trial', { withRelated: Trial.relatedModels }))
+  .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
+  .then(() => client.indices.create(autocompleteIndex))
+  .then(() => indexModel(Location, 'autocomplete', 'location', { columns: ['id', 'name'] }))
   .then(() => process.exit())
   .catch((err) => {
     throw err;

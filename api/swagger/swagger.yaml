@@ -14,8 +14,8 @@ paths:
   /swagger.yaml:
     x-swagger-pipe: swagger_raw
 
-  /search/trials:
-    x-swagger-router-controller: trials
+  /search:
+    x-swagger-router-controller: search
     get:
       tags:
         - trials
@@ -50,13 +50,13 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /search/locations:
-    x-swagger-router-controller: locations
+  /search/autocomplete/{in}:
+    x-swagger-router-controller: search
     get:
       tags:
-        - locations
+        - search
       description: Search locations
-      operationId: search
+      operationId: autocomplete
       parameters:
         - name: q
           in: query
@@ -76,11 +76,18 @@ paths:
           minimum: 10
           maximum: 100
           default: 20
+        - name: in
+          in: path
+          required: true
+          description: The entity to search for
+          type: string
+          enum:
+            - location
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/LocationSearchResults"
+            $ref: "#/definitions/AutocompleteResults"
         default:
           description: Error
           schema:
@@ -320,7 +327,7 @@ definitions:
         items:
           $ref: '#/definitions/Trial'
 
-  LocationSearchResults:
+  AutocompleteResults:
     required:
       - total_count
       - items
@@ -330,7 +337,17 @@ definitions:
       items:
         type: array
         items:
-          $ref: '#/definitions/Location'
+          $ref: '#/definitions/AutocompleteResult'
+
+  AutocompleteResult:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
 
   LocationList:
     type: array

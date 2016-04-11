@@ -1,4 +1,3 @@
-const helpers = require('../helpers');
 const Trial = require('../models/trial');
 
 function getTrial(req, res) {
@@ -19,16 +18,6 @@ function getTrial(req, res) {
     });
 }
 
-function search(req, res) {
-  return helpers.search('trial', req.swagger.params)
-    .then(res.json)
-    .catch((err) => {
-      res.finish();
-      throw err;
-    });
-}
-
 module.exports = {
   get: getTrial,
-  search,
 }
