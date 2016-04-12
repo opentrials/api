@@ -82,7 +82,11 @@ paths:
           description: The entity to search for
           type: string
           enum:
+            - problem
+            - intervention
             - location
+            - person
+            - organisation
       responses:
         "200":
           description: Success

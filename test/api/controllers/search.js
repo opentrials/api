@@ -32,38 +32,21 @@ describe('Search', () => {
     });
   });
 
-  describe('GET /v1/search/autocomplete/location', () => {
-    const url = '/v1/search/autocomplete/location'
+  describe('GET /v1/search/autocomplete/{in}', () => {
+    describe('GET /v1/search/autocomplete/problem',
+             autocompleteTests('/v1/search/autocomplete/problem', fixtures.problem));
 
-    describe('basic search', basicSearchTests(url, fixtures.location));
-    describe('pagination', paginationTests(url));
+    describe('GET /v1/search/autocomplete/intervention',
+             autocompleteTests('/v1/search/autocomplete/intervention', fixtures.intervention));
 
-    it('passes an undefined query string to elasticsearch if called with empty query', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+    describe('GET /v1/search/autocomplete/location',
+             autocompleteTests('/v1/search/autocomplete/location', fixtures.location));
 
-      return server.inject(url)
-        .then(() => {
-          elasticsearch.search.calledWithMatch({ q: undefined }).should.be.true();
-        });
-    });
+    describe('GET /v1/search/autocomplete/person',
+             autocompleteTests('/v1/search/autocomplete/person', fixtures.person));
 
-    it('matches query on "name" field in elasticsearch', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
-      const expectedQueryParams = {
-        body: {
-          query: {
-            match: {
-              name: 'foo',
-            },
-          },
-        },
-      };
-
-      return server.inject(`${url}?q=foo`)
-        .then(() => {
-          elasticsearch.search.calledWithMatch(expectedQueryParams).should.be.true();
-        });
-    });
+    describe('GET /v1/search/autocomplete/organisation',
+             autocompleteTests('/v1/search/autocomplete/organisation', fixtures.organisation));
   });
 });
 
@@ -230,4 +213,38 @@ function paginationTests(url) {
         });
     });
   }
+}
+
+function autocompleteTests(url, createFixture) {
+  return () => {
+    describe('basic search', basicSearchTests(url, createFixture));
+    describe('pagination', paginationTests(url));
+
+    it('passes an undefined query string to elasticsearch if called with empty query', () => {
+      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+
+      return server.inject(url)
+        .then(() => {
+          elasticsearch.search.calledWithMatch({ q: undefined }).should.be.true();
+        });
+    });
+
+    it('matches query on "name" field in elasticsearch', () => {
+      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      const expectedQueryParams = {
+        body: {
+          query: {
+            match: {
+              name: 'foo',
+            },
+          },
+        },
+      };
+
+      return server.inject(`${url}?q=foo`)
+        .then(() => {
+          elasticsearch.search.calledWithMatch(expectedQueryParams).should.be.true();
+        });
+    });
+  };
 }

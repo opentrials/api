@@ -3,7 +3,11 @@
 
 const client = require('../config').elasticsearch;
 const Trial = require('../api/models/trial');
+const Problem = require('../api/models/problem');
+const Intervention = require('../api/models/intervention');
 const Location = require('../api/models/location');
+const Person = require('../api/models/person');
+const Organisation = require('../api/models/organisation');
 
 const trialMapping = {
   properties: {
@@ -93,6 +97,7 @@ const trialMapping = {
             },
             name: {
               type: 'string',
+              copy_to: 'person',
             },
             type: {
               type: 'string',
@@ -105,6 +110,9 @@ const trialMapping = {
           index: 'not_analyzed',
         },
       },
+    },
+    person: {
+      type: 'string',
     },
     organisations: {
       properties: {
@@ -116,6 +124,7 @@ const trialMapping = {
             },
             name: {
               type: 'string',
+              copy_to: 'organisation',
             },
             type: {
               type: 'string',
@@ -129,6 +138,9 @@ const trialMapping = {
         },
       },
     },
+    organisation: {
+      type: 'string',
+    },
     public_title: {
       type: 'string',
     },
@@ -139,7 +151,7 @@ const trialMapping = {
   },
 };
 
-const locationMapping = {
+const autocompleteModelMapping = {
   properties: {
     id: {
       type: 'string',
@@ -187,7 +199,11 @@ const autocompleteIndex = {
       },
     },
     mappings: {
-      location: locationMapping,
+      problem: autocompleteModelMapping,
+      intervention: autocompleteModelMapping,
+      location: autocompleteModelMapping,
+      person: autocompleteModelMapping,
+      organisation: autocompleteModelMapping,
     },
   },
 };
@@ -205,7 +221,7 @@ function bulkIndexEntities(entities, index, indexType) {
         _id: entity.id,
       },
     };
-    return result.concat([action, entity.toJSON()]);
+    return result.concat([action, JSON.stringify(entity)]);
   }, []);
 
   return client.bulk({
@@ -232,7 +248,8 @@ function indexModel(model, index, indexType, fetchOptions) {
         .then(() => model.query(queryParams).fetchAll(fetchOptions))
         .then((entities) => bulkIndexEntities(entities, index, indexType))
         .then((resp) => {
-          console.info(`${resp.items.length} successfully reindexed.`);
+          const count = (resp) ? resp.items.length : 0;
+          console.info(`${count} successfully reindexed.`);
         });
 
       offset = offset + bufferLength;
@@ -242,12 +259,20 @@ function indexModel(model, index, indexType, fetchOptions) {
   });
 }
 
+function indexAutocompleteModel(model, indexType) {
+  return indexModel(model, 'autocomplete', indexType, { columns: ['id', 'name'] });
+}
+
 client.indices.delete({ index: 'trials', ignore: 404 })
   .then(() => client.indices.create(trialsIndex))
   .then(() => indexModel(Trial, 'trials', 'trial', { withRelated: Trial.relatedModels }))
   .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
   .then(() => client.indices.create(autocompleteIndex))
-  .then(() => indexModel(Location, 'autocomplete', 'location', { columns: ['id', 'name'] }))
+  .then(() => indexAutocompleteModel(Problem, 'problem'))
+  .then(() => indexAutocompleteModel(Intervention, 'intervention'))
+  .then(() => indexAutocompleteModel(Location, 'location'))
+  .then(() => indexAutocompleteModel(Person, 'person'))
+  .then(() => indexAutocompleteModel(Organisation, 'organisation'))
   .then(() => process.exit())
   .catch((err) => {
     throw err;
