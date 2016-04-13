@@ -36,8 +36,8 @@
   "main": "server.js",
   "devDependencies": {
     "coveralls": "^2.11.6",
-    "eslint": "^2.2.0",
-    "eslint-config-airbnb": "^6.0.2",
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^7.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "nodemon": "^1.8.1",
