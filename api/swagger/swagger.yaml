@@ -167,6 +167,14 @@ definitions:
       target_sample_size:
         type: integer
         minimum: 0
+      gender:
+        type: string
+        enum:
+          - both
+          - male
+          - female
+      has_published_results:
+        type: boolean
       registration_date:
         type: string
         format: date-time

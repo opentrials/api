@@ -136,6 +136,8 @@ exports.seed = (knex) => {
       study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Treatment',
       study_phase: 'Phase 1',
       target_sample_size: 2000,
+      gender: 'both',
+      has_published_results: true,
       locations: [
         {
           location: locations.usa,

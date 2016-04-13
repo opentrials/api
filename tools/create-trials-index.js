@@ -147,6 +147,13 @@ const trialMapping = {
     target_sample_size: {
       type: 'integer',
     },
+    gender: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    has_published_results: {
+      type: 'boolean',
+    },
     registration_date: {
       type: 'date',
       format: 'dateOptionalTime',
