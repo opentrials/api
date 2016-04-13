@@ -24,6 +24,7 @@ const Trial = BaseModel.extend({
     'url',
     'public_title',
     'brief_summary',
+    'target_sample_size',
     'registration_date',
   ].concat(relatedModels),
   serialize: function (options) {

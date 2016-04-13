@@ -135,6 +135,7 @@ exports.seed = (knex) => {
       study_type: 'Interventional',
       study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Treatment',
       study_phase: 'Phase 1',
+      target_sample_size: 2000,
       locations: [
         {
           location: locations.usa,
@@ -196,6 +197,7 @@ exports.seed = (knex) => {
       study_type: 'Observational',
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
       study_phase: 'N/A',
+      target_sample_size: 250,
       locations: [
         {
           location: locations.usa,

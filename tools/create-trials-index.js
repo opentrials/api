@@ -144,6 +144,9 @@ const trialMapping = {
     public_title: {
       type: 'string',
     },
+    target_sample_size: {
+      type: 'integer',
+    },
     registration_date: {
       type: 'date',
       format: 'dateOptionalTime',

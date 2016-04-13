@@ -164,6 +164,9 @@ definitions:
         type: string
       brief_summary:
         type: string
+      target_sample_size:
+        type: integer
+        minimum: 0
       registration_date:
         type: string
         format: date-time

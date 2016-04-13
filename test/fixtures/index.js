@@ -12,6 +12,7 @@ function trialFixture() {
     primary_id: 'primary_id',
     secondary_ids: JSON.stringify([]),
     registration_date: new Date('2016-01-01'),
+    target_sample_size: 1000,
     public_title: 'public_title',
     brief_summary: 'brief_summary',
     recruitment_status: 'recruitment_status',
