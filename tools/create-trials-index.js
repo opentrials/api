@@ -169,7 +169,7 @@ const autocompleteModelMapping = {
     },
     name: {
       type: 'string',
-      index_analyzer: 'autocomplete',
+      analyzer: 'autocomplete',
       search_analyzer: 'standard',
     },
   },
