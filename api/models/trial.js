@@ -1,3 +1,5 @@
+'use strict';
+
 require('./location');
 require('./intervention');
 require('./problem');
@@ -22,6 +24,9 @@ const Trial = BaseModel.extend({
     'url',
     'public_title',
     'brief_summary',
+    'target_sample_size',
+    'gender',
+    'has_published_results',
     'registration_date',
   ].concat(relatedModels),
   serialize: function (options) {
@@ -29,6 +34,14 @@ const Trial = BaseModel.extend({
     const relations = this.relations;
 
     attributes.url = helpers.urlFor(this);
+
+    // FIXME: This is a workaround because Swagger doesn't allow nullable
+    // fields. Check https://github.com/OAI/OpenAPI-Specification/issues/229.
+    Object.keys(attributes).forEach((key) => {
+      if (attributes[key] === null) {
+        delete attributes[key];
+      }
+    });
 
     attributes.locations = [];
     attributes.interventions = [];

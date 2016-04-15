@@ -44,7 +44,54 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/SearchResults"
+            $ref: "#/definitions/TrialSearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/autocomplete/{in}:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      description: Search locations
+      operationId: autocomplete
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+        - name: in
+          in: path
+          required: true
+          description: The entity to search for
+          type: string
+          enum:
+            - problem
+            - intervention
+            - location
+            - person
+            - organisation
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AutocompleteResults"
         default:
           description: Error
           schema:
@@ -117,6 +164,17 @@ definitions:
         type: string
       brief_summary:
         type: string
+      target_sample_size:
+        type: integer
+        minimum: 0
+      gender:
+        type: string
+        enum:
+          - both
+          - male
+          - female
+      has_published_results:
+        type: boolean
       registration_date:
         type: string
         format: date-time
@@ -272,7 +330,7 @@ definitions:
         enum:
           - other
 
-  SearchResults:
+  TrialSearchResults:
     required:
       - total_count
       - items
@@ -283,6 +341,28 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Trial'
+
+  AutocompleteResults:
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/AutocompleteResult'
+
+  AutocompleteResult:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
 
   LocationList:
     type: array
