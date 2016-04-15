@@ -1,3 +1,5 @@
+'use strict';
+
 exports.up = (knex, Promise) => {
   function addHasPublishedResultsAndGender(table) {
     table.boolean('has_published_results')

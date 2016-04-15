@@ -1,3 +1,5 @@
+'use strict';
+
 require('dotenv').config();
 
 if (!process.env.ELASTICSEARCH_URL) {
