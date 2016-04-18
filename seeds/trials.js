@@ -241,6 +241,67 @@ exports.seed = (knex) => {
     },
   ];
 
+  // Trialrecords
+  const sources = {
+    nct: {
+      id: 'b389497c-0833-432b-a09b-930526b7b4d4',
+      name: 'nct',
+      type: 'register',
+      data: JSON.stringify({}),
+    },
+    isrctn: {
+      id: '9551e647-9cdc-438b-9a4a-3360004467dd',
+      name: 'isrctn',
+      type: 'register',
+      data: JSON.stringify({}),
+    },
+  };
+
+  const trialrecords = [
+    {
+      id: '7cd88d88-031d-11e6-b512-3e1d05defe78',
+      trial_id: trials[0].id,
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
+      source_data: JSON.stringify({}),
+
+      primary_register: 'nct',
+      primary_id: 'NCT00000774',
+      secondary_ids: JSON.stringify({ others: ['11207'] }),
+      registration_date: new Date('1999-11-02'),
+      public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
+      brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
+      recruitment_status: 'Completed',
+      eligibility_criteria: JSON.stringify([]),
+      study_type: 'Interventional',
+      study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Treatment',
+      study_phase: 'Phase 1',
+      target_sample_size: 2000,
+      gender: 'both',
+      has_published_results: true,
+    },
+    {
+      id: '2e3406c4-031f-11e6-b512-3e1d05defe78',
+      trial_id: trials[0].id,
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT01003600',
+      source_data: JSON.stringify({}),
+
+      primary_register: 'nct',
+      primary_id: 'NCT01003600',
+      secondary_ids: JSON.stringify({ others: null }),
+      public_title: 'Colorectal Cancer Survivors\' Needs and Preferences for Survivorship Information',
+      brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
+      registration_date: new Date('2009-10-28'),
+      recruitment_status: 'Completed',
+      eligibility_criteria: JSON.stringify([]),
+      study_type: 'Observational',
+      study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
+      study_phase: 'N/A',
+      target_sample_size: 250,
+    },
+  ];
+
   const trialsLocations = _generateRelationships(trials, 'location');
   const trialsInterventions = _generateRelationships(trials, 'intervention');
   const trialsProblems = _generateRelationships(trials, 'problem');
@@ -268,6 +329,8 @@ exports.seed = (knex) => {
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
+    .then(() => knex('sources').del())
+    .then(() => knex('trialrecords').del())
     .then(() => knex('trials').del())
     // Insert
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
@@ -280,5 +343,7 @@ exports.seed = (knex) => {
     .then(() => knex('persons').insert(_getEntries(persons)))
     .then(() => knex('trials_persons').insert(trialsPersons))
     .then(() => knex('organisations').insert(_getEntries(organisations)))
-    .then(() => knex('trials_organisations').insert(trialsOrganisations));
+    .then(() => knex('trials_organisations').insert(trialsOrganisations))
+    .then(() => knex('sources').insert(_getEntries(sources)))
+    .then(() => knex('trialrecords').insert(trialrecords));
 };
