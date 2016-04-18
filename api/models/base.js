@@ -1,3 +1,4 @@
+'use strict';
 const uuid = require('node-uuid');
 const bookshelf = require('../../config').bookshelf;
 
