@@ -18,12 +18,13 @@ describe('Trial', () => {
       'problems',
       'persons',
       'organisations',
+      'sources',
     ]);
   });
 
   describe('locations', () => {
     it('is an empty array if there\'re none', () => {
-      should(new Trial().toJSON().locations).deepEqual([]);
+      should(toJSON(new Trial()).locations).deepEqual([]);
     });
 
     it('adds the locations and its metadata from relationship into the resulting JSON', () => {
@@ -45,10 +46,10 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
-          should(trial.toJSON().locations).deepEqual([
+          should(toJSON(trial).locations).deepEqual([
             {
               role: 'recruitment_countries',
-              attributes: loc.toJSON(),
+              attributes: toJSON(loc),
             }
           ]);
         });
@@ -57,7 +58,7 @@ describe('Trial', () => {
 
   describe('interventions', () => {
     it('is an empty array if there\'re none', () => {
-      should(new Trial().toJSON().interventions).deepEqual([]);
+      should(toJSON(new Trial).interventions).deepEqual([]);
     });
 
     it('adds the interventions and its metadata from relationship into the resulting JSON', () => {
@@ -80,10 +81,10 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'interventions' })
         }).then((trial) => {
-          should(trial.toJSON().interventions).deepEqual([
+          should(toJSON(trial).interventions).deepEqual([
             {
               role: 'other',
-              attributes: intervention.toJSON(),
+              attributes: toJSON(intervention),
             }
           ]);
         });
@@ -92,7 +93,7 @@ describe('Trial', () => {
 
   describe('problems', () => {
     it('is an empty array if there\'re none', () => {
-      should(new Trial().toJSON().problems).deepEqual([]);
+      should(toJSON(new Trial()).problems).deepEqual([]);
     });
 
     it('adds the problems and its metadata from relationship into the resulting JSON', () => {
@@ -115,10 +116,10 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'problems' })
         }).then((trial) => {
-          should(trial.toJSON().problems).deepEqual([
+          should(toJSON(trial).problems).deepEqual([
             {
               role: 'other',
-              attributes: problem.toJSON(),
+              attributes: toJSON(problem),
             }
           ]);
         });
@@ -127,7 +128,7 @@ describe('Trial', () => {
 
   describe('persons', () => {
     it('is an empty array if there\'re none', () => {
-      should(new Trial().toJSON().persons).deepEqual([]);
+      should(toJSON(new Trial()).persons).deepEqual([]);
     });
 
     it('adds the persons and its metadata from relationship into the resulting JSON', () => {
@@ -150,10 +151,10 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'persons' })
         }).then((trial) => {
-          should(trial.toJSON().persons).deepEqual([
+          should(toJSON(trial).persons).deepEqual([
             {
               role: 'other',
-              attributes: person.toJSON(),
+              attributes: toJSON(person),
             }
           ]);
         });
@@ -162,7 +163,7 @@ describe('Trial', () => {
 
   describe('organisations', () => {
     it('is an empty array if there\'re none', () => {
-      should(new Trial().toJSON().organisations).deepEqual([]);
+      should(toJSON(new Trial()).organisations).deepEqual([]);
     });
 
     it('adds the organisations and its metadata from relationship into the resulting JSON', () => {
@@ -185,13 +186,71 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'organisations' })
         }).then((trial) => {
-          should(trial.toJSON().organisations).deepEqual([
+          should(toJSON(trial).organisations).deepEqual([
             {
               role: 'other',
-              attributes: organisation.toJSON(),
+              attributes: toJSON(organisation),
+            }
+          ]);
+        });
+    });
+  });
+
+  describe('sources', () => {
+    it('is an empty array if there\'re none', () => {
+      should(toJSON(new Trial()).sources).deepEqual([]);
+    });
+
+    it('adds the sources and its metadata from relationship into the resulting JSON', () => {
+      let trial_id;
+      let source;
+      const trialrecord = toJSON({
+        id: 'fb6c1601-77f3-4f4d-afc9-2cbbc27bfacb',
+        source_url: 'http://clinicaltrials.gov/ct2/show/NCT00000000',
+        source_data: {},
+        primary_register: 'nct',
+        primary_id: 'NCT00000000',
+        secondary_ids: [],
+        registration_date: new Date('2016-01-01'),
+        public_title: 'public_title',
+        brief_summary: 'brief_summary',
+        recruitment_status: 'recruitment_status',
+        eligibility_criteria: {},
+        study_type: 'study_type',
+        study_design: 'study_design',
+        study_phase: 'study_phase',
+        created_at: new Date('2016-01-01 12:32:10'),
+        updated_at: new Date('2016-05-01 15:21:03'),
+      });
+
+      return fixtures.trial().save()
+        .then((trial) => {
+          trial_id = trial.id;
+
+          return fixtures.source().save().then((_source) => {
+            source = _source;
+
+            return trial.sources().attach(
+              Object.assign({ source_id: source.id }, trialrecord)
+            )
+          });
+        }).then((trial) => {
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'sources' })
+        }).then((trial) => {
+          should(toJSON(trial).sources).deepEqual([
+            {
+              attributes: toJSON(source),
+              source_url: trialrecord.source_url,
+              source_data: trialrecord.source_data,
+              updated_at: trialrecord.updated_at,
             }
           ]);
         });
     });
   });
 });
+
+
+function toJSON(object) {
+  return JSON.parse(JSON.stringify(object))
+}

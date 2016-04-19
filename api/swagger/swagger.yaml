@@ -155,6 +155,7 @@ definitions:
       - interventions
       - persons
       - organisations
+      - sources
     properties:
       id:
         type: string
@@ -198,6 +199,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialOrganisation'
+      sources:
+        type: array
+        items:
+          $ref: '#/definitions/Trialrecord'
 
   TrialLocation:
     required:
@@ -328,6 +333,29 @@ definitions:
       type:
         type: string
         enum:
+          - other
+
+  Trialrecord:
+    required:
+      - attributes
+    properties:
+      source_url:
+        type: string
+      attributes:
+        $ref: '#/definitions/Source'
+  Source:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - register
           - other
 
   TrialSearchResults:

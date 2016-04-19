@@ -5,6 +5,7 @@ require('./intervention');
 require('./problem');
 require('./person');
 require('./organisation');
+require('./source');
 
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
@@ -15,6 +16,7 @@ const relatedModels = [
   'problems',
   'persons',
   'organisations',
+  'sources',
 ];
 
 const Trial = BaseModel.extend({
@@ -48,6 +50,7 @@ const Trial = BaseModel.extend({
     attributes.problems = [];
     attributes.persons = [];
     attributes.organisations = [];
+    attributes.sources = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
@@ -57,9 +60,12 @@ const Trial = BaseModel.extend({
           attributes: attributes,
         }
 
-        if (model.pivot.attributes.role) {
-          result.role = model.pivot.attributes.role;
-        };
+        Object.keys(model.pivot.attributes).forEach((key) => {
+          const value = model.pivot.attributes[key];
+          if (!key.endsWith('_id') && value) {
+            result[key] = value;
+          }
+        });
 
         return result;
       });
@@ -86,6 +92,14 @@ const Trial = BaseModel.extend({
   organisations: function () {
     return this.belongsToMany('Organisation', 'trials_organisations',
       'trial_id', 'organisation_id').withPivot(['role']);
+  },
+  sources: function () {
+    return this.belongsToMany('Source', 'trialrecords',
+      'trial_id', 'source_id').withPivot([
+        'source_url',
+        'source_data',
+        'updated_at',
+      ]);
   },
 }, {
   relatedModels,

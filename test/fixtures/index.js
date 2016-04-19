@@ -5,6 +5,7 @@ const Intervention = require('../../api/models/intervention');
 const Problem = require('../../api/models/problem');
 const Person = require('../../api/models/person');
 const Organisation = require('../../api/models/organisation');
+const Source = require('../../api/models/source');
 
 function trialFixture() {
   const attributes = {
@@ -77,6 +78,16 @@ function organisationFixture() {
   return new Organisation(attributes);
 }
 
+function sourceFixture() {
+  const attributes = {
+    name: 'nct',
+    type: 'register',
+    data: JSON.stringify({}),
+  };
+
+  return new Source(attributes);
+}
+
 function trialWithRelated() {
   let trial_id;
 
@@ -134,5 +145,6 @@ module.exports = {
   problem: problemFixture,
   person: personFixture,
   organisation: organisationFixture,
+  source: sourceFixture,
   trialWithRelated: trialWithRelated,
 }
