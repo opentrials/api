@@ -31,14 +31,14 @@ describe('Trial', () => {
       let trial_id;
       let loc;
 
-      return fixtures.trial().save()
+      return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return fixtures.location().save().then((_loc) => {
+          return factory.create('location').then((_loc) => {
             loc = _loc;
             return trial.locations().attach({
-              location_id: _loc.id,
+              location_id: loc.id,
               role: 'recruitment_countries',
               context: JSON.stringify(''),
             });
@@ -65,11 +65,11 @@ describe('Trial', () => {
       let trial_id;
       let intervention;
 
-      return fixtures.trial().save()
+      return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return fixtures.intervention().save().then((_intervention) => {
+          return factory.create('intervention').then((_intervention) => {
             intervention = _intervention;
 
             return trial.interventions().attach({
@@ -100,11 +100,11 @@ describe('Trial', () => {
       let trial_id;
       let problem;
 
-      return fixtures.trial().save()
+      return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return fixtures.problem().save().then((_problem) => {
+          return factory.create('problem').then((_problem) => {
             problem = _problem;
 
             return trial.problems().attach({
@@ -135,11 +135,11 @@ describe('Trial', () => {
       let trial_id;
       let person;
 
-      return fixtures.trial().save()
+      return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return fixtures.person().save().then((_person) => {
+          return factory.create('person').then((_person) => {
             person = _person;
 
             return trial.persons().attach({
@@ -170,11 +170,11 @@ describe('Trial', () => {
       let trial_id;
       let organisation;
 
-      return fixtures.trial().save()
+      return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return fixtures.organisation().save().then((_organisation) => {
+          return factory.create('organisation').then((_organisation) => {
             organisation = _organisation;
 
             return trial.organisations().attach({
@@ -223,11 +223,11 @@ describe('Trial', () => {
         updated_at: new Date('2016-05-01 15:21:03'),
       });
 
-      return fixtures.trial().save()
+      return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return fixtures.source().save().then((_source) => {
+          return factory.create('source').then((_source) => {
             source = _source;
 
             return trial.sources().attach(

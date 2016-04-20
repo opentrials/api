@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'test';
 
 const config = require('../config');
 const server = require('../server');
-const fixtures = require('./fixtures');
+const factory = require('./factory');
 
 function clearDB() {
   const tables = [
@@ -34,5 +34,5 @@ function clearDB() {
 
 global.config = config;
 global.server = server;
-global.fixtures = fixtures;
+global.factory = factory;
 global.clearDB = clearDB;
