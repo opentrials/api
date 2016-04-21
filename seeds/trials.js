@@ -241,7 +241,7 @@ exports.seed = (knex) => {
     },
   ];
 
-  // Trialrecords
+  // Records
   const sources = {
     nct: {
       id: 'b389497c-0833-432b-a09b-930526b7b4d4',
@@ -257,7 +257,7 @@ exports.seed = (knex) => {
     },
   };
 
-  const trialrecords = [
+  const records = [
     {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe78',
       trial_id: trials[0].id,
@@ -279,6 +279,8 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       has_published_results: true,
+      created_at: new Date('2016-01-01'),
+      updated_at: new Date('2016-04-01'),
     },
     {
       id: '2e3406c4-031f-11e6-b512-3e1d05defe78',
@@ -299,6 +301,8 @@ exports.seed = (knex) => {
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
       study_phase: 'N/A',
       target_sample_size: 250,
+      created_at: new Date('2016-01-20'),
+      updated_at: new Date('2016-04-20'),
     },
   ];
 
@@ -329,8 +333,8 @@ exports.seed = (knex) => {
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
-    .then(() => knex('sources').del())
     .then(() => knex('trialrecords').del())
+    .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
@@ -345,5 +349,5 @@ exports.seed = (knex) => {
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
-    .then(() => knex('trialrecords').insert(trialrecords));
+    .then(() => knex('trialrecords').insert(records));
 };

@@ -125,6 +125,36 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /trials/{trialId}/records/{id}:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns a trial's raw record from its sources
+      operationId: getRecord
+      parameters:
+        - name: trialId
+          in: path
+          description: ID of the trial
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: ID of the trial's record
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Record"
+        "404":
+          description: Trial not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /locations:
     x-swagger-router-controller: locations
     get:
@@ -155,7 +185,7 @@ definitions:
       - interventions
       - persons
       - organisations
-      - sources
+      - records
     properties:
       id:
         type: string
@@ -199,10 +229,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialOrganisation'
-      sources:
+      records:
         type: array
         items:
-          $ref: '#/definitions/Trialrecord'
+          $ref: '#/definitions/RecordSummary'
 
   TrialLocation:
     required:
@@ -335,14 +365,56 @@ definitions:
         enum:
           - other
 
-  Trialrecord:
+  Record:
     required:
-      - attributes
+      - id
+      - trial_id
+      - source
+      - source_id
+      - url
+      - trial_url
+      - source_url
+      - public_title
+      - brief_summary
+      - registration_date
     properties:
+      id:
+        type: string
+      trial_id:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+      source_id:
+        type: string
+      url:
+        type: string
+      trial_url:
+        type: string
       source_url:
         type: string
-      attributes:
+      public_title:
+        type: string
+      brief_summary:
+        type: string
+      registration_date:
+        type: string
+        format: date-time
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+  RecordSummary:
+    required:
+      - source
+      - url
+    properties:
+      source:
         $ref: '#/definitions/Source'
+      url:
+        type: string
   Source:
     required:
       - id

@@ -18,7 +18,8 @@ describe('Trial', () => {
       'problems',
       'persons',
       'organisations',
-      'sources',
+      'records',
+      'records.source',
     ]);
   });
 
@@ -196,55 +197,29 @@ describe('Trial', () => {
     });
   });
 
-  describe('sources', () => {
+  describe('records', () => {
     it('is an empty array if there\'re none', () => {
-      should(toJSON(new Trial()).sources).deepEqual([]);
+      should(toJSON(new Trial()).records).deepEqual([]);
     });
 
-    it('adds the sources and its metadata from relationship into the resulting JSON', () => {
-      let trial_id;
-      let source;
-      const trialrecord = toJSON({
-        id: 'fb6c1601-77f3-4f4d-afc9-2cbbc27bfacb',
-        source_url: 'http://clinicaltrials.gov/ct2/show/NCT00000000',
-        source_data: {},
-        primary_register: 'nct',
-        primary_id: 'NCT00000000',
-        secondary_ids: [],
-        registration_date: new Date('2016-01-01'),
-        public_title: 'public_title',
-        brief_summary: 'brief_summary',
-        recruitment_status: 'recruitment_status',
-        eligibility_criteria: {},
-        study_type: 'study_type',
-        study_design: 'study_design',
-        study_phase: 'study_phase',
-        created_at: new Date('2016-01-01 12:32:10'),
-        updated_at: new Date('2016-05-01 15:21:03'),
-      });
+    it('adds the records and their sources into the resulting JSON', () => {
+      return factory.create('record')
+        .then((record) => {
+          const recordJSON = toJSON(record);
+          const source = record.related('source');
 
-      return factory.create('trial')
-        .then((trial) => {
-          trial_id = trial.id;
-
-          return factory.create('source').then((_source) => {
-            source = _source;
-
-            return trial.sources().attach(
-              Object.assign({ source_id: source.id }, trialrecord)
-            )
-          });
-        }).then((trial) => {
-          return new Trial({ id: trial_id }).fetch({ withRelated: 'sources' })
-        }).then((trial) => {
-          should(toJSON(trial).sources).deepEqual([
-            {
-              attributes: toJSON(source),
-              source_url: trialrecord.source_url,
-              source_data: trialrecord.source_data,
-              updated_at: trialrecord.updated_at,
-            }
-          ]);
+          return new Trial({ id: record.attributes.trial_id })
+            .fetch({ withRelated: ['records', 'records.source'] })
+            .then((trial) => {
+              should(toJSON(trial).records).deepEqual([
+                {
+                  source: toJSON(source),
+                  url: recordJSON.url,
+                  source_url: recordJSON.source_url,
+                  updated_at: recordJSON.updated_at,
+                }
+              ]);
+            });
         });
     });
   });

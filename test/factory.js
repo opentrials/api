@@ -1,3 +1,5 @@
+'use strict';
+
 const factory = require('factory-girl').promisify(require('bluebird'));
 require('factory-girl-bookshelf')();
 const uuid = require('node-uuid');
@@ -8,6 +10,7 @@ const Problem = require('../api/models/problem');
 const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
+const Record = require('../api/models/record');
 
 factory.define('location', Location, {
   id: () => uuid.v1(),
@@ -51,10 +54,10 @@ factory.define('source', Source, {
   data: JSON.stringify(''),
 });
 
-const trialFactoryAttributes = {
+const trialAttributes = {
   id: () => uuid.v1(),
   primary_register: 'primary_register',
-  primary_id: 'primary_id',
+  primary_id: factory.sequence((n) => `primary_id${n}`),
   secondary_ids: JSON.stringify([]),
   registration_date: new Date('2016-01-01'),
   target_sample_size: 1000,
@@ -69,9 +72,9 @@ const trialFactoryAttributes = {
   study_phase: 'study_phase',
 };
 
-factory.define('trial', Trial, trialFactoryAttributes);
+factory.define('trial', Trial, trialAttributes);
 
-factory.define('trialWithRelated', Trial, trialFactoryAttributes, {
+factory.define('trialWithRelated', Trial, trialAttributes, {
   afterCreate: (trial, options, callback) => {
     Promise.all([
       factory.create('intervention').then((intervention) => (
@@ -110,9 +113,25 @@ factory.define('trialWithRelated', Trial, trialFactoryAttributes, {
           })
       )),
     ])
-    .then(() => new Trial({ id: trial.id }) .fetch({ withRelated: Trial.relatedModels }))
-    .then((trial) => callback(null, trial))
+    .then(() => new Trial({ id: trial.id }).fetch({ withRelated: Trial.relatedModels }))
+    .then((instance) => callback(null, instance))
     .catch((err) => callback(err));
+  },
+});
+
+factory.define('record', Record, Object.assign({}, trialAttributes, {
+  created_at: new Date('2016-01-01'),
+  updated_at: new Date('2016-04-01'),
+  trial_id: factory.assoc('trial', 'id'),
+  source_id: factory.assoc('source', 'id'),
+  source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
+  source_data: JSON.stringify({}),
+}), {
+  afterCreate: (record, options, callback) => {
+    new Record({ id: record.id })
+      .fetch({ withRelated: Record.relatedModels })
+      .then((instance) => callback(null, instance))
+      .catch((err) => callback(err));
   },
 });
 

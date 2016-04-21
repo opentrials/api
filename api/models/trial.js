@@ -6,6 +6,7 @@ require('./problem');
 require('./person');
 require('./organisation');
 require('./source');
+require('./record');
 
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
@@ -16,14 +17,14 @@ const relatedModels = [
   'problems',
   'persons',
   'organisations',
-  'sources',
+  'records',
+  'records.source',
 ];
 
 const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
-    'url',
     'public_title',
     'brief_summary',
     'target_sample_size',
@@ -32,44 +33,39 @@ const Trial = BaseModel.extend({
     'registration_date',
   ].concat(relatedModels),
   serialize: function (options) {
-    const attributes = this.attributes;
+    const attributes = Object.assign(
+      {},
+      Object.getPrototypeOf(Trial.prototype).serialize.call(this, arguments)
+    );
     const relations = this.relations;
-
-    attributes.url = helpers.urlFor(this);
-
-    // FIXME: This is a workaround because Swagger doesn't allow nullable
-    // fields. Check https://github.com/OAI/OpenAPI-Specification/issues/229.
-    Object.keys(attributes).forEach((key) => {
-      if (attributes[key] === null) {
-        delete attributes[key];
-      }
-    });
 
     attributes.locations = [];
     attributes.interventions = [];
     attributes.problems = [];
     attributes.persons = [];
     attributes.organisations = [];
-    attributes.sources = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
         const attributes = model.toJSON();
-        delete attributes._pivot_role;
         const result = {
           attributes: attributes,
         }
 
-        Object.keys(model.pivot.attributes).forEach((key) => {
-          const value = model.pivot.attributes[key];
-          if (!key.endsWith('_id') && value) {
-            result[key] = value;
-          }
-        });
+        if (model.pivot) {
+          Object.keys(model.pivot.attributes).forEach((key) => {
+            const value = model.pivot.attributes[key];
+            if (!key.endsWith('_id') && value) {
+              result[key] = value;
+            }
+          });
+        }
 
         return result;
       });
     }
+
+    attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
 
     return attributes;
   },
@@ -93,13 +89,13 @@ const Trial = BaseModel.extend({
     return this.belongsToMany('Organisation', 'trials_organisations',
       'trial_id', 'organisation_id').withPivot(['role']);
   },
-  sources: function () {
-    return this.belongsToMany('Source', 'trialrecords',
-      'trial_id', 'source_id').withPivot([
-        'source_url',
-        'source_data',
-        'updated_at',
-      ]);
+  records: function () {
+    return this.hasMany('Record');
+  },
+  virtuals: {
+    url: function () {
+      return helpers.urlFor(this);
+    },
   },
 }, {
   relatedModels,

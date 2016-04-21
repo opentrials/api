@@ -12,13 +12,6 @@ const Source = BaseModel.extend({
     'name',
     'type',
   ],
-  trials: function () {
-    return this.belongsToMany('Trial', 'trialrecords',
-      'source_id', 'trial_id').withPivot([
-        'source_url',
-        'updated_at',
-      ]);
-  },
 });
 
 module.exports = bookshelf.model('Source', Source);
