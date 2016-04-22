@@ -49,11 +49,10 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
-    "coverage": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
-    "precoveralls": "npm run coverage",
+    "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
