@@ -26,4 +26,18 @@ describe('Record', () => {
         });
       });
   });
+
+  it('#toJSONSummary returns simplified record representation', () => {
+    return factory.create('record').then((record) => {
+      const recordJSON = record.toJSON();
+
+      record.toJSONSummary().should.deepEqual({
+        source: record.related('source').toJSON(),
+        id: recordJSON.id,
+        url: recordJSON.url,
+        source_url: recordJSON.source_url,
+        updated_at: recordJSON.updated_at,
+      });
+    });
+  });
 });

@@ -368,37 +368,32 @@ definitions:
   Record:
     required:
       - id
-      - trial_id
-      - source
-      - source_id
       - url
+      - trial_id
       - trial_url
+      - source
       - source_url
+      - source_data
       - public_title
-      - brief_summary
-      - registration_date
+      - created_at
+      - updated_at
     properties:
       id:
         type: string
-      trial_id:
-        type: string
-      source:
-        $ref: '#/definitions/Source'
-      source_id:
-        type: string
       url:
+        type: string
+      trial_id:
         type: string
       trial_url:
         type: string
+      source:
+        $ref: '#/definitions/Source'
       source_url:
         type: string
+      source_data:
+        type: object
       public_title:
         type: string
-      brief_summary:
-        type: string
-      registration_date:
-        type: string
-        format: date-time
       created_at:
         type: string
         format: date-time
@@ -408,13 +403,16 @@ definitions:
 
   RecordSummary:
     required:
-      - source
+      - id
       - url
+      - source
     properties:
-      source:
-        $ref: '#/definitions/Source'
+      id:
+        type: string
       url:
         type: string
+      source:
+        $ref: '#/definitions/Source'
   Source:
     required:
       - id

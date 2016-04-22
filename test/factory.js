@@ -120,6 +120,7 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
 });
 
 factory.define('record', Record, Object.assign({}, trialAttributes, {
+  id: () => uuid.v1(),
   created_at: new Date('2016-01-01'),
   updated_at: new Date('2016-04-01'),
   trial_id: factory.assoc('trial', 'id'),

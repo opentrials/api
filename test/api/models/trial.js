@@ -205,19 +205,13 @@ describe('Trial', () => {
     it('adds the records and their sources into the resulting JSON', () => {
       return factory.create('record')
         .then((record) => {
-          const recordJSON = toJSON(record);
           const source = record.related('source');
 
           return new Trial({ id: record.attributes.trial_id })
             .fetch({ withRelated: ['records', 'records.source'] })
             .then((trial) => {
               should(toJSON(trial).records).deepEqual([
-                {
-                  source: toJSON(source),
-                  url: recordJSON.url,
-                  source_url: recordJSON.source_url,
-                  updated_at: recordJSON.updated_at,
-                }
+                toJSON(record.toJSONSummary()),
               ]);
             });
         });

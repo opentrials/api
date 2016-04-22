@@ -17,14 +17,9 @@ const Record = BaseModel.extend({
     'id',
     'trial_id',
     'source',
-    'source_id',
     'source_url',
+    'source_data',
     'public_title',
-    'brief_summary',
-    'target_sample_size',
-    'gender',
-    'has_published_results',
-    'registration_date',
     'created_at',
     'updated_at',
   ],
@@ -37,6 +32,7 @@ const Record = BaseModel.extend({
   toJSONSummary: function () {
     const attributes = this.toJSON();
     const result = {
+      id: attributes.id,
       source: this.related('source').toJSON(),
     };
 
