@@ -2,7 +2,7 @@
 
 The document describes OpenTrials `database`.
 
-> This document is actual for this migration: [20160415172210_remove_trials_trialrecords_table.js](https://github.com/opentrials/api/blob/master/migrations/20160415172210_remove_trials_trialrecords_table.js)
+> Last updated on migration [20160415172210](https://github.com/opentrials/api/blob/master/migrations/20160415172210_remove_trials_trialrecords_table.js)
 
 ## Data Model
 
