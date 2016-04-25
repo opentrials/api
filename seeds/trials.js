@@ -359,8 +359,8 @@ exports.seed = (knex) => {
           {
             contact_details: 'Section of Surgery  Floor E  West Block  Queen\'s Medical Centre  Nottingham  NG7 2UH  United Kingdom',
             primary_contact: 'Prof JH Scholefield',
-            type: 'Scientific'
-          }
+            type: 'Scientific',
+          },
         ],
         countries_of_recruitment: 'United Kingdom',
         date_applied: '2000-04-06',
@@ -376,8 +376,8 @@ exports.seed = (knex) => {
             funder_type: 'Government',
             funding_body_subtype: 'other non-profit',
             funding_body_type: 'private sector organisation',
-            location: 'United Kingdom'
-          }
+            location: 'United Kingdom',
+          },
         ],
         gender: 'Not Specified',
         intention_to_publish_date: null,
@@ -417,8 +417,8 @@ exports.seed = (knex) => {
             organisation: 'Medical Research Council (MRC) (UK)',
             sponsor_details: '20 Park Crescent  London  W1B 1AL  United Kingdom  \\n            \\n                +44 (0)20 7636 5422  \\n            \\n            \\n                 clinical.trial@headoffice.mrc.ac.uk',
             sponsor_type: 'Research council',
-            website: 'http://www.mrc.ac.uk'
-          }
+            website: 'http://www.mrc.ac.uk',
+          },
         ],
         study_design: 'Randomised controlled trial',
         study_hypothesis: 'Demonstrate possible reduction in mortality from screening for colorectal cancer',
@@ -427,7 +427,7 @@ exports.seed = (knex) => {
         trial_participating_centre: 'Section of Surgery \\n    \\n    \\n    \\n        Nottingham \\n    \\n    \\n        NG7 2UH \\n    \\n    \\n        United Kingdom',
         trial_setting: 'Not specified',
         trial_type: 'Not Specified',
-        trial_website: null
+        trial_website: null,
       }),
 
       primary_register: 'isrctn',
