@@ -41,6 +41,7 @@ const knex = require('knex')(knexConfig);
 config.bookshelf = require('bookshelf')(knex);
 config.bookshelf.plugin('registry');
 config.bookshelf.plugin('visibility');
+config.bookshelf.plugin('virtuals');
 
 // ElasticSearch
 const elasticsearchConfig = {

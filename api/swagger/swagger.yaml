@@ -169,8 +169,8 @@ paths:
           type: string
       responses:
         "200":
-          description: Success
-          schema:
+           description: Success
+           schema:
             # a pointer to a definition
             $ref: "#/definitions/Organisation"
         # responses may fall through to errors
@@ -180,6 +180,32 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /trials/{trialId}/records/{id}:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns a trial's raw record from its sources
+      operationId: getRecord
+      parameters:
+        - name: trialId
+          in: path
+          description: ID of the trial
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: ID of the trial's record
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Record"
+        "404":
+          description: Trial not found
 
   /persons/{id}:
     x-swagger-router-controller: persons
@@ -268,6 +294,7 @@ definitions:
       - interventions
       - persons
       - organisations
+      - records
     properties:
       id:
         type: string
@@ -311,6 +338,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialOrganisation'
+      records:
+        type: array
+        items:
+          $ref: '#/definitions/RecordSummary'
 
   TrialLocation:
     required:
@@ -441,6 +472,69 @@ definitions:
       type:
         type: string
         enum:
+          - other
+
+  Record:
+    required:
+      - id
+      - url
+      - trial_id
+      - trial_url
+      - source
+      - source_url
+      - source_data
+      - public_title
+      - created_at
+      - updated_at
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      trial_id:
+        type: string
+      trial_url:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+      source_url:
+        type: string
+      source_data:
+        type: object
+      public_title:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+  RecordSummary:
+    required:
+      - id
+      - url
+      - source
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+  Source:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - register
           - other
 
   TrialSearchResults:

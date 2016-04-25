@@ -9,7 +9,6 @@ const Location = BaseModel.extend({
     'id',
     'name',
     'type',
-    '_pivot_role',
   ],
   trials: function () {
     return this.belongsToMany('Trial', 'trials_locations',

@@ -13,8 +13,8 @@ describe('Organisations', () => {
         })
     ));
 
-    it('returns the Organisation', () => {
-      return fixtures.organisation().save().then((model) => {
+    it('returns the Organisation', () => (
+      factory.create('organisation').then((model) => {
         return server.inject('/v1/organisations/' + model.attributes.id)
           .then((response) => {
             response.statusCode.should.equal(200);
@@ -25,6 +25,6 @@ describe('Organisations', () => {
             result.should.deepEqual(expectedResult);
           })
       })
-    });
+    ));
   });
 });

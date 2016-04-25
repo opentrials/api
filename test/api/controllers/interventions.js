@@ -13,8 +13,8 @@ describe('Interventions', () => {
         })
     ));
 
-    it('returns the Intervention', () => {
-      return fixtures.intervention().save().then((model) => {
+    it('returns the Intervention', () => (
+      factory.create('intervention').then((model) => {
         return server.inject('/v1/interventions/' + model.attributes.id)
           .then((response) => {
             response.statusCode.should.equal(200);
@@ -24,7 +24,7 @@ describe('Interventions', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      });
-    });
+      })
+    ));
   });
 });

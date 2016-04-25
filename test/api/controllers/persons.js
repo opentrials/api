@@ -13,8 +13,8 @@ describe('Persons', () => {
         })
     ));
 
-    it('returns the Person', () => {
-      return fixtures.person().save().then((model) => {
+    it('returns the Person', () => (
+      factory.create('person').then((model) => {
         return server.inject('/v1/persons/' + model.attributes.id)
           .then((response) => {
             response.statusCode.should.equal(200);
@@ -24,7 +24,7 @@ describe('Persons', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      });
-    });
+      })
+    ));
   });
 });

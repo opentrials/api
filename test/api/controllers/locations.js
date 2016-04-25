@@ -8,7 +8,7 @@ describe('Locations', () => {
 
   describe('GET /v1/locations', () => {
     it('returns the list of locations', () => (
-      fixtures.location().save()
+      factory.create('location')
         .then((model) => (
           server.inject('/v1/locations/')
             .then((response) => {

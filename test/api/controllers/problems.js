@@ -13,8 +13,8 @@ describe('Problems', () => {
         })
     ));
 
-    it('returns the Problem', () => {
-      return fixtures.problem().save().then((model) => {
+    it('returns the Problem', () => (
+      factory.create('problem').then((model) => {
         return server.inject('/v1/problems/' + model.attributes.id)
           .then((response) => {
             response.statusCode.should.equal(200);
@@ -24,7 +24,7 @@ describe('Problems', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      });
-    });
+      })
+    ));
   });
 });

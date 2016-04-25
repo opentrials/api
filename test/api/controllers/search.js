@@ -19,7 +19,7 @@ describe('Search', () => {
   describe('GET /v1/search', () => {
     const url = '/v1/search'
 
-    describe('basic search', basicSearchTests(url, fixtures.trial));
+    describe('basic search', basicSearchTests(url, 'trial'));
     describe('pagination', paginationTests(url));
 
     it('passes the query string to elasticsearch', () => {
@@ -34,24 +34,24 @@ describe('Search', () => {
 
   describe('GET /v1/search/autocomplete/{in}', () => {
     describe('GET /v1/search/autocomplete/problem',
-             autocompleteTests('/v1/search/autocomplete/problem', fixtures.problem));
+             autocompleteTests('/v1/search/autocomplete/problem', 'problem'));
 
     describe('GET /v1/search/autocomplete/intervention',
-             autocompleteTests('/v1/search/autocomplete/intervention', fixtures.intervention));
+             autocompleteTests('/v1/search/autocomplete/intervention', 'intervention'));
 
     describe('GET /v1/search/autocomplete/location',
-             autocompleteTests('/v1/search/autocomplete/location', fixtures.location));
+             autocompleteTests('/v1/search/autocomplete/location', 'location'));
 
     describe('GET /v1/search/autocomplete/person',
-             autocompleteTests('/v1/search/autocomplete/person', fixtures.person));
+             autocompleteTests('/v1/search/autocomplete/person', 'person'));
 
     describe('GET /v1/search/autocomplete/organisation',
-             autocompleteTests('/v1/search/autocomplete/organisation', fixtures.organisation));
+             autocompleteTests('/v1/search/autocomplete/organisation', 'organisation'));
   });
 });
 
 
-function basicSearchTests(url, createFixture) {
+function basicSearchTests(url, factoryName) {
   return () => {
     it('returns empty list if no entities were found', () => {
       const esResult = {
@@ -78,7 +78,7 @@ function basicSearchTests(url, createFixture) {
         hits: {
           total: 1,
           hits: [
-            { _source: JSON.stringify(createFixture()) },
+            { _source: JSON.stringify(factory.build(factoryName)) },
           ],
         },
       };
@@ -215,9 +215,9 @@ function paginationTests(url) {
   }
 }
 
-function autocompleteTests(url, createFixture) {
+function autocompleteTests(url, factoryName) {
   return () => {
-    describe('basic search', basicSearchTests(url, createFixture));
+    describe('basic search', basicSearchTests(url, factoryName));
     describe('pagination', paginationTests(url));
 
     it('passes an undefined query string to elasticsearch if called with empty query', () => {

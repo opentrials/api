@@ -15,20 +15,20 @@ describe('Trials', () => {
     ));
 
     it('returns the Trial', () => (
-      fixtures.trialWithRelated()
-        .then((model) => {
-          return server.inject('/v1/trials/' + model.attributes.id)
+      factory.create('trialWithRelated')
+        .then((trial) => (
+          server.inject('/v1/trials/'+trial.attributes.id)
             .then((response) => {
               response.statusCode.should.equal(200);
 
               // Convert and load from JSON so things like Dates get
               // properly stringified and we can compare with the API's output.
-              const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
+              const expectedResult = JSON.parse(JSON.stringify(trial));
               const result = JSON.parse(response.result);
 
               result.should.deepEqual(expectedResult);
             })
-        })
+        ))
     ));
   });
 });

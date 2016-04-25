@@ -21,7 +21,8 @@
     "node": "5.8.0"
   },
   "dependencies": {
-    "bookshelf": "^0.9.2",
+    "bookshelf": "^0.9.4",
+    "bluebird": "^3.3.5",
     "dotenv": "^2.0.0",
     "elasticsearch": "^9.0.2",
     "good": "^6.6.0",
@@ -38,6 +39,8 @@
     "coveralls": "^2.11.6",
     "eslint": "^2.7.0",
     "eslint-config-airbnb": "^7.0.0",
+    "factory-girl": "^3.0.1",
+    "factory-girl-bookshelf": "^1.0.3",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "nodemon": "^1.8.1",
@@ -46,11 +49,10 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
-    "coverage": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
-    "precoveralls": "npm run coverage",
+    "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
