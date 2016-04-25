@@ -3,7 +3,7 @@ const Problem = require('../models/problem');
 function getProblem(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Problem({ id: id }).fetch({ withRelated: Problem.relatedModels })
+  return new Problem({ id: id }).fetch({})
     .catch((err) => {
       res.finish();
       throw err;

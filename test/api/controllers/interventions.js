@@ -14,16 +14,17 @@ describe('Interventions', () => {
     ));
 
     it('returns the Intervention', () => {
-      const model = fixtures.intervention();
-      server.inject('/v1/interventions/' + model.attributes.id)
-        .then((response) => {
-          response.statusCode.should.equal(200);
+      return fixtures.intervention().save().then((model) => {
+        return server.inject('/v1/interventions/' + model.attributes.id)
+          .then((response) => {
+            response.statusCode.should.equal(200);
 
-          const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
-          const result = JSON.parse(response.result);
+            const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
+            const result = JSON.parse(response.result);
 
-          result.should.deepEqual(expectedResult);
-        })
+            result.should.deepEqual(expectedResult);
+          })
+      });
     });
   });
 });

@@ -3,7 +3,7 @@ const Intervention = require('../models/intervention');
 function getIntervention(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Intervention({ id: id }).fetch({ withRelated: Intervention.relatedModels })
+  return new Intervention({ id: id }).fetch({})
     .catch((err) => {
       res.finish();
       throw err;

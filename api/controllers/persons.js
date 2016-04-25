@@ -3,7 +3,7 @@ const Person = require('../models/person');
 function getPerson(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Person({ id: id }).fetch({ withRelated: Person.relatedModels })
+  return new Person({ id: id }).fetch({})
     .catch((err) => {
       res.finish();
       throw err;

@@ -16,8 +16,8 @@ describe('Trials', () => {
 
     it('returns the Trial', () => (
       fixtures.trialWithRelated()
-        .then((model) => (
-          server.inject('/v1/trials/'+model.attributes.id)
+        .then((model) => {
+          return server.inject('/v1/trials/' + model.attributes.id)
             .then((response) => {
               response.statusCode.should.equal(200);
 
@@ -28,7 +28,7 @@ describe('Trials', () => {
 
               result.should.deepEqual(expectedResult);
             })
-        ))
+        })
     ));
   });
 });

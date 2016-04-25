@@ -3,7 +3,7 @@ const Organisation = require('../models/organisation');
 function getOrganisation(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Organisation({ id: id }).fetch({ withRelated: Organisation.relatedModels })
+  return new Organisation({ id: id }).fetch({})
     .catch((err) => {
       res.finish();
       throw err;

@@ -14,16 +14,17 @@ describe('Problems', () => {
     ));
 
     it('returns the Problem', () => {
-      const model = fixtures.problem();
-      server.inject('/v1/problems/' + model.attributes.id)
-        .then((response) => {
-          response.statusCode.should.equal(200);
+      return fixtures.problem().save().then((model) => {
+        return server.inject('/v1/problems/' + model.attributes.id)
+          .then((response) => {
+            response.statusCode.should.equal(200);
 
-          const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
-          const result = JSON.parse(response.result);
+            const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
+            const result = JSON.parse(response.result);
 
-          result.should.deepEqual(expectedResult);
-        })
+            result.should.deepEqual(expectedResult);
+          })
+      });
     });
   });
 });

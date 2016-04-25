@@ -14,16 +14,17 @@ describe('Organisations', () => {
     ));
 
     it('returns the Organisation', () => {
-      const model = fixtures.organisation();
-      server.inject('/v1/organisations/' + model.attributes.id)
-        .then((response) => {
-          response.statusCode.should.equal(200);
+      return fixtures.organisation().save().then((model) => {
+        return server.inject('/v1/organisations/' + model.attributes.id)
+          .then((response) => {
+            response.statusCode.should.equal(200);
 
-          const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
-          const result = JSON.parse(response.result);
+            const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
+            const result = JSON.parse(response.result);
 
-          result.should.deepEqual(expectedResult);
-        })
+            result.should.deepEqual(expectedResult);
+          })
+      })
     });
   });
 });
