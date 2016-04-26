@@ -32,7 +32,13 @@ function clearDB() {
   return deferred;
 }
 
+function toJSON(object) {
+  return JSON.parse(JSON.stringify(object));
+}
+
+
 global.config = config;
 global.server = server;
 global.factory = factory;
 global.clearDB = clearDB;
+global.toJSON = toJSON;
