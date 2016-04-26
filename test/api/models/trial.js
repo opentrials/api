@@ -218,8 +218,3 @@ describe('Trial', () => {
     });
   });
 });
-
-
-function toJSON(object) {
-  return JSON.parse(JSON.stringify(object))
-}
