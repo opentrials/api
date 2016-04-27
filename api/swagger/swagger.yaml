@@ -103,7 +103,6 @@ paths:
       tags:
         - trials
       description: Returns trial details
-      # used as the method name of the controller
       operationId: get
       parameters:
         - name: id
@@ -115,9 +114,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Trial"
-        # responses may fall through to errors
         "404":
           description: Trial not found
         default:
@@ -131,7 +128,6 @@ paths:
       tags:
         - problems
       description: Returns problem details
-      # used as the method name of the controller
       operationId: get
       parameters:
         - name: id
@@ -143,9 +139,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Problem"
-        # responses may fall through to errors
         "404":
           description: Problem not found
         default:
@@ -159,7 +153,6 @@ paths:
       tags:
         - organisations
       description: Returns organisation details
-      # used as the method name of the controller
       operationId: get
       parameters:
         - name: id
@@ -171,9 +164,7 @@ paths:
         "200":
            description: Success
            schema:
-            # a pointer to a definition
             $ref: "#/definitions/Organisation"
-        # responses may fall through to errors
         "404":
           description: Organisation not found
         default:
@@ -213,7 +204,6 @@ paths:
       tags:
         - persons
       description: Returns person details
-      # used as the method name of the controller
       operationId: get
       parameters:
         - name: id
@@ -225,9 +215,7 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Person"
-        # responses may fall through to errors
         "404":
           description: Person not found
         default:
@@ -241,7 +229,6 @@ paths:
       tags:
         - interventions
       description: Returns intervention details
-      # used as the method name of the controller
       operationId: get
       parameters:
         - name: id
@@ -253,16 +240,13 @@ paths:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
             $ref: "#/definitions/Intervention"
-        # responses may fall through to errors
         "404":
           description: Intervention not found
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
 
   /locations:
     x-swagger-router-controller: locations
@@ -281,7 +265,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-# complex objects have schema definitions
 definitions:
   Trial:
     required:

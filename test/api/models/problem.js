@@ -6,25 +6,18 @@ describe('Problem', () => {
 
   afterEach(clearDB);
 
-  it('exists', () => {
-    should.exist(Problem);
-  });
+  describe('trials', () => {
+    it('returns trials related to the problem', () => {
+      let trialId;
 
-  describe('Trials', () => {
-    it('is an empty array if there\'re none', () => {
-      should((new Problem()).related('trials').models).deepEqual([]);
-    });
-
-    it('return trials which contains the problem', () => {
-      let _trial;
       return factory.create('trialWithRelated')
         .then((trial) => {
-          _trial = trial;
+          trialId = trial.id;
           const problemId = toJSON(trial).problems[0].attributes.id;
           return new Problem({ id: problemId }).fetch({ withRelated: 'trials' });
         }).then((problem) => {
-          let expectedTrialIds = problem.related('trials').models.map((trial) => (trial.id));
-          should(expectedTrialIds).containEql(_trial.id);
+          const trialsIds = problem.related('trials').models.map((trial) => trial.id);
+          should(trialsIds).containEql(trialId);
         })
     })
   });
