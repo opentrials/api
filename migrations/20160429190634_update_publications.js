@@ -3,6 +3,13 @@
 exports.up = (knex, Promise) => {
   const updatePublications = knex.schema.table('publications', (table) => {
     // Add columns
+    table.timestamps();
+    table.specificType('primary_facts', 'text[]')
+      .nullable()
+      .index(undefined, 'GIN');
+    table.specificType('secondary_facts', 'text[]')
+      .nullable()
+      .index(undefined, 'GIN');
     table.text('source_url')
       .notNullable();
     table.text('title')
@@ -45,6 +52,10 @@ exports.down = (knex, Promise) => {
       .notNullable();
 
     // Remove columns
+    table.dropColumn('created_at');
+    table.dropColumn('updated_at');
+    table.dropColumn('primary_facts');
+    table.dropColumn('secondary_facts');
     table.dropColumn('source_url');
     table.dropColumn('title');
     table.dropColumn('abstract');
