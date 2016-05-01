@@ -15,14 +15,14 @@ const tableNames = [
 exports.up = (knex) => {
   const operations = tableNames.map((tableName) => (
     knex.schema.table(tableName, (table) => {
-      let links_column = 'links';
-      let facts_column = 'facts';
+      let linksColumn = 'links';
+      let factsColumn = 'facts';
       if (tableName === 'publications') {
-        links_column = 'primary_facts';
-        facts_column = 'secondary_facts';
+        linksColumn = 'primary_facts';
+        factsColumn = 'secondary_facts';
       }
-      table.dropColumn(links_column);
-      table.dropColumn(facts_column);
+      table.dropColumn(linksColumn);
+      table.dropColumn(factsColumn);
     })
   ));
 
@@ -32,16 +32,16 @@ exports.up = (knex) => {
 exports.down = (knex) => {
   const operations = tableNames.map((tableName) => (
     knex.schema.table(tableName, (table) => {
-      let links_column = 'links';
-      let facts_column = 'facts';
+      let linksColumn = 'links';
+      let factsColumn = 'facts';
       if (tableName === 'publications') {
-        links_column = 'primary_facts';
-        facts_column = 'secondary_facts';
+        linksColumn = 'primary_facts';
+        factsColumn = 'secondary_facts';
       }
-      table.specificType(links_column, 'text[]')
+      table.specificType(linksColumn, 'text[]')
         .nullable()
         .index(undefined, 'GIN');
-      table.specificType(facts_column, 'text[]')
+      table.specificType(factsColumn, 'text[]')
         .nullable()
         .index(undefined, 'GIN');
     })
