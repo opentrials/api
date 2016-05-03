@@ -1,3 +1,5 @@
+'use strict';
+
 const should = require('should');
 const Trial = require('../../../api/models/trial');
 const Location = require('../../../api/models/location');

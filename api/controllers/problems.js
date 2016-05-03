@@ -1,3 +1,5 @@
+'use strict';
+
 const Problem = require('../models/problem');
 
 function getProblem(req, res) {

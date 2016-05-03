@@ -1,3 +1,5 @@
+'use strict';
+
 const Organisation = require('../../../api/models/organisation');
 
 describe('Organisations', () => {

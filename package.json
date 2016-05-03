@@ -49,15 +49,15 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "test": "node --use_strict ./node_modules/.bin/istanbul cover _mocha",
+    "test": "node ./node_modules/.bin/istanbul cover _mocha",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
     "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "start": "node --use_strict server.js",
+    "start": "node server.js",
     "dev": "nodemon server.js",
-    "reindex": "node --use_strict ./tools/create-trials-index.js"
+    "reindex": "node ./tools/create-trials-index.js"
   }
 }

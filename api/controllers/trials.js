@@ -1,3 +1,5 @@
+'use strict';
+
 const Trial = require('../models/trial');
 const Record = require('../models/record');
 

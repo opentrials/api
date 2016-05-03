@@ -1,3 +1,5 @@
+'use strict';
+
 const Intervention = require('../../../api/models/intervention');
 
 describe('Interventions', () => {

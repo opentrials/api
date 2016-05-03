@@ -1,3 +1,5 @@
+'use strict';
+
 const Organisation = require('../models/organisation');
 
 function getOrganisation(req, res) {

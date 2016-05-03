@@ -1,3 +1,5 @@
+'use strict';
+
 const Person = require('../../../api/models/person');
 
 describe('Persons', () => {

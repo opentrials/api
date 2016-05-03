@@ -1,3 +1,5 @@
+'use strict';
+
 const Trial = require('../../../api/models/trial');
 
 describe('Trials', () => {

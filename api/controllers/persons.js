@@ -1,3 +1,5 @@
+'use strict';
+
 const Person = require('../models/person');
 
 function getPerson(req, res) {

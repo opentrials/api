@@ -1,3 +1,5 @@
+'use strict';
+
 const Intervention = require('../models/intervention');
 
 function getIntervention(req, res) {

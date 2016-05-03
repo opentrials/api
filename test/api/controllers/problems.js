@@ -1,3 +1,5 @@
+'use strict';
+
 const Problem = require('../../../api/models/problem');
 
 describe('Problems', () => {

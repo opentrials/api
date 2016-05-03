@@ -1,3 +1,5 @@
+'use strict';
+
 require('./trial');
 
 const bookshelf = require('../../config').bookshelf;

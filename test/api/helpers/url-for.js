@@ -1,3 +1,5 @@
+'use strict';
+
 const config = require('../../../config');
 const urlFor = require('../../../api/helpers').urlFor;
 
