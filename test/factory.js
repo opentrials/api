@@ -128,7 +128,7 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
   source_data: JSON.stringify({}),
 }), {
-  afterCreate: (record, options, callback) => {
+  afterCreate: (record, attrs, callback) => {
     new Record({ id: record.id })
       .fetch({ withRelated: Record.relatedModels })
       .then((instance) => callback(null, instance))
