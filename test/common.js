@@ -22,11 +22,11 @@ function clearDB() {
     'sources',
     'trials',
   ];
-  const deferred = config.bookshelf.knex.migrate.latest();
+  let deferred = config.bookshelf.knex.migrate.latest();
 
   for (const tableName of tables) {
     // eslint-disable-next-line no-loop-func
-    deferred.then(() => config.bookshelf.knex(tableName).select().del());
+    deferred = deferred.then(() => config.bookshelf.knex(tableName).select().del());
   }
 
   return deferred;
