@@ -241,7 +241,7 @@ exports.seed = (knex) => {
     },
   ];
 
-  // Trialrecords
+  // Records
   const sources = {
     nct: {
       id: 'b389497c-0833-432b-a09b-930526b7b4d4',
@@ -257,13 +257,75 @@ exports.seed = (knex) => {
     },
   };
 
-  const trialrecords = [
+  const records = [
     {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe78',
       trial_id: trials[0].id,
       source_id: sources.nct.id,
       source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
-      source_data: JSON.stringify({}),
+      source_data: JSON.stringify({
+        contacts: [
+          {
+            address: null,
+            affilation: 'National University of Ireland, Galway',
+            email: null,
+            first_name: ' ',
+            last_name: 'Amir Shafat, PhD',
+            telephone: null,
+          },
+          {
+            address: null,
+            affilation: null,
+            email: null,
+            first_name: null,
+            last_name: null,
+            telephone: null,
+          },
+        ],
+        countries_of_recruitment: [
+          'Ireland',
+        ],
+        date_of_first_enrollment: 'April 2012',
+        date_of_registration: '01/05/2013',
+        health_conditions_or_problems_studied: [
+          'Diabetes Mellitus, Type 2',
+        ],
+        interventions: [
+          'Other: Oral glucose breath test',
+        ],
+        key_inclusion_exclusion_criteria: null,
+        last_refreshed_on: '2015-02-19',
+        main_id: 'NCT01846767',
+        meta_created: '2016-03-16T11:38:55Z',
+        meta_id: '803bf32845d64a45ac21983a67302016',
+        meta_source: 'http://apps.who.int/trialsearch/Trial3.aspx?trialid=NCT01846767',
+        meta_updated: '2016-03-16T11:38:55Z',
+        primary_outcomes: [
+          'Peak Delta over baseline in 13CO2 breath enrichment',
+        ],
+        primary_sponsor: 'National University of Ireland, Galway, Ireland',
+        public_title: 'Exogenous Glucose Oxidation Breath Test',
+        recruitment_status: 'Completed',
+        register: 'ClinicalTrials.gov',
+        scientific_title: 'Study of the Metabolism of 13C Labelled Glucose to 13CO2 in Human Breath',
+        secondary_ids: [
+          '13CGLU',
+        ],
+        secondary_outcomes: [
+          'Per cent dose recovered',
+        ],
+        secondary_sponsors: [
+          'Irish Endocrine Society',
+        ],
+        sources_of_monetary_support: [
+          'Please refer to primary and secondary sponsors',
+        ],
+        study_design: 'Allocation: Randomized, Intervention Model: Parallel Assignment, Masking: Double Blind (Investigator, Outcomes Assessor), Primary Purpose: Basic Science',
+        study_phase: 'N/A',
+        study_type: 'Interventional',
+        target_sample_size: 46,
+        url: 'http://clinicaltrials.gov/show/NCT01846767',
+      }),
 
       primary_register: 'nct',
       primary_id: 'NCT00000774',
@@ -279,18 +341,99 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       has_published_results: true,
+      created_at: new Date('2016-01-01'),
+      updated_at: new Date('2016-04-01'),
     },
     {
       id: '2e3406c4-031f-11e6-b512-3e1d05defe78',
       trial_id: trials[0].id,
-      source_id: sources.nct.id,
-      source_url: 'https://clinicaltrials.gov/ct2/show/NCT01003600',
-      source_data: JSON.stringify({}),
+      source_id: sources.isrctn.id,
+      source_url: 'http://www.isrctn.com/ISRCTN11631712',
+      source_data: JSON.stringify({
+        acronym: null,
+        age_group: 'Not Specified',
+        clinicaltrialsgov_number: null,
+        condition: 'Cancer',
+        condition_category: 'Cancer',
+        contacts: [
+          {
+            contact_details: 'Section of Surgery  Floor E  West Block  Queen\'s Medical Centre  Nottingham  NG7 2UH  United Kingdom',
+            primary_contact: 'Prof JH Scholefield',
+            type: 'Scientific',
+          },
+        ],
+        countries_of_recruitment: 'United Kingdom',
+        date_applied: '2000-04-06',
+        date_assigned: '2000-04-06',
+        doi_isrctn_id: 'DOI 10.1186/ISRCTN11631712',
+        drug_names: null,
+        ethics_approval: 'Not provided at time of registration.',
+        eudract_number: null,
+        funders: [
+          {
+            alternative_names: 'MRC',
+            funder_name: 'Medical Research Council (UK)',
+            funder_type: 'Government',
+            funding_body_subtype: 'other non-profit',
+            funding_body_type: 'private sector organisation',
+            location: 'United Kingdom',
+          },
+        ],
+        gender: 'Not Specified',
+        intention_to_publish_date: null,
+        intervention: 'Haemoccult faecal occult blood screening test/control',
+        intervention_type: 'Other',
+        isrctn_id: 'ISRCTN11631712',
+        last_edited: '2009-07-27',
+        meta_created: '2016-02-04T09:56:08Z',
+        meta_id: '0bb859ee5495440c8ae5e7ca41cd46c1',
+        meta_source: 'http://www.isrctn.com/ISRCTN11631712?filters=GT+lastEdited%3A2001-01-01T00%3A00%3A00.000Z%2CLE+lastEdited%3A2016-02-04T00%3A00%3A00.000Z&offset=14262&page=143&pageSize=100&q=&searchType=advanced-search&sort=&totalResults=14298',
+        meta_updated: '2016-02-04T09:56:08Z',
+        overall_trial_end_date: '2009-09-30',
+        overall_trial_start_date: '1984-01-01',
+        overall_trial_status: 'Completed',
+        participant_exclusion_criteria: 'Colorectal cancer within 5 yrs of entry date/GPs discretion',
+        participant_inclusion_criteria: 'Population aged 50-74 years (June 06: changed from 50-75 years)',
+        participant_level_data: 'Not provided at time of registration',
+        participant_type: 'Patient',
+        patient_information_sheet: null,
+        phase: 'Not Specified',
+        plain_english_summary: 'Not provided at time of registration',
+        primary_outcome_measures: 'Not provided at time of registration.',
+        primary_study_design: 'Interventional',
+        prospectiveretrospective: 'Retrospectively registered',
+        protocolserial_number: 'G8317732/G9826520',
+        publication_and_dissemination_plan: 'Not provided at time of registration',
+        publication_summary: '1. 1996 results in  http://www.ncbi.nlm.nih.gov/pubmed/8942775 2. 2002 results in  http://www.ncbi.nlm.nih.gov/pubmed/12010887',
+        reason_abandoned: null,
+        recruitment_end_date: '2009-09-30',
+        recruitment_start_date: '1984-01-01',
+        recruitment_status: 'No longer recruiting',
+        scientific_title: null,
+        secondary_outcome_measures: 'Not provided at time of registration.',
+        secondary_study_design: 'Randomised controlled trial',
+        sponsors: [
+          {
+            organisation: 'Medical Research Council (MRC) (UK)',
+            sponsor_details: '20 Park Crescent  London  W1B 1AL  United Kingdom  \\n            \\n                +44 (0)20 7636 5422  \\n            \\n            \\n                 clinical.trial@headoffice.mrc.ac.uk',
+            sponsor_type: 'Research council',
+            website: 'http://www.mrc.ac.uk',
+          },
+        ],
+        study_design: 'Randomised controlled trial',
+        study_hypothesis: 'Demonstrate possible reduction in mortality from screening for colorectal cancer',
+        target_number_of_participants: '152,000',
+        title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
+        trial_participating_centre: 'Section of Surgery \\n    \\n    \\n    \\n        Nottingham \\n    \\n    \\n        NG7 2UH \\n    \\n    \\n        United Kingdom',
+        trial_setting: 'Not specified',
+        trial_type: 'Not Specified',
+        trial_website: null,
+      }),
 
-      primary_register: 'nct',
-      primary_id: 'NCT01003600',
+      primary_register: 'isrctn',
+      primary_id: 'ISRCTN11631712',
       secondary_ids: JSON.stringify({ others: null }),
-      public_title: 'Colorectal Cancer Survivors\' Needs and Preferences for Survivorship Information',
+      public_title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
       recruitment_status: 'Completed',
@@ -299,6 +442,8 @@ exports.seed = (knex) => {
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
       study_phase: 'N/A',
       target_sample_size: 250,
+      created_at: new Date('2016-01-20'),
+      updated_at: new Date('2016-04-20'),
     },
   ];
 
@@ -329,8 +474,8 @@ exports.seed = (knex) => {
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
-    .then(() => knex('sources').del())
     .then(() => knex('trialrecords').del())
+    .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
@@ -345,5 +490,5 @@ exports.seed = (knex) => {
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
-    .then(() => knex('trialrecords').insert(trialrecords));
+    .then(() => knex('trialrecords').insert(records));
 };

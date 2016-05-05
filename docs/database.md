@@ -1,29 +1,19 @@
 # Database
 
-The document describes OpenTrials `database` design.
+The document describes OpenTrials `database`.
 
-## Technology
+> Last updated on migration: [20160415172210](https://github.com/opentrials/api/blob/master/migrations/20160415172210_remove_trials_trialrecords_table.js).
 
-Database engine: `postgresql-9.4+`.
+> Dump of database subset: [SQL dump](https://github.com/opentrials/api/blob/master/docs/database.sql).
 
 ## Data Model
 
 ### Basics
 
-Design compliance clients:
-- WHO Trial Registration Data Set - http://www.who.int/ictrp/network/trds/en/
-- OpenTrials API/Apps
-- OpenTrials architecture
+This `database` is based on:
+> WHO Trial Registration Data Set - http://www.who.int/ictrp/network/trds/en/.
 
-Design patterns:
-- `uuid` as primary keys + unique constraint on natural keys.
-- data entegrity - relathiohip table is prefered way over array or json.
-- minimum nullable fields - make fields nullable only if there is a good reason.
-- because of data inconsistency from the different sources `type` and `data` fields
-are used for many entities. `data` is a freejson with strcuture depends on `type`.
-- for trial relationships `role` and `context` fields are used. E.g. some person
-could play `principal_inbestigator` role for the trial with `context` including
-phone and email he uses for this trial as contact information.
+Check linked document above to have a better understaing of `database` fields.
 
 ### Tables
 
@@ -32,7 +22,7 @@ Meta tables:
 
 Main tables:
 - trial - main entity of the data model
-- record - a record about something (e.g. `trial`) from the warehouse
+- trialrecord - a trial record from `warehouse`
 - publication - any publication related to a trial
 - document - any document related to a trial
 
@@ -48,21 +38,8 @@ Relationship tables:
 
 ### ER Diagram
 
-![diagram](https://raw.githubusercontent.com/opentrials/api/master/docs/database.png)
+![diagram](database.png)
 
-### Schema Declaration
+## Technology
 
-https://github.com/opentrials/api/blob/master/migrations/20160216120159_create_initial_schema.js
-
-### Warehouse-to-Database Script Example
-
-https://github.com/opentrials/warehouse/blob/master/warehouse/database/nct.py
-
-### Test Dump
-
-https://raw.githubusercontent.com/opentrials/api/master/docs/database.sql
-
-## TODO
-
-Further actions:
-- move this document to `database` repository
+Database engine: `postgresql-9.4+`.

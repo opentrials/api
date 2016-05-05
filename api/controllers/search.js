@@ -1,3 +1,5 @@
+'use strict';
+
 const client = require('../../config').elasticsearch;
 
 function _convertElasticSearchResult(esResult) {

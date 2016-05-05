@@ -1,3 +1,5 @@
+'use strict';
+
 const BaseModel = require('../../../api/models/base');
 const should = require('should');
 

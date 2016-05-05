@@ -1,3 +1,5 @@
+'use strict';
+
 require('./trial');
 
 const bookshelf = require('../../config').bookshelf;
@@ -9,7 +11,6 @@ const Organisation = BaseModel.extend({
     'id',
     'name',
     'type',
-    '_pivot_role',
   ],
   trials: function () {
     return this.belongsToMany('Trial', 'trials_organisations',

@@ -4,12 +4,17 @@ const bookshelf = require('../../config').bookshelf;
 
 const BaseModel = bookshelf.Model.extend({
   serialize: function (options) {
-    const attributes = {};
+    const attributes = Object.assign(
+      {},
+      Object.getPrototypeOf(BaseModel.prototype).serialize.call(this, arguments)
+    );
 
-    for (let key of Object.keys(this.attributes)) {
-      const value = this.attributes[key];
-      if (value) {
-        attributes[key] = value;
+    // FIXME: This is a workaround because Swagger doesn't allow nullable
+    // fields. Check https://github.com/OAI/OpenAPI-Specification/issues/229.
+    for (let key of Object.keys(attributes)) {
+      const value = attributes[key];
+      if (value === null) {
+        delete attributes[key];
       }
     }
 
