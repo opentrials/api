@@ -244,13 +244,13 @@ exports.seed = (knex) => {
   // Records
   const sources = {
     nct: {
-      id: 'b389497c-0833-432b-a09b-930526b7b4d4',
+      id: 'nct',
       name: 'nct',
       type: 'register',
       data: JSON.stringify({}),
     },
     isrctn: {
-      id: '9551e647-9cdc-438b-9a4a-3360004467dd',
+      id: 'isrctn',
       name: 'isrctn',
       type: 'register',
       data: JSON.stringify({}),
