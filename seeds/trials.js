@@ -127,7 +127,7 @@ exports.seed = (knex) => {
       id: '05cc77ad-5575-4c04-9309-4c64d5144b07',
       primary_register: 'nct',
       primary_id: 'NCT00000774',
-      secondary_ids: JSON.stringify({ others: ['11207'] }),
+      identifiers: JSON.stringify({ others: ['11207'] }),
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
@@ -191,7 +191,7 @@ exports.seed = (knex) => {
       id: '475456f3-23bc-4f5e-9d19-51f4a1165540',
       primary_register: 'nct',
       primary_id: 'NCT01003600',
-      secondary_ids: JSON.stringify({ others: null }),
+      identifiers: JSON.stringify({ others: null }),
       public_title: 'Colorectal Cancer Survivors\' Needs and Preferences for Survivorship Information',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
@@ -308,7 +308,7 @@ exports.seed = (knex) => {
         recruitment_status: 'Completed',
         register: 'ClinicalTrials.gov',
         scientific_title: 'Study of the Metabolism of 13C Labelled Glucose to 13CO2 in Human Breath',
-        secondary_ids: [
+        identifiers: [
           '13CGLU',
         ],
         secondary_outcomes: [
@@ -329,7 +329,7 @@ exports.seed = (knex) => {
 
       primary_register: 'nct',
       primary_id: 'NCT00000774',
-      secondary_ids: JSON.stringify({ others: ['11207'] }),
+      identifiers: JSON.stringify({ others: ['11207'] }),
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
@@ -432,7 +432,7 @@ exports.seed = (knex) => {
 
       primary_register: 'isrctn',
       primary_id: 'ISRCTN11631712',
-      secondary_ids: JSON.stringify({ others: null }),
+      identifiers: JSON.stringify({ others: null }),
       public_title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
