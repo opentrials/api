@@ -128,6 +128,10 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
   source_data: JSON.stringify({}),
 }), {
+  afterBuild: (record, attrs, callback) => {
+    record.hasTimestamps = false;
+    callback(null, record);
+  },
   afterCreate: (record, attrs, callback) => {
     new Record({ id: record.id })
       .fetch({ withRelated: Record.relatedModels })
@@ -135,5 +139,33 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
       .catch((err) => callback(err));
   },
 });
+
+
+factory.define(
+  'sourceRelatedToSeveralRecords',
+  Source,
+  {
+    id: () => uuid.v1(),
+    name: 'test_source',
+    type: 'register',
+    data: JSON.stringify(''),
+  },
+  {
+    afterCreate: (record, attrs, callback) => {
+      Promise.all([
+        factory.create('record', {
+          source_id: record.id,
+          updated_at: new Date('2015-01-01'),
+        }),
+        factory.create('record', {
+          source_id: record.id,
+          updated_at: new Date('2016-01-01'),
+        }),
+      ])
+        .then((instance) => callback(null, instance))
+        .catch((err) => callback(err));
+    },
+  }
+);
 
 module.exports = factory;

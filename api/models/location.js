@@ -19,3 +19,17 @@ const Location = BaseModel.extend({
 });
 
 module.exports = bookshelf.model('Location', Location);
+
+module.exports.topLocations = function () {
+  return bookshelf.knex
+    .select(
+      bookshelf.knex.raw('location_id as id'),
+      bookshelf.knex.raw('locations.name as name'),
+      bookshelf.knex.raw('count(location_id)::int')
+    )
+    .from('trials_locations')
+    .leftJoin('locations', 'location_id', 'locations.id')
+    .groupBy('location_id', 'locations.name')
+    .orderByRaw('count(location_id) desc')
+    .limit(10);
+};

@@ -42,4 +42,51 @@ describe('Record', () => {
       });
     });
   });
+
+  describe('trialsPerRegistry', () => {
+    it('is an empty array if there\'re none', () => {
+      Record.trialsPerRegistry().then((result) => {
+        should(result).deepEqual([]);
+      });
+    });
+
+    it('returns trials per registry', () => {
+      return factory.createMany('record', [
+          { primary_register: 'primary_register1' }
+        ], 20)
+        .then((records) => {
+          Record.trialsPerRegistry().then((result) => {
+            should(result).deepEqual([
+              { registry: 'primary_register', count: 19 },
+              { registry: 'primary_register1', count: 1 },
+            ]);
+          });
+        });
+    });
+  });
+
+  describe('lastRegistryUpdate', () => {
+    it('is an empty array if there\'re none', () => {
+      Record.lastRegistryUpdate().then((result) => {
+        should(result).deepEqual([]);
+      });
+    });
+
+    it('returns date of last update registry', () => {
+      return factory.create('sourceRelatedToSeveralRecords')
+        .then((records) => {
+          Record.lastRegistryUpdate().then((result) => {
+            const expected = [
+              {
+                id: records[0].attributes.source_id,
+                name: 'test_source',
+                updatedate: new Date('2016-01-01'),
+              }
+            ];
+            should(result).deepEqual(expected);
+          });
+        });
+    });
+  });
+
 });
