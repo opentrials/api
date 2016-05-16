@@ -58,13 +58,7 @@ const Record = BaseModel.extend({
       return this.related('trial').url;
     }
   },
-}, {
-  relatedModels,
-});
-
-module.exports = bookshelf.model('Record', Record);
-
-module.exports.trialsPerRegistry = function () {
+  trialsPerRegistry: function () {
   return bookshelf.knex
     .select(
       bookshelf.knex.raw('primary_register as registry'),
@@ -76,9 +70,8 @@ module.exports.trialsPerRegistry = function () {
     .then((rows) => {
       return rows;
     });
-};
-
-module.exports.lastRegistryUpdate = function () {
+  },
+  lastRegistryUpdate: function () {
   return bookshelf.knex
     .select(
       bookshelf.knex.raw('source_id as id'),
@@ -94,4 +87,9 @@ module.exports.lastRegistryUpdate = function () {
         return item;
       });
     });
-};
+  },
+}, {
+  relatedModels,
+});
+
+module.exports = bookshelf.model('Record', Record);

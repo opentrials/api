@@ -97,13 +97,7 @@ const Trial = BaseModel.extend({
       return helpers.urlFor(this);
     },
   },
-}, {
-  relatedModels,
-});
-
-module.exports = bookshelf.model('Trial', Trial);
-
-module.exports.trialsPerYear = function () {
+  trialsPerYear: function () {
   return bookshelf.knex
     .select(
       bookshelf.knex.raw('to_char(registration_date, \'YYYY\')::int as year'),
@@ -115,4 +109,9 @@ module.exports.trialsPerYear = function () {
     .then((rows) => {
       return rows;
     });
-};
+  },
+}, {
+  relatedModels,
+});
+
+module.exports = bookshelf.model('Trial', Trial);

@@ -6,24 +6,25 @@ const Locations = require('../models/location');
 const Promise = require('bluebird');
 
 function getStats(req, res) {
-  let promises = [
+  const records = new Records();
+  const promises = [
     Trials.count(),
-    Records.trialsPerRegistry(),
-    Trials.trialsPerYear(),
-    Locations.topLocations(),
-    Records.lastRegistryUpdate(),
+    records.trialsPerRegistry(),
+    new Trials().trialsPerYear(),
+    new Locations().topLocations(),
+    records.lastRegistryUpdate(),
   ];
 
   Promise.all(promises)
     .then((results) => {
-    res.json({
-      trialsCount: parseInt(results[0]),
-      trialsPerRegistry: results[1],
-      trialsPerYear: results[2],
-      topLocations: results[3],
-      dateRegistry: results[4]
-    });
-  })
+      res.json({
+        trialsCount: parseInt(results[0]),
+        trialsPerRegistry: results[1],
+        trialsPerYear: results[2],
+        topLocations: results[3],
+        dateRegistry: results[4]
+      });
+    })
 }
 
 module.exports = {
