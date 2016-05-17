@@ -1,6 +1,5 @@
 'use strict';
 
-const Promise = require('bluebird');
 const Trials = require('../models/trial');
 const Records = require('../models/record');
 const Locations = require('../models/location');

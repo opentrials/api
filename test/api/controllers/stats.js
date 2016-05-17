@@ -1,5 +1,4 @@
 'use strict';
-const Promise = require('bluebird');
 
 describe('Stats', () => {
   before(clearDB);
