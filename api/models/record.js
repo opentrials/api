@@ -66,27 +66,7 @@ const Record = BaseModel.extend({
     )
     .from('trialrecords')
     .groupBy('primary_register')
-    .orderBy('primary_register')
-    .then((rows) => {
-      return rows;
-    });
-  },
-  lastRegistryUpdate: function () {
-  return bookshelf.knex
-    .select(
-      bookshelf.knex.raw('source_id as id'),
-      bookshelf.knex.raw('sources.name as name'),
-      bookshelf.knex.raw('max(trialrecords.updated_at) as updatedate')
-    )
-    .from('trialrecords')
-    .leftJoin('sources', 'source_id', 'sources.id')
-    .groupBy('source_id', 'sources.name')
-    .then((rows) => {
-      return rows.map((item) => {
-        item.updatedate = (item.updatedate !== null) ? item.updatedate : ''
-        return item;
-      });
-    });
+    .orderBy('primary_register');
   },
 }, {
   relatedModels,

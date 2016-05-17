@@ -222,7 +222,7 @@ describe('Trial', () => {
 
   describe('trialsPerYear', () => {
     it('is an empty array if there\'re none', () => {
-      new Trial().trialsPerYear().then((result) => {
+      return new Trial().trialsPerYear().then((result) => {
         should(result).deepEqual([]);
       });
     });
@@ -232,14 +232,13 @@ describe('Trial', () => {
         { registration_date: '2016-01-01'},
         { registration_date: '2015-01-01'},
         { registration_date: '2016-01-01'}
-      ]).then((trials) => {
-          new Trial().trialsPerYear().then((result) => {
-            should(result).deepEqual([
-              { year: 2015, count: 1},
-              { year: 2016, count: 2}
-            ]);
-          });
-
+      ])
+        .then((trials) => (new Trial().trialsPerYear()))
+        .then((result) => {
+          should(result).deepEqual([
+            { year: 2015, count: 1},
+            { year: 2016, count: 2}
+          ]);
         });
     });
   });

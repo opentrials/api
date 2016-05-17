@@ -331,7 +331,7 @@ definitions:
       name:
         type: string
         description: Registry name
-      updateDate:
+      latest_update_date:
         type: string
         description: Update date
 

@@ -1,18 +1,18 @@
 'use strict';
 
+const Promise = require('bluebird');
 const Trials = require('../models/trial');
 const Records = require('../models/record');
 const Locations = require('../models/location');
-const Promise = require('bluebird');
+const Source = require('../models/source');
 
 function getStats(req, res) {
-  const records = new Records();
   const promises = [
     Trials.count(),
-    records.trialsPerRegistry(),
+    new Records().trialsPerRegistry(),
     new Trials().trialsPerYear(),
     new Locations().topLocations(),
-    records.lastRegistryUpdate(),
+    new Source().lastRegistryUpdate(),
   ];
 
   Promise.all(promises)
@@ -25,6 +25,10 @@ function getStats(req, res) {
         dateRegistry: results[4]
       });
     })
+    .catch((e) => {
+      res.finish();
+      throw err;
+    });
 }
 
 module.exports = {

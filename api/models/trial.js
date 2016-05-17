@@ -105,10 +105,7 @@ const Trial = BaseModel.extend({
     )
     .from('trials')
     .groupByRaw('year')
-    .orderBy('year')
-    .then((rows) => {
-      return rows;
-    });
+    .orderBy('year');
   },
 }, {
   relatedModels,

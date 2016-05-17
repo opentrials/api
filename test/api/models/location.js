@@ -26,17 +26,17 @@ describe('Location', () => {
 
   describe('topLocations', () => {
     it('is an empty array if there\'re none', () => {
-      new Location().topLocations().then((result) => {
+      return new Location().topLocations().then((result) => {
         should(result).deepEqual([]);
       });
     });
 
     it('returns 10 top locations', () => {
-      return factory.createMany('trialWithRelated', 20).then((trials) => {
-        new Location().topLocations().then((result) => {
+      return factory.createMany('trialWithRelated', 20)
+        .then((trials) => (new Location().topLocations()))
+        .then((result) => {
           should(result.length).equal(10);
         });
-      });
     });
   });
 });
