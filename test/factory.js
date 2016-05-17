@@ -58,7 +58,7 @@ const trialAttributes = {
   id: () => uuid.v1(),
   primary_register: 'primary_register',
   primary_id: factory.sequence((n) => `primary_id${n}`),
-  secondary_ids: JSON.stringify([]),
+  identifiers: JSON.stringify([]),
   registration_date: new Date('2016-01-01'),
   target_sample_size: 1000,
   gender: 'both',
