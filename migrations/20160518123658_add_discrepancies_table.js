@@ -1,13 +1,13 @@
 'use strict';
 
 exports.up = (knex, Promise) => {
-  const createDiffsTable = knex.schema.createTable('diffs', (table) => {
+  const createTable = knex.schema.createTable('discrepancies', (table) => {
     table.timestamps();
     table.uuid('trial_id')
       .notNullable();
     table.text('field')
       .notNullable();
-    // Schema of "values":
+    // Schema of "values" field:
     // [{record_id, primary_register, value}]
     table.jsonb('values')
       .notNullable();
@@ -16,14 +16,14 @@ exports.up = (knex, Promise) => {
   });
 
   return Promise.all([
-    createDiffsTable,
+    createTable,
   ]);
 };
 
 exports.down = (knex, Promise) => {
-  const dropDiffsTable = knex.schema.dropTableIfExists('diffs');
+  const dropTable = knex.schema.dropTableIfExists('discrepancies');
 
   return Promise.all([
-    dropDiffsTable,
+    dropTable,
   ]);
 };
