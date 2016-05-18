@@ -122,6 +122,31 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /publicaions/{id}:
+    x-swagger-router-controller: publicaions
+    get:
+      tags:
+        - publicaions
+      description: Returns publicaion details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the publicaion
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Publication"
+        "404":
+          description: Publicaion not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /problems/{id}:
     x-swagger-router-controller: problems
     get:
@@ -248,6 +273,31 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /publications/{id}:
+    x-swagger-router-controller: publications
+    get:
+      tags:
+        - publications
+      description: Returns publication details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the publication
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Publication"
+        "404":
+          description: Publication not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
   Trial:
     required:
@@ -261,6 +311,7 @@ definitions:
       - persons
       - organisations
       - records
+      - publications
     properties:
       id:
         type: string
@@ -308,6 +359,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/RecordSummary'
+      publications:
+        type: array
+        items:
+          $ref: '#/definitions/TrialPublication'
 
   TrialLocation:
     required:
@@ -426,6 +481,7 @@ definitions:
           - other
       attributes:
         $ref: '#/definitions/Organisation'
+
   Organisation:
     required:
       - id
@@ -476,6 +532,54 @@ definitions:
         type: string
         format: date-time
 
+  TrialPublication:
+    required:
+      - attributes
+    properties:
+      attributes:
+        $ref: '#/definitions/Publication'
+
+  Publication:
+    required:
+      - id
+      - source_url
+      - title
+      - abstract
+    properties:
+      id:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      source_url:
+        type: string
+      title:
+        type: string
+      abstract:
+        type: string
+      authors:
+        type: array
+        items: {
+          "type": "string"
+        }
+      journal:
+        type: string
+      date:
+        type: string
+        format: date-time
+      slug:
+        type: string
+      facts:
+        type: array
+        items: {
+          "type": "string"
+        }
+
   RecordSummary:
     required:
       - id
@@ -488,6 +592,7 @@ definitions:
         type: string
       source:
         $ref: '#/definitions/Source'
+
   Source:
     required:
       - id

@@ -11,6 +11,27 @@ const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
 const Record = require('../api/models/record');
+const Publication = require('../api/models/publication');
+
+factory.define('publication', Publication, {
+  id: () => uuid.v1(),
+  created_at: new Date('2016-01-01'),
+  updated_at: new Date('2016-01-03'),
+  source_id: factory.assoc('source', 'id'),
+  source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
+  title: 'some title',
+  abstract: 'abstract',
+  journal: 'some journal',
+  date: new Date('2016-01-02'),
+  slug: 'some slag',
+}, {
+  afterCreate: (publication, attrs, callback) => {
+    new Publication({ id: publication.id })
+      .fetch({ withRelated: Publication.relatedModels })
+      .then((instance) => callback(null, instance))
+      .catch((err) => callback(err));
+  },
+});
 
 factory.define('location', Location, {
   id: () => uuid.v1(),
