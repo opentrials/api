@@ -42,4 +42,25 @@ describe('Record', () => {
       });
     });
   });
+
+  describe('trialsPerRegistry', () => {
+    it('is an empty array if there\'re none', () => {
+      return new Record().trialsPerRegistry().then((result) => {
+        should(result).deepEqual([]);
+      });
+    });
+
+    it('returns trials per registry', () => {
+      return factory.createMany('record', [
+          { primary_register: 'primary_register1' }
+        ], 20)
+        .then((records) => (new Record().trialsPerRegistry()))
+        .then((result) => {
+          should(result).deepEqual([
+            { registry: 'primary_register', count: 19 },
+            { registry: 'primary_register1', count: 1 },
+          ]);
+        });
+    });
+  });
 });

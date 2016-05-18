@@ -136,4 +136,27 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   },
 });
 
+
+factory.define('sourceRelatedToSeveralRecords', Source, {
+  id: () => uuid.v1(),
+  name: 'test_source',
+  type: 'register',
+  data: JSON.stringify(''),
+}, {
+  afterCreate: (record, attrs, callback) => {
+    Promise.all([
+      factory.create('record', {
+        source_id: record.id,
+        updated_at: new Date('2015-01-01'),
+      }),
+      factory.create('record', {
+        source_id: record.id,
+        updated_at: new Date('2016-01-01'),
+      }),
+    ])
+      .then((instance) => callback(null, instance))
+      .catch((err) => callback(err));
+  },
+});
+
 module.exports = factory;

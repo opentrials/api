@@ -219,4 +219,28 @@ describe('Trial', () => {
         });
     });
   });
+
+  describe('trialsPerYear', () => {
+    it('is an empty array if there\'re none', () => {
+      return new Trial().trialsPerYear().then((result) => {
+        should(result).deepEqual([]);
+      });
+    });
+
+    it('returns trials count per year', () => {
+      return factory.createMany('trial', [
+        { registration_date: '2016-01-01'},
+        { registration_date: '2015-01-01'},
+        { registration_date: '2016-01-01'}
+      ])
+        .then((trials) => (new Trial().trialsPerYear()))
+        .then((result) => {
+          should(result).deepEqual([
+            { year: 2015, count: 1},
+            { year: 2016, count: 2}
+          ]);
+        });
+    });
+  });
+
 });
