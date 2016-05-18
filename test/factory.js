@@ -29,7 +29,6 @@ factory.define('intervention', Intervention, {
 factory.define('condition', Condition, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `condition${n}`),
-  type: 'condition',
   data: JSON.stringify(''),
 });
 

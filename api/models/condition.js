@@ -10,7 +10,6 @@ const Condition = BaseModel.extend({
   visible: [
     'id',
     'name',
-    'type',
   ],
   trials: function () {
     return this.belongsToMany('Trial', 'trials_conditions',

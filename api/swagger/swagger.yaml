@@ -465,11 +465,6 @@ definitions:
         type: string
       name:
         type: string
-      type:
-        type: string
-        enum:
-          - condition
-          - other
 
   TrialPerson:
     required:
