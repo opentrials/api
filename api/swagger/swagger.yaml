@@ -248,7 +248,93 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /stats:
+    x-swagger-router-controller: stats
+    get:
+      tags:
+        - statistics
+      description: Returns statistics
+      operationId: get
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Stats"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
+  Stats:
+    type: object
+    properties:
+      trialsCount:
+        type: integer
+        description: Trials count
+      trialsPerRegistry:
+        type: array
+        items:
+          $ref: '#/definitions/TrialsPerRegistry'
+      trialsPerYear:
+        type: array
+        items:
+          $ref: '#/definitions/TrialsPerYear'
+      topLocations:
+        type: array
+        items:
+          $ref: '#/definitions/TopLocations'
+      sourcesLatestUpdatedDate:
+        type: array
+        items:
+          $ref: '#/definitions/SourcesLatestUpdatedDate'
+
+  TrialsPerRegistry:
+    type: object
+    properties:
+      registry:
+        type: string
+        description: Registry
+      count:
+        type: integer
+        description: Count of trials
+
+  TrialsPerYear:
+    type: object
+    properties:
+      year:
+        type: integer
+        description: Year
+      count:
+        type: integer
+        description: Count of trials
+
+  TopLocations:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Location id
+      name:
+        type: string
+        description: Location name
+      count:
+        type: integer
+        description: Count of trials
+
+  SourcesLatestUpdatedDate:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Registry id
+      name:
+        type: string
+        description: Registry name
+      latest_updated_date:
+        type: string
+        description: Update date
+
   Trial:
     required:
       - id

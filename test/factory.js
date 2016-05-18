@@ -121,8 +121,6 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
 
 factory.define('record', Record, Object.assign({}, trialAttributes, {
   id: () => uuid.v1(),
-  created_at: new Date('2016-01-01'),
-  updated_at: new Date('2016-04-01'),
   trial_id: factory.assoc('trial', 'id'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
@@ -132,6 +130,31 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
     new Record({ id: record.id })
       .fetch({ withRelated: Record.relatedModels })
       .then((instance) => callback(null, instance))
+      .catch((err) => callback(err));
+  },
+});
+
+
+factory.define('sourceRelatedToSeveralRecords', Source, {
+  id: () => uuid.v1(),
+  name: 'test_source',
+  type: 'register',
+  data: JSON.stringify(''),
+}, {
+  afterCreate: (source, attrs, callback) => {
+    const records = [
+      {
+        source_id: source.id,
+        updated_at: new Date('2015-01-01'),
+      },
+      {
+        source_id: source.id,
+        updated_at: new Date('2016-01-01'),
+      },
+    ];
+
+    factory.createMany('record', records)
+      .then(() => callback(null, source))
       .catch((err) => callback(err));
   },
 });
