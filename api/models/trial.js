@@ -2,7 +2,7 @@
 
 require('./location');
 require('./intervention');
-require('./problem');
+require('./condition');
 require('./person');
 require('./organisation');
 require('./source');
@@ -14,7 +14,7 @@ const BaseModel = require('./base');
 const relatedModels = [
   'locations',
   'interventions',
-  'problems',
+  'conditions',
   'persons',
   'organisations',
   'records',
@@ -41,7 +41,7 @@ const Trial = BaseModel.extend({
 
     attributes.locations = [];
     attributes.interventions = [];
-    attributes.problems = [];
+    attributes.conditions = [];
     attributes.persons = [];
     attributes.organisations = [];
 
@@ -77,9 +77,9 @@ const Trial = BaseModel.extend({
     return this.belongsToMany('Intervention', 'trials_interventions',
         'trial_id', 'intervention_id').withPivot(['role']);
   },
-  problems: function () {
-    return this.belongsToMany('Problem', 'trials_problems',
-        'trial_id', 'problem_id').withPivot(['role']);
+  conditions: function () {
+    return this.belongsToMany('Condition', 'trials_conditions',
+        'trial_id', 'condition_id').withPivot(['role']);
   },
   persons: function () {
     return this.belongsToMany('Person', 'trials_persons',

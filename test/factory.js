@@ -6,7 +6,7 @@ const uuid = require('node-uuid');
 const Trial = require('../api/models/trial');
 const Location = require('../api/models/location');
 const Intervention = require('../api/models/intervention');
-const Problem = require('../api/models/problem');
+const Condition = require('../api/models/condition');
 const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
@@ -26,9 +26,9 @@ factory.define('intervention', Intervention, {
   data: JSON.stringify(''),
 });
 
-factory.define('problem', Problem, {
+factory.define('condition', Condition, {
   id: () => uuid.v1(),
-  name: factory.sequence((n) => `problem${n}`),
+  name: factory.sequence((n) => `condition${n}`),
   type: 'condition',
   data: JSON.stringify(''),
 });
@@ -84,9 +84,9 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
             context: JSON.stringify(''),
           })
       )),
-      factory.create('problem').then((problem) => (
-          trial.problems().attach({
-            problem_id: problem.id,
+      factory.create('condition').then((condition) => (
+          trial.conditions().attach({
+            condition_id: condition.id,
             role: 'other',
             context: JSON.stringify(''),
           })
