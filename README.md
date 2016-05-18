@@ -9,14 +9,35 @@
 
 The OpenTrials API service.
 
-## Installing
+## Developer notes
 
-Before installing this application, make sure you have a PostgreSQL server
-running with a user and a database created for OpenTrials. Then, copy
-`.env.example` to `.env` and change the `DATABASE_URL` string to point to your
-PostgreSQL instance. If needed, you can also change the other configuration
-options in that file.
+### Requirements
 
-Run `npm install` to install the dependencies, and then you can start this
-application using `npm start`. You can also use `npm run dev` to have the
-server autoreload when the code changes.
+* Node 5.8
+* PostgreSQL 9.5
+* ElasticSearch 1.5.2
+
+### Installing
+
+1. Copy the `.env.example` file to `.env` and alter its contents as needed.
+   At minimum, you should set the `DATABASE_URL` and `ELASTICSEARCH_URL`. The
+   `TEST_DATABASE_URL` is needed to run the tests. You could leave the
+   `ELASTICSEARCH_AWS_*` as is if you're not using ElasticSearch on AWS;
+2. Run `npm install`;
+3. Run `npm run migrate`;
+4. (Optional) If you want, you can add some seed data using `npm run seed`;
+5. Run `npm run reindex`;
+
+After the install and migrations ran successfully, you can run `npm run dev` to
+run the project. If you haven't changed the default `PORT`, it should be
+available at `http://localhost:5000`
+
+### Reindexing
+
+Currently, there's no way to automatically reindex the data. Every time you
+change the database, you'd need to run `npm run reindex` to keep ElasticSearch
+in sync.
+
+### Testing
+
+You can run the test suite and linting with `npm test`.
