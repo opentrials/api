@@ -19,7 +19,7 @@ describe('Stats', () => {
           result.trialsPerRegistry.should.be.an.Array();
           result.trialsPerYear.should.be.an.Array();
           result.topLocations.should.be.an.Array();
-          result.dateRegistry.should.be.an.Array();
+          result.sourcesLatestUpdatedDate.should.be.an.Array();
         });
     })
   });

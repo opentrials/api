@@ -17,7 +17,7 @@ const Source = BaseModel.extend({
       .select(
         bookshelf.knex.raw('source_id as id'),
         bookshelf.knex.raw('sources.name as name'),
-        bookshelf.knex.raw('max(trialrecords.updated_at) as latest_update_date')
+        bookshelf.knex.raw('max(trialrecords.updated_at) as latest_updated_date')
       )
       .from('trialrecords')
       .leftJoin('sources', 'source_id', 'sources.id')

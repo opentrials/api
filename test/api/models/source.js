@@ -38,7 +38,7 @@ describe('Source', (done) => {
           const expected = [{
               id: records[0].attributes.source_id,
               name: 'test_source',
-              latest_update_date: new Date('2016-01-01'),
+              latest_updated_date: new Date('2016-01-01'),
             }];
           should(result).deepEqual(expected);
         });

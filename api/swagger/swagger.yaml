@@ -284,10 +284,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TopLocations'
-      dateRegistry:
+      sourcesLatestUpdatedDate:
         type: array
         items:
-          $ref: '#/definitions/DateRegistry'
+          $ref: '#/definitions/SourcesLatestUpdatedDate'
 
   TrialsPerRegistry:
     type: object
@@ -322,7 +322,7 @@ definitions:
         type: integer
         description: Count of trials
 
-  DateRegistry:
+  SourcesLatestUpdatedDate:
     type: object
     properties:
       id:
@@ -331,7 +331,7 @@ definitions:
       name:
         type: string
         description: Registry name
-      latest_update_date:
+      latest_updated_date:
         type: string
         description: Update date
 

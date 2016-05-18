@@ -21,7 +21,7 @@ function getStats(req, res) {
         trialsPerRegistry: results[1],
         trialsPerYear: results[2],
         topLocations: results[3],
-        dateRegistry: results[4]
+        sourcesLatestUpdatedDate: results[4]
       });
     })
     .catch((e) => {
