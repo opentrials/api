@@ -272,10 +272,10 @@ definitions:
       trialsCount:
         type: integer
         description: Trials count
-      trialsPerRegistry:
+      trialsPerSource:
         type: array
         items:
-          $ref: '#/definitions/TrialsPerRegistry'
+          $ref: '#/definitions/TrialsPerSource'
       trialsPerYear:
         type: array
         items:
@@ -289,51 +289,50 @@ definitions:
         items:
           $ref: '#/definitions/SourcesLatestUpdatedDate'
 
-  TrialsPerRegistry:
+  TrialsPerSource:
     type: object
     properties:
-      registry:
+      id:
         type: string
-        description: Registry
+        description: Source's ID
+      name:
+        type: string
+        description: Source's name
       count:
         type: integer
-        description: Count of trials
+        description: Number of trials in this source
 
   TrialsPerYear:
     type: object
     properties:
       year:
         type: integer
-        description: Year
       count:
         type: integer
-        description: Count of trials
+        description: Number of trials in this year
 
   TopLocations:
     type: object
     properties:
       id:
         type: string
-        description: Location id
       name:
         type: string
-        description: Location name
       count:
         type: integer
-        description: Count of trials
+        description: Number of trials in this location
 
   SourcesLatestUpdatedDate:
     type: object
+    description: Source with information on when it was last updated
     properties:
       id:
         type: string
-        description: Registry id
       name:
         type: string
-        description: Registry name
       latest_updated_date:
         type: string
-        description: Update date
+        description: Date this source was last updated
 
   Trial:
     required:

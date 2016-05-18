@@ -58,16 +58,6 @@ const Record = BaseModel.extend({
       return this.related('trial').url;
     }
   },
-  trialsPerRegistry: function () {
-    return bookshelf.knex
-      .select(
-        bookshelf.knex.raw('primary_register as registry'),
-        bookshelf.knex.raw('count(primary_register)::int')
-      )
-      .from('trialrecords')
-      .groupBy('primary_register')
-      .orderBy('primary_register');
-  },
 }, {
   relatedModels,
 });

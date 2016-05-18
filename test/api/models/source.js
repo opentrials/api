@@ -8,9 +8,9 @@ describe('Source', () => {
 
   afterEach(clearDB);
 
-  describe('lastRegistryUpdate', () => {
+  describe('latestUpdatedDates', () => {
     it('is an empty array if there\'re none', () => {
-      return new Source().lastRegistryUpdate().then((result) => {
+      return new Source().latestUpdatedDates().then((result) => {
         should(result).deepEqual([]);
       });
     });
@@ -31,7 +31,7 @@ describe('Source', () => {
           const updatedDates = records.map((record) => record.attributes.updated_at)
           latestUpdatedAtDate = new Date(Math.max.apply(null, updatedDates));
         })
-        .then(() => new Source().lastRegistryUpdate())
+        .then(() => new Source().latestUpdatedDates())
         .then((result) => {
           const expected = [{
               id: source.attributes.id,
@@ -39,6 +39,48 @@ describe('Source', () => {
               latest_updated_date: latestUpdatedAtDate,
             }];
           should(result).deepEqual(expected);
+        });
+    });
+  });
+
+  describe('trialsPerSource', () => {
+    it('is an empty array if there\'re none', () => {
+      return new Source().trialsPerSource().then((result) => {
+        should(result).deepEqual([]);
+      });
+    });
+
+    it('returns count of trials per source', () => {
+      let sources;
+
+      return Promise.all([
+        factory.createMany('trial', 2),
+        factory.createMany('source', 2),
+      ]).then((results) => {
+          const trials = results[0];
+          sources = results[1];
+
+          const recordsAttributes = [
+            { source_id: sources[0].attributes.id, trial_id: trials[0].attributes.id },
+            { source_id: sources[0].attributes.id, trial_id: trials[1].attributes.id },
+            { source_id: sources[0].attributes.id, trial_id: trials[1].attributes.id },
+            { source_id: sources[1].attributes.id, trial_id: trials[0].attributes.id },
+            { source_id: sources[1].attributes.id, trial_id: trials[1].attributes.id },
+          ];
+
+          return factory.createMany('record', recordsAttributes);
+        })
+        .then(() => new Source().trialsPerSource())
+        .then((result) => {
+          const expectedResult = sources.map((source) => {
+            return {
+              id: source.attributes.id,
+              name: source.attributes.name,
+              count: 2,
+            };
+          });
+
+          should(result).deepEqual(expectedResult);
         });
     });
   });

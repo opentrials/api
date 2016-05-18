@@ -16,7 +16,7 @@ describe('Stats', () => {
           const result = JSON.parse(response.result);
 
           result.trialsCount.should.equal(2);
-          result.trialsPerRegistry.should.be.an.Array();
+          result.trialsPerSource.should.be.an.Array();
           result.trialsPerYear.should.be.an.Array();
           result.topLocations.should.be.an.Array();
           result.sourcesLatestUpdatedDate.should.be.an.Array();
