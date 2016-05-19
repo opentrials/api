@@ -11,7 +11,7 @@ const relatedModels = [
 ];
 
 const Record = BaseModel.extend({
-  tableName: 'trialrecords',
+  tableName: 'records',
   hasTimestamps: true,
   visible: [
     'id',
