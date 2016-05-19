@@ -474,7 +474,7 @@ exports.seed = (knex) => {
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
-    .then(() => knex('trialrecords').del())
+    .then(() => knex('records').del())
     .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
@@ -490,5 +490,5 @@ exports.seed = (knex) => {
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
-    .then(() => knex('trialrecords').insert(records));
+    .then(() => knex('records').insert(records));
 };

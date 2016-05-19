@@ -17,9 +17,9 @@ const Source = BaseModel.extend({
       .select(
         bookshelf.knex.raw('source_id as id'),
         bookshelf.knex.raw('sources.name as name'),
-        bookshelf.knex.raw('max(trialrecords.updated_at) as latest_updated_date')
+        bookshelf.knex.raw('max(records.updated_at) as latest_updated_date')
       )
-      .from('trialrecords')
+      .from('records')
       .leftJoin('sources', 'source_id', 'sources.id')
       .groupBy('source_id', 'sources.name');
   },
@@ -28,9 +28,9 @@ const Source = BaseModel.extend({
       .select(
         bookshelf.knex.raw('source_id as id'),
         bookshelf.knex.raw('sources.name as name'),
-        bookshelf.knex.raw('count(distinct trialrecords.trial_id)::int')
+        bookshelf.knex.raw('count(distinct records.trial_id)::int')
       )
-      .from('trialrecords')
+      .from('records')
       .leftJoin('sources', 'source_id', 'sources.id')
       .groupBy('source_id', 'sources.name')
       .orderBy('sources.name');

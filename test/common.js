@@ -18,7 +18,7 @@ function clearDB() {
     'persons',
     'trials_organisations',
     'organisations',
-    'trialrecords',
+    'records',
     'sources',
     'trials',
   ];
