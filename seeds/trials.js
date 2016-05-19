@@ -75,25 +75,21 @@ exports.seed = (knex) => {
     hiv: {
       id: '0ae7346d-09bf-4781-bde0-3c07525c462d',
       name: 'HIV Infections',
-      type: 'condition',
       data: JSON.stringify({}),
     },
     hivSeronegativity: {
       id: 'e5e9a8b9-d671-48fc-8310-365f332025c3',
       name: 'HIV Seronegativity',
-      type: 'condition',
       data: JSON.stringify({}),
     },
     rectalCancer: {
       id: 'b330752f-ebe1-45c1-a7e3-8c62def8cfb6',
       name: 'Rectal Cancer',
-      type: 'condition',
       data: JSON.stringify({}),
     },
     colonCancer: {
       id: 'bb4a6173-afa8-4b3a-8915-c2332f1d7ee1',
       name: 'Colon Cancer',
-      type: 'condition',
       data: JSON.stringify({}),
     },
   };
