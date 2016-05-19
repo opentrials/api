@@ -443,6 +443,57 @@ exports.seed = (knex) => {
     },
   ];
 
+  const publications = [
+    {
+      id: 'a3502f63-b74a-446a-9124-b84ae4e4c9a5',
+      source_id: sources.nct.id,
+      source_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/?db=pubmed&id=25551178&retmode=xml',
+      title: 'The microbiology of impetigo in indigenous children: associations between Streptococcus pyogenes, Staphylococcus aureus, scabies, and nasal carriage.',
+      abstract: 'Impetigo is caused by both Streptococcus pyogenes and Staphylococcus aureus; the relative contributions of each have been reported to fluctuate with time and region. While S. aureus is reportedly on the increase in most industrialised settings, S. pyogenes is still thought to drive impetigo in endemic, tropical regions. However, few studies have utilised high quality microbiological culture methods to confirm this assumption. We report the prevalence and antimicrobial resistance of impetigo pathogens recovered in a randomised, controlled trial of impetigo treatment conducted in remote Indigenous communities of northern Australia. Each child had one or two sores, and the anterior nares, swabbed. All swabs were transported in skim milk tryptone glucose glycogen broth and frozen at -70°C, until plated on horse blood agar. S. aureus and S. pyogenes were confirmed with latex agglutination. From 508 children, we collected 872 swabs of sores and 504 swabs from the anterior nares prior to commencement of antibiotic therapy. S. pyogenes and S. aureus were identified together in 503/872 (58%) of sores; with an additional 207/872 (24%) sores having S. pyogenes and 81/872 (9%) S. aureus, in isolation. Skin sore swabs taken during episodes with a concurrent diagnosis of scabies were more likely to culture S. pyogenes (OR 2.2, 95% CI 1.1 - 4.4, p = 0.03). Eighteen percent of children had nasal carriage of skin pathogens. There was no association between the presence of S. aureus in the nose and skin. Methicillin-resistance was detected in 15% of children who cultured S. aureus from either a sore or their nose. There was no association found between the severity of impetigo and the detection of a skin pathogen. S. pyogenes remains the principal pathogen in tropical impetigo; the relatively high contribution of S. aureus as a co-pathogen has also been confirmed. Children with scabies were more likely to have S. pyogenes detected. While clearance of S. pyogenes is the key determinant of treatment efficacy, co-infection with S. aureus warrants consideration of treatment options that are effective against both pathogens where impetigo is severe and prevalent. This trial is registered; ACTRN12609000858291.',
+      authors: [
+        'Asha C Bowen',
+        'Steven Y C Tong',
+        'Mark D Chatfield',
+        'Jonathan R Carapetis',
+      ],
+      journal: 'BMC infectious diseases',
+      date: new Date('2014-12-31'),
+      slug: 'the-microbiology-of-impetigo-in-indigenous-children',
+      facts: [
+        'fact1',
+        'fact2',
+        'fact3',
+      ],
+      created_at: new Date('2016-01-20'),
+      updated_at: new Date('2016-04-20'),
+    },
+    {
+      id: '9015d282-bc91-41a4-8f58-0383925b5e20',
+      source_id: sources.isrctn.id,
+      source_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/?db=pubmed&id=21040556&retmode=xml',
+      title: 'Multidisciplinary and multifaceted outpatient management of patients with osteoarthritis: protocol for a randomised, controlled trial.',
+      abstract: 'Osteoarthritis (OA) is a prevalent joint disorder with a need for efficient and evidence-based management strategies. The primary purpose of this study is to compare the effects of a multidisciplinary outpatient clinic, including a brief group-based educational programme, with a traditional individual outpatient clinic for patients with hip, knee, hand or generalized OA. A secondary purpose is to investigate the effects of a telephone follow-up call. This is a pragmatic randomised single-blind controlled study with a total of 400 patients with hip, knee, hand or generalized OA between 40 and 80 years referred to an outpatient rheumatology hospital clinic. The randomisation is stratified according to the diagnostic subgroups. The experimental group is exposed to a multidisciplinary and multifaceted intervention, including a 3.5 hour group-based patient education programme about OA in addition to individual consultations with members of a multidisciplinary team. The control intervention is based on regular care with an individual outpatient consultation with a rheumatologist (treatment as usual). Primary outcomes are patient satisfaction measured at 4 months and cost-effectiveness measured at 12 months. Secondary outcomes are pain and global disease activity measured on a numeric rating scales (NRS), generic and disease specific functioning and disability using Short Form-36 (SF-36) health survey, the Western Ontario and McMaster Universities Osteoarthritis Index 3 (WOMAC), the Australian/Canadian Osteoarthritis Hand Index (AUSCAN), and a patient-generated measure of disability (Patient-Specific Functional scale, PSFS). Global perceived effect of change in health status during the study period is also reported. At 4-month follow-up, patients in both groups will be randomly allocated to a 10-minute telephone call or no follow-up ("treatment as usual"). After additional 8 months (12-month follow-up) the four groups will be compared in a secondary analysis with regard to health outcomes and health care costs. This trial will provide results on how multidisciplinary and multifaceted management of patients with OA affects health outcomes and health care costs. Current Controlled Trials ISRCTN25778426.',
+      authors: [
+        'Rikke Helene Moe',
+        'Till Uhlig',
+        'Ingvild Kjeken',
+        'Kåre Birger Hagen',
+        'Tore Kristian Kvien',
+        'Margreth Grotle',
+      ],
+      journal: 'BMC musculoskeletal disorders',
+      date: new Date('2010-11-01'),
+      slug: 'multidisciplinary-and-multifaceted-outpatient-management-of-patients-with-osteoarthritis',
+      facts: [
+        'fact1',
+        'fact2',
+        'fact3',
+      ],
+      created_at: new Date('2016-01-20'),
+      updated_at: new Date('2016-04-20'),
+    },
+  ];
+
   const trialsLocations = _generateRelationships(trials, 'location');
   const trialsInterventions = _generateRelationships(trials, 'intervention');
   const trialsConditions = _generateRelationships(trials, 'condition');
@@ -471,6 +522,7 @@ exports.seed = (knex) => {
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
     .then(() => knex('records').del())
+    .then(() => knex('publications').del())
     .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
@@ -486,5 +538,6 @@ exports.seed = (knex) => {
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
+    .then(() => knex('publications').insert(publications))
     .then(() => knex('records').insert(records));
 };
