@@ -50,7 +50,8 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "test": "node ./node_modules/.bin/istanbul cover _mocha",
+    "e2e": "mocha --grep e2e",
+    "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
     "precoveralls": "npm test",
