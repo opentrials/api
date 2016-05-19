@@ -82,7 +82,7 @@ paths:
           description: The entity to search for
           type: string
           enum:
-            - problem
+            - condition
             - intervention
             - location
             - person
@@ -122,26 +122,26 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /problems/{id}:
-    x-swagger-router-controller: problems
+  /conditions/{id}:
+    x-swagger-router-controller: conditions
     get:
       tags:
-        - problems
-      description: Returns problem details
+        - conditions
+      description: Returns condition details
       operationId: get
       parameters:
         - name: id
           in: path
-          description: ID of the problem
+          description: ID of the condition
           required: true
           type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Problem"
+            $ref: "#/definitions/Condition"
         "404":
-          description: Problem not found
+          description: Condition not found
         default:
           description: Error
           schema:
@@ -248,7 +248,92 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /stats:
+    x-swagger-router-controller: stats
+    get:
+      tags:
+        - statistics
+      description: Returns statistics
+      operationId: get
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Stats"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
+  Stats:
+    type: object
+    properties:
+      trialsCount:
+        type: integer
+        description: Trials count
+      trialsPerSource:
+        type: array
+        items:
+          $ref: '#/definitions/TrialsPerSource'
+      trialsPerYear:
+        type: array
+        items:
+          $ref: '#/definitions/TrialsPerYear'
+      topLocations:
+        type: array
+        items:
+          $ref: '#/definitions/TopLocations'
+      sourcesLatestUpdatedDate:
+        type: array
+        items:
+          $ref: '#/definitions/SourcesLatestUpdatedDate'
+
+  TrialsPerSource:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Source's ID
+      name:
+        type: string
+        description: Source's name
+      count:
+        type: integer
+        description: Number of trials in this source
+
+  TrialsPerYear:
+    type: object
+    properties:
+      year:
+        type: integer
+      count:
+        type: integer
+        description: Number of trials in this year
+
+  TopLocations:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      count:
+        type: integer
+        description: Number of trials in this location
+
+  SourcesLatestUpdatedDate:
+    type: object
+    description: Source with information on when it was last updated
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      latest_updated_date:
+        type: string
+        description: Date this source was last updated
+
   Trial:
     required:
       - id
@@ -292,10 +377,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TrialIntervention'
-      problems:
+      conditions:
         type: array
         items:
-          $ref: '#/definitions/TrialProblem'
+          $ref: '#/definitions/TrialCondition'
       persons:
         type: array
         items:
@@ -361,7 +446,7 @@ definitions:
           - drug
           - other
 
-  TrialProblem:
+  TrialCondition:
     required:
       - attributes
     properties:
@@ -370,8 +455,8 @@ definitions:
         enum:
           - other
       attributes:
-        $ref: '#/definitions/Problem'
-  Problem:
+        $ref: '#/definitions/Condition'
+  Condition:
     required:
       - id
       - name
@@ -380,11 +465,6 @@ definitions:
         type: string
       name:
         type: string
-      type:
-        type: string
-        enum:
-          - condition
-          - other
 
   TrialPerson:
     required:

@@ -9,6 +9,9 @@ if (!process.env.ELASTICSEARCH_URL) {
 
 const elasticsearch = require('elasticsearch');
 const path = require('path');
+const good = require('good');
+const httpAwsEs = require('http-aws-es');
+
 const config = {
   host: process.env.HOST || '0.0.0.0',
   port: process.env.PORT || 10010,
@@ -20,12 +23,16 @@ const config = {
 
   hapi: {
     plugins: [{
-      register: require('good'),
+      register: good,
       options: {
-        reporters: [{
-          reporter: require('good-console'),
-          events: { log: '*', response: '*' },
-        }],
+        ops: {
+          interval: 15000,
+        },
+        reporters: {
+          console: [{
+            module: 'good-console',
+          }, 'stdout'],
+        },
       },
     }],
   },
@@ -46,11 +53,12 @@ config.bookshelf.plugin('virtuals');
 // ElasticSearch
 const elasticsearchConfig = {
   host: process.env.ELASTICSEARCH_URL,
+  apiVersion: '1.5',
 };
 if (process.env.ELASTICSEARCH_AWS_REGION &&
     process.env.ELASTICSEARCH_AWS_ACCESS_KEY &&
     process.env.ELASTICSEARCH_AWS_SECRET_KEY) {
-  elasticsearchConfig.connectionClass = require('http-aws-es');
+  elasticsearchConfig.connectionClass = httpAwsEs;
   elasticsearchConfig.amazonES = {
     region: process.env.ELASTICSEARCH_AWS_REGION,
     accessKey: process.env.ELASTICSEARCH_AWS_ACCESS_KEY,

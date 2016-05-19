@@ -5,8 +5,5 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "ext": "js yaml",
-  "execMap": {
-    "js": "node --use_strict"
-  }
+  "ext": "js yaml"
 }

@@ -1,3 +1,14 @@
 ---
+extends: airbnb/base
 env:
   mocha: true
+parserOptions:
+  sourceType: script
+rules:
+  strict:
+    - error
+    - safe
+  quotes:
+    - error
+    - single
+    - avoid-escape

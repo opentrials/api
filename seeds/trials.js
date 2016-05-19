@@ -71,7 +71,7 @@ exports.seed = (knex) => {
     },
   };
 
-  const problems = {
+  const conditions = {
     hiv: {
       id: '0ae7346d-09bf-4781-bde0-3c07525c462d',
       name: 'HIV Infections',
@@ -127,7 +127,7 @@ exports.seed = (knex) => {
       id: '05cc77ad-5575-4c04-9309-4c64d5144b07',
       primary_register: 'nct',
       primary_id: 'NCT00000774',
-      secondary_ids: JSON.stringify({ others: ['11207'] }),
+      identifiers: JSON.stringify({ others: ['11207'] }),
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
@@ -169,13 +169,13 @@ exports.seed = (knex) => {
           context: JSON.stringify({}),
         },
       ],
-      problems: [
+      conditions: [
         {
-          problem: problems.hiv,
+          condition: conditions.hiv,
           context: JSON.stringify({}),
         },
         {
-          problem: problems.hivSeronegativity,
+          condition: conditions.hivSeronegativity,
           context: JSON.stringify({}),
         },
       ],
@@ -191,7 +191,7 @@ exports.seed = (knex) => {
       id: '475456f3-23bc-4f5e-9d19-51f4a1165540',
       primary_register: 'nct',
       primary_id: 'NCT01003600',
-      secondary_ids: JSON.stringify({ others: null }),
+      identifiers: JSON.stringify({ others: null }),
       public_title: 'Colorectal Cancer Survivors\' Needs and Preferences for Survivorship Information',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
@@ -214,13 +214,13 @@ exports.seed = (knex) => {
           context: JSON.stringify({}),
         },
       ],
-      problems: [
+      conditions: [
         {
-          problem: problems.rectalCancer,
+          condition: conditions.rectalCancer,
           context: JSON.stringify({}),
         },
         {
-          problem: problems.colonCancer,
+          condition: conditions.colonCancer,
           context: JSON.stringify({}),
         },
       ],
@@ -244,13 +244,13 @@ exports.seed = (knex) => {
   // Records
   const sources = {
     nct: {
-      id: 'b389497c-0833-432b-a09b-930526b7b4d4',
+      id: 'nct',
       name: 'nct',
       type: 'register',
       data: JSON.stringify({}),
     },
     isrctn: {
-      id: '9551e647-9cdc-438b-9a4a-3360004467dd',
+      id: 'isrctn',
       name: 'isrctn',
       type: 'register',
       data: JSON.stringify({}),
@@ -287,7 +287,7 @@ exports.seed = (knex) => {
         ],
         date_of_first_enrollment: 'April 2012',
         date_of_registration: '01/05/2013',
-        health_conditions_or_problems_studied: [
+        health_conditions_or_conditions_studied: [
           'Diabetes Mellitus, Type 2',
         ],
         interventions: [
@@ -308,7 +308,7 @@ exports.seed = (knex) => {
         recruitment_status: 'Completed',
         register: 'ClinicalTrials.gov',
         scientific_title: 'Study of the Metabolism of 13C Labelled Glucose to 13CO2 in Human Breath',
-        secondary_ids: [
+        identifiers: [
           '13CGLU',
         ],
         secondary_outcomes: [
@@ -329,7 +329,7 @@ exports.seed = (knex) => {
 
       primary_register: 'nct',
       primary_id: 'NCT00000774',
-      secondary_ids: JSON.stringify({ others: ['11207'] }),
+      identifiers: JSON.stringify({ others: ['11207'] }),
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
@@ -432,7 +432,7 @@ exports.seed = (knex) => {
 
       primary_register: 'isrctn',
       primary_id: 'ISRCTN11631712',
-      secondary_ids: JSON.stringify({ others: null }),
+      identifiers: JSON.stringify({ others: null }),
       public_title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
@@ -449,7 +449,7 @@ exports.seed = (knex) => {
 
   const trialsLocations = _generateRelationships(trials, 'location');
   const trialsInterventions = _generateRelationships(trials, 'intervention');
-  const trialsProblems = _generateRelationships(trials, 'problem');
+  const trialsConditions = _generateRelationships(trials, 'condition');
   const trialsPersons = _generateRelationships(trials, 'person');
   const trialsOrganisations = _generateRelationships(trials, 'organisation');
 
@@ -457,7 +457,7 @@ exports.seed = (knex) => {
     const result = Object.assign({}, trial);
     delete result.locations;
     delete result.interventions;
-    delete result.problems;
+    delete result.conditions;
     delete result.persons;
     delete result.organisations;
 
@@ -468,13 +468,13 @@ exports.seed = (knex) => {
     .then(() => knex('locations').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
-    .then(() => knex('trials_problems').del())
-    .then(() => knex('problems').del())
+    .then(() => knex('trials_conditions').del())
+    .then(() => knex('conditions').del())
     .then(() => knex('trials_persons').del())
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
-    .then(() => knex('trialrecords').del())
+    .then(() => knex('records').del())
     .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
@@ -483,12 +483,12 @@ exports.seed = (knex) => {
     .then(() => knex('trials_locations').insert(trialsLocations))
     .then(() => knex('interventions').insert(_getEntries(interventions)))
     .then(() => knex('trials_interventions').insert(trialsInterventions))
-    .then(() => knex('problems').insert(_getEntries(problems)))
-    .then(() => knex('trials_problems').insert(trialsProblems))
+    .then(() => knex('conditions').insert(_getEntries(conditions)))
+    .then(() => knex('trials_conditions').insert(trialsConditions))
     .then(() => knex('persons').insert(_getEntries(persons)))
     .then(() => knex('trials_persons').insert(trialsPersons))
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
-    .then(() => knex('trialrecords').insert(records));
+    .then(() => knex('records').insert(records));
 };

@@ -6,7 +6,7 @@ const uuid = require('node-uuid');
 const Trial = require('../api/models/trial');
 const Location = require('../api/models/location');
 const Intervention = require('../api/models/intervention');
-const Problem = require('../api/models/problem');
+const Condition = require('../api/models/condition');
 const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
@@ -26,10 +26,9 @@ factory.define('intervention', Intervention, {
   data: JSON.stringify(''),
 });
 
-factory.define('problem', Problem, {
+factory.define('condition', Condition, {
   id: () => uuid.v1(),
-  name: factory.sequence((n) => `problem${n}`),
-  type: 'condition',
+  name: factory.sequence((n) => `condition${n}`),
   data: JSON.stringify(''),
 });
 
@@ -58,7 +57,7 @@ const trialAttributes = {
   id: () => uuid.v1(),
   primary_register: 'primary_register',
   primary_id: factory.sequence((n) => `primary_id${n}`),
-  secondary_ids: JSON.stringify([]),
+  identifiers: JSON.stringify([]),
   registration_date: new Date('2016-01-01'),
   target_sample_size: 1000,
   gender: 'both',
@@ -84,9 +83,9 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
             context: JSON.stringify(''),
           })
       )),
-      factory.create('problem').then((problem) => (
-          trial.problems().attach({
-            problem_id: problem.id,
+      factory.create('condition').then((condition) => (
+          trial.conditions().attach({
+            condition_id: condition.id,
             role: 'other',
             context: JSON.stringify(''),
           })
@@ -121,8 +120,6 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
 
 factory.define('record', Record, Object.assign({}, trialAttributes, {
   id: () => uuid.v1(),
-  created_at: new Date('2016-01-01'),
-  updated_at: new Date('2016-04-01'),
   trial_id: factory.assoc('trial', 'id'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
@@ -132,6 +129,31 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
     new Record({ id: record.id })
       .fetch({ withRelated: Record.relatedModels })
       .then((instance) => callback(null, instance))
+      .catch((err) => callback(err));
+  },
+});
+
+
+factory.define('sourceRelatedToSeveralRecords', Source, {
+  id: () => uuid.v1(),
+  name: 'test_source',
+  type: 'register',
+  data: JSON.stringify(''),
+}, {
+  afterCreate: (source, attrs, callback) => {
+    const records = [
+      {
+        source_id: source.id,
+        updated_at: new Date('2015-01-01'),
+      },
+      {
+        source_id: source.id,
+        updated_at: new Date('2016-01-01'),
+      },
+    ];
+
+    factory.createMany('record', records)
+      .then(() => callback(null, source))
       .catch((err) => callback(err));
   },
 });

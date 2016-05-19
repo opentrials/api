@@ -17,7 +17,7 @@ describe('Trial', () => {
     Trial.relatedModels.should.deepEqual([
       'locations',
       'interventions',
-      'problems',
+      'conditions',
       'persons',
       'organisations',
       'records',
@@ -94,35 +94,35 @@ describe('Trial', () => {
     });
   });
 
-  describe('problems', () => {
+  describe('conditions', () => {
     it('is an empty array if there\'re none', () => {
-      should(toJSON(new Trial()).problems).deepEqual([]);
+      should(toJSON(new Trial()).conditions).deepEqual([]);
     });
 
-    it('adds the problems and its metadata from relationship into the resulting JSON', () => {
+    it('adds the conditions and its metadata from relationship into the resulting JSON', () => {
       let trial_id;
-      let problem;
+      let condition;
 
       return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return factory.create('problem').then((_problem) => {
-            problem = _problem;
+          return factory.create('condition').then((_condition) => {
+            condition = _condition;
 
-            return trial.problems().attach({
-              problem_id: problem.id,
+            return trial.conditions().attach({
+              condition_id: condition.id,
               role: 'other',
               context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
-          return new Trial({ id: trial_id }).fetch({ withRelated: 'problems' })
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'conditions' })
         }).then((trial) => {
-          should(toJSON(trial).problems).deepEqual([
+          should(toJSON(trial).conditions).deepEqual([
             {
               role: 'other',
-              attributes: toJSON(problem),
+              attributes: toJSON(condition),
             }
           ]);
         });
@@ -219,4 +219,30 @@ describe('Trial', () => {
         });
     });
   });
+
+  describe('trialsPerYear', () => {
+    it('is an empty array if there\'re none', () => {
+      return new Trial().trialsPerYear().then((result) => {
+        should(result).deepEqual([]);
+      });
+    });
+
+    it('returns trials count per year', () => {
+      const registrationDates = [
+        { registration_date: '2016-01-01'},
+        { registration_date: '2015-01-01'},
+        { registration_date: '2016-01-01'},
+      ];
+
+      return factory.createMany('trial', registrationDates)
+        .then(() => new Trial().trialsPerYear())
+        .then((result) => {
+          should(result).deepEqual([
+            { year: 2015, count: 1},
+            { year: 2016, count: 2},
+          ]);
+        });
+    });
+  });
+
 });

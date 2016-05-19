@@ -3,7 +3,7 @@
 
 const client = require('../config').elasticsearch;
 const Trial = require('../api/models/trial');
-const Problem = require('../api/models/problem');
+const Condition = require('../api/models/condition');
 const Intervention = require('../api/models/intervention');
 const Location = require('../api/models/location');
 const Person = require('../api/models/person');
@@ -68,7 +68,7 @@ const trialMapping = {
     location: {
       type: 'string',
     },
-    problems: {
+    conditions: {
       properties: {
         attributes: {
           properties: {
@@ -78,13 +78,13 @@ const trialMapping = {
             },
             name: {
               type: 'string',
-              copy_to: 'problem',
+              copy_to: 'condition',
             },
           },
         },
       },
     },
-    problem: {
+    condition: {
       type: 'string',
     },
     persons: {
@@ -209,7 +209,7 @@ const autocompleteIndex = {
       },
     },
     mappings: {
-      problem: autocompleteModelMapping,
+      condition: autocompleteModelMapping,
       intervention: autocompleteModelMapping,
       location: autocompleteModelMapping,
       person: autocompleteModelMapping,
@@ -278,7 +278,7 @@ client.indices.delete({ index: 'trials', ignore: 404 })
   .then(() => indexModel(Trial, 'trials', 'trial', { withRelated: Trial.relatedModels }))
   .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
   .then(() => client.indices.create(autocompleteIndex))
-  .then(() => indexAutocompleteModel(Problem, 'problem'))
+  .then(() => indexAutocompleteModel(Condition, 'condition'))
   .then(() => indexAutocompleteModel(Intervention, 'intervention'))
   .then(() => indexAutocompleteModel(Location, 'location'))
   .then(() => indexAutocompleteModel(Person, 'person'))
