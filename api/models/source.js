@@ -12,6 +12,29 @@ const Source = BaseModel.extend({
     'name',
     'type',
   ],
+  latestUpdatedDates: function () {
+    return bookshelf.knex
+      .select(
+        bookshelf.knex.raw('source_id as id'),
+        bookshelf.knex.raw('sources.name as name'),
+        bookshelf.knex.raw('max(trialrecords.updated_at) as latest_updated_date')
+      )
+      .from('trialrecords')
+      .leftJoin('sources', 'source_id', 'sources.id')
+      .groupBy('source_id', 'sources.name');
+  },
+  trialsPerSource: function () {
+    return bookshelf.knex
+      .select(
+        bookshelf.knex.raw('source_id as id'),
+        bookshelf.knex.raw('sources.name as name'),
+        bookshelf.knex.raw('count(distinct trialrecords.trial_id)::int')
+      )
+      .from('trialrecords')
+      .leftJoin('sources', 'source_id', 'sources.id')
+      .groupBy('source_id', 'sources.name')
+      .orderBy('sources.name');
+  },
 });
 
 module.exports = bookshelf.model('Source', Source);
