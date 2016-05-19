@@ -25,6 +25,8 @@ const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
+    'primary_id',
+    'identifiers',
     'public_title',
     'brief_summary',
     'target_sample_size',
