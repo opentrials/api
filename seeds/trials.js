@@ -71,7 +71,7 @@ exports.seed = (knex) => {
     },
   };
 
-  const problems = {
+  const conditions = {
     hiv: {
       id: '0ae7346d-09bf-4781-bde0-3c07525c462d',
       name: 'HIV Infections',
@@ -169,13 +169,13 @@ exports.seed = (knex) => {
           context: JSON.stringify({}),
         },
       ],
-      problems: [
+      conditions: [
         {
-          problem: problems.hiv,
+          condition: conditions.hiv,
           context: JSON.stringify({}),
         },
         {
-          problem: problems.hivSeronegativity,
+          condition: conditions.hivSeronegativity,
           context: JSON.stringify({}),
         },
       ],
@@ -214,13 +214,13 @@ exports.seed = (knex) => {
           context: JSON.stringify({}),
         },
       ],
-      problems: [
+      conditions: [
         {
-          problem: problems.rectalCancer,
+          condition: conditions.rectalCancer,
           context: JSON.stringify({}),
         },
         {
-          problem: problems.colonCancer,
+          condition: conditions.colonCancer,
           context: JSON.stringify({}),
         },
       ],
@@ -287,7 +287,7 @@ exports.seed = (knex) => {
         ],
         date_of_first_enrollment: 'April 2012',
         date_of_registration: '01/05/2013',
-        health_conditions_or_problems_studied: [
+        health_conditions_or_conditions_studied: [
           'Diabetes Mellitus, Type 2',
         ],
         interventions: [
@@ -449,7 +449,7 @@ exports.seed = (knex) => {
 
   const trialsLocations = _generateRelationships(trials, 'location');
   const trialsInterventions = _generateRelationships(trials, 'intervention');
-  const trialsProblems = _generateRelationships(trials, 'problem');
+  const trialsConditions = _generateRelationships(trials, 'condition');
   const trialsPersons = _generateRelationships(trials, 'person');
   const trialsOrganisations = _generateRelationships(trials, 'organisation');
 
@@ -457,7 +457,7 @@ exports.seed = (knex) => {
     const result = Object.assign({}, trial);
     delete result.locations;
     delete result.interventions;
-    delete result.problems;
+    delete result.conditions;
     delete result.persons;
     delete result.organisations;
 
@@ -468,8 +468,8 @@ exports.seed = (knex) => {
     .then(() => knex('locations').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
-    .then(() => knex('trials_problems').del())
-    .then(() => knex('problems').del())
+    .then(() => knex('trials_conditions').del())
+    .then(() => knex('conditions').del())
     .then(() => knex('trials_persons').del())
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
@@ -483,8 +483,8 @@ exports.seed = (knex) => {
     .then(() => knex('trials_locations').insert(trialsLocations))
     .then(() => knex('interventions').insert(_getEntries(interventions)))
     .then(() => knex('trials_interventions').insert(trialsInterventions))
-    .then(() => knex('problems').insert(_getEntries(problems)))
-    .then(() => knex('trials_problems').insert(trialsProblems))
+    .then(() => knex('conditions').insert(_getEntries(conditions)))
+    .then(() => knex('trials_conditions').insert(trialsConditions))
     .then(() => knex('persons').insert(_getEntries(persons)))
     .then(() => knex('trials_persons').insert(trialsPersons))
     .then(() => knex('organisations').insert(_getEntries(organisations)))
