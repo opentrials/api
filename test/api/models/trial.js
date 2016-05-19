@@ -22,7 +22,6 @@ describe('Trial', () => {
       'organisations',
       'records',
       'records.source',
-      'publications',
     ]);
   });
 

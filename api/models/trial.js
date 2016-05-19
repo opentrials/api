@@ -7,7 +7,6 @@ require('./person');
 require('./organisation');
 require('./source');
 require('./record');
-require('./publication');
 
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
@@ -20,7 +19,6 @@ const relatedModels = [
   'organisations',
   'records',
   'records.source',
-  'publications',
 ];
 
 const Trial = BaseModel.extend({
@@ -46,7 +44,6 @@ const Trial = BaseModel.extend({
     attributes.conditions = [];
     attributes.persons = [];
     attributes.organisations = [];
-    attributes.publications = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
@@ -91,10 +88,6 @@ const Trial = BaseModel.extend({
   organisations: function () {
     return this.belongsToMany('Organisation', 'trials_organisations',
       'trial_id', 'organisation_id').withPivot(['role']);
-  },
-  publications: function () {
-    return this.belongsToMany('Publication', 'trials_publications',
-      'trial_id', 'publication_id');
   },
   records: function () {
     return this.hasMany('Record');

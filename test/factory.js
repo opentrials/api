@@ -11,7 +11,6 @@ const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
 const Record = require('../api/models/record');
-const Publication = require('../api/models/publication');
 
 factory.define('location', Location, {
   id: () => uuid.v1(),
@@ -155,24 +154,6 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
 
     factory.createMany('record', records)
       .then(() => callback(null, source))
-      .catch((err) => callback(err));
-  },
-});
-
-factory.define('publication', Publication, {
-  id: () => uuid.v1(),
-  source_id: factory.assoc('source', 'id'),
-  source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
-  title: 'some title',
-  abstract: 'abstract',
-  journal: 'some journal',
-  date: new Date('2016-01-02'),
-  slug: 'some-slug',
-}, {
-  afterCreate: (publication, attrs, callback) => {
-    new Publication({ id: publication.id })
-      .fetch({ withRelated: Publication.relatedModels })
-      .then((instance) => callback(null, instance))
       .catch((err) => callback(err));
   },
 });

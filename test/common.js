@@ -8,7 +8,6 @@ const factory = require('./factory');
 
 function clearDB() {
   const tables = [
-    'publications',
     'trials_locations',
     'locations',
     'trials_interventions',
