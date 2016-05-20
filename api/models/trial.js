@@ -48,20 +48,17 @@ const Trial = BaseModel.extend({
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
         const attributes = model.toJSON();
-        const result = {
-          attributes: attributes,
-        }
 
         if (model.pivot) {
           Object.keys(model.pivot.attributes).forEach((key) => {
             const value = model.pivot.attributes[key];
             if (!key.endsWith('_id') && value) {
-              result[key] = value;
+              attributes[key] = value;
             }
           });
         }
 
-        return result;
+        return attributes;
       });
     }
 

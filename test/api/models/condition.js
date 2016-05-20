@@ -15,7 +15,7 @@ describe('Condition', () => {
       return factory.create('trialWithRelated')
         .then((trial) => {
           trialId = trial.id;
-          const conditionId = toJSON(trial).conditions[0].attributes.id;
+          const conditionId = toJSON(trial).conditions[0].id;
           return new Condition({ id: conditionId }).fetch({ withRelated: 'trials' });
         }).then((condition) => {
           const trialsIds = condition.related('trials').models.map((trial) => trial.id);

@@ -49,10 +49,7 @@ describe('Trial', () => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
           should(toJSON(trial).locations).deepEqual([
-            {
-              role: 'recruitment_countries',
-              attributes: toJSON(loc),
-            }
+            Object.assign({ role: 'recruitment_countries' }, toJSON(loc)),
           ]);
         });
     });
@@ -82,9 +79,7 @@ describe('Trial', () => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'interventions' })
         }).then((trial) => {
           should(toJSON(trial).interventions).deepEqual([
-            {
-              attributes: toJSON(intervention),
-            }
+            toJSON(intervention),
           ]);
         });
     });
@@ -114,9 +109,7 @@ describe('Trial', () => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'conditions' })
         }).then((trial) => {
           should(toJSON(trial).conditions).deepEqual([
-            {
-              attributes: toJSON(condition),
-            }
+            toJSON(condition),
           ]);
         });
     });
@@ -147,10 +140,7 @@ describe('Trial', () => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'persons' })
         }).then((trial) => {
           should(toJSON(trial).persons).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(person),
-            }
+            Object.assign({ role: 'other' }, toJSON(person)),
           ]);
         });
     });
@@ -180,11 +170,9 @@ describe('Trial', () => {
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'organisations' })
         }).then((trial) => {
+
           should(toJSON(trial).organisations).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(organisation),
-            }
+            Object.assign({ role: 'other' }, toJSON(organisation)),
           ]);
         });
     });
