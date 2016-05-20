@@ -43,7 +43,6 @@ describe('Trial', () => {
             return trial.locations().attach({
               location_id: loc.id,
               role: 'recruitment_countries',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
@@ -77,8 +76,6 @@ describe('Trial', () => {
 
             return trial.interventions().attach({
               intervention_id: intervention.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
@@ -86,7 +83,6 @@ describe('Trial', () => {
         }).then((trial) => {
           should(toJSON(trial).interventions).deepEqual([
             {
-              role: 'other',
               attributes: toJSON(intervention),
             }
           ]);
@@ -112,8 +108,6 @@ describe('Trial', () => {
 
             return trial.conditions().attach({
               condition_id: condition.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
@@ -121,7 +115,6 @@ describe('Trial', () => {
         }).then((trial) => {
           should(toJSON(trial).conditions).deepEqual([
             {
-              role: 'other',
               attributes: toJSON(condition),
             }
           ]);
@@ -148,7 +141,6 @@ describe('Trial', () => {
             return trial.persons().attach({
               person_id: person.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
@@ -183,7 +175,6 @@ describe('Trial', () => {
             return trial.organisations().attach({
               organisation_id: organisation.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {

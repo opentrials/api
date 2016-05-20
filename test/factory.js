@@ -16,41 +16,33 @@ factory.define('location', Location, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `location${n}`),
   type: 'country',
-  data: JSON.stringify(''),
 });
 
 factory.define('intervention', Intervention, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `intervention${n}`),
   type: 'drug',
-  data: JSON.stringify(''),
 });
 
 factory.define('condition', Condition, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `condition${n}`),
-  data: JSON.stringify(''),
 });
 
 factory.define('person', Person, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `person${n}`),
-  type: 'other',
-  data: JSON.stringify(''),
 });
 
 factory.define('organisation', Organisation, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `organisation${n}`),
-  type: 'other',
-  data: JSON.stringify(''),
 });
 
 factory.define('source', Source, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `source${n}`),
   type: 'register',
-  data: JSON.stringify(''),
 });
 
 const trialAttributes = {
@@ -79,36 +71,29 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
       factory.create('intervention').then((intervention) => (
           trial.interventions().attach({
             intervention_id: intervention.id,
-            role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('condition').then((condition) => (
           trial.conditions().attach({
             condition_id: condition.id,
-            role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('location').then((loc) => (
           trial.locations().attach({
             location_id: loc.id,
             role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('person').then((person) => (
           trial.persons().attach({
             person_id: person.id,
             role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('organisation').then((organisation) => (
           trial.organisations().attach({
             organisation_id: organisation.id,
             role: 'other',
-            context: JSON.stringify(''),
           })
       )),
     ])
@@ -138,7 +123,6 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
   id: () => uuid.v1(),
   name: 'test_source',
   type: 'register',
-  data: JSON.stringify(''),
 }, {
   afterCreate: (source, attrs, callback) => {
     const records = [

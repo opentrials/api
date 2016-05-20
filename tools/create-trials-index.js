@@ -99,10 +99,6 @@ const trialMapping = {
               type: 'string',
               copy_to: 'person',
             },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
           },
         },
         role: {
@@ -125,10 +121,6 @@ const trialMapping = {
             name: {
               type: 'string',
               copy_to: 'organisation',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
             },
           },
         },
@@ -265,7 +257,7 @@ function indexModel(model, index, indexType, fetchOptions) {
       offset = offset + bufferLength;
     } while (offset <= modelCount);
 
-    return chain;
+    return chain.catch(console.error);
   });
 }
 
