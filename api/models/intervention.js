@@ -13,8 +13,7 @@ const Intervention = BaseModel.extend({
     'type',
   ],
   trials: function () {
-    return this.belongsToMany('Trial', 'trials_interventions',
-      'intervention_id', 'trial_id').withPivot(['role']);
+    return this.belongsToMany('Trial', 'trials_interventions');
   },
 });
 

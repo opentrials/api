@@ -43,17 +43,13 @@ describe('Trial', () => {
             return trial.locations().attach({
               location_id: loc.id,
               role: 'recruitment_countries',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
           should(toJSON(trial).locations).deepEqual([
-            {
-              role: 'recruitment_countries',
-              attributes: toJSON(loc),
-            }
+            Object.assign({ role: 'recruitment_countries' }, toJSON(loc)),
           ]);
         });
     });
@@ -77,18 +73,13 @@ describe('Trial', () => {
 
             return trial.interventions().attach({
               intervention_id: intervention.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'interventions' })
         }).then((trial) => {
           should(toJSON(trial).interventions).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(intervention),
-            }
+            toJSON(intervention),
           ]);
         });
     });
@@ -112,18 +103,13 @@ describe('Trial', () => {
 
             return trial.conditions().attach({
               condition_id: condition.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'conditions' })
         }).then((trial) => {
           should(toJSON(trial).conditions).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(condition),
-            }
+            toJSON(condition),
           ]);
         });
     });
@@ -148,17 +134,13 @@ describe('Trial', () => {
             return trial.persons().attach({
               person_id: person.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'persons' })
         }).then((trial) => {
           should(toJSON(trial).persons).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(person),
-            }
+            Object.assign({ role: 'other' }, toJSON(person)),
           ]);
         });
     });
@@ -183,17 +165,14 @@ describe('Trial', () => {
             return trial.organisations().attach({
               organisation_id: organisation.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'organisations' })
         }).then((trial) => {
+
           should(toJSON(trial).organisations).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(organisation),
-            }
+            Object.assign({ role: 'other' }, toJSON(organisation)),
           ]);
         });
     });

@@ -24,17 +24,13 @@ const trialMapping = {
     },
     interventions: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'intervention',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'intervention',
         },
       },
     },
@@ -43,21 +39,17 @@ const trialMapping = {
     },
     locations: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'location',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'location',
+        },
+        type: {
+          type: 'string',
+          index: 'not_analyzed',
         },
         role: {
           type: 'string',
@@ -70,17 +62,13 @@ const trialMapping = {
     },
     conditions: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'condition',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'condition',
         },
       },
     },
@@ -89,26 +77,18 @@ const trialMapping = {
     },
     persons: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'person',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
-        },
-        role: {
+        id: {
           type: 'string',
           index: 'not_analyzed',
         },
+        name: {
+          type: 'string',
+          copy_to: 'person',
+        },
+      },
+      role: {
+        type: 'string',
+        index: 'not_analyzed',
       },
     },
     person: {
@@ -116,26 +96,18 @@ const trialMapping = {
     },
     organisations: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'organisation',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
-        },
-        role: {
+        id: {
           type: 'string',
           index: 'not_analyzed',
         },
+        name: {
+          type: 'string',
+          copy_to: 'organisation',
+        },
+      },
+      role: {
+        type: 'string',
+        index: 'not_analyzed',
       },
     },
     organisation: {
@@ -265,7 +237,7 @@ function indexModel(model, index, indexType, fetchOptions) {
       offset = offset + bufferLength;
     } while (offset <= modelCount);
 
-    return chain;
+    return chain.catch(console.error);
   });
 }
 

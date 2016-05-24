@@ -28,13 +28,11 @@ exports.seed = (knex) => {
       id: '525740cd-12ef-43ba-87a0-0bf98b2c5026',
       name: 'United States of America',
       type: 'country',
-      data: JSON.stringify({}),
     },
     puertoRico: {
       id: '87e4b972-1a03-4b4b-8a6e-d512f99a6c57',
       name: 'Puerto Rico',
       type: 'country',
-      data: JSON.stringify({}),
     },
   };
 
@@ -43,31 +41,26 @@ exports.seed = (knex) => {
       id: '1a2be669-299c-4fc4-aa0c-2cb6ec11a0da',
       name: 'Questionnaire',
       type: 'other',
-      data: JSON.stringify({}),
     },
     hiv1mn: {
       id: '15b51693-b455-4851-b54c-911d958b246b',
       name: 'rgp120/HIV-1MN',
       type: 'drug',
-      data: JSON.stringify({}),
     },
     hiv1sf2: {
       id: '37db8144-070a-4727-a7fe-d4c61d6c389c',
       name: 'rgp120/HIV-1 SF-2',
       type: 'drug',
-      data: JSON.stringify({}),
     },
     placeboHiv1mn: {
       id: '9324a829-8982-4b93-99a4-88f7af32bfac',
       name: 'Placebo version of rgp120/HIV-1MN',
       type: 'other',
-      data: JSON.stringify({}),
     },
     placeboHiv1sf2: {
       id: 'b7db98db-dfcd-4bb8-a8a0-8d7bf83c551b',
       name: 'Placebo version of rgp120/HIV-1SF2',
       type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -75,22 +68,18 @@ exports.seed = (knex) => {
     hiv: {
       id: '0ae7346d-09bf-4781-bde0-3c07525c462d',
       name: 'HIV Infections',
-      data: JSON.stringify({}),
     },
     hivSeronegativity: {
       id: 'e5e9a8b9-d671-48fc-8310-365f332025c3',
       name: 'HIV Seronegativity',
-      data: JSON.stringify({}),
     },
     rectalCancer: {
       id: 'b330752f-ebe1-45c1-a7e3-8c62def8cfb6',
       name: 'Rectal Cancer',
-      data: JSON.stringify({}),
     },
     colonCancer: {
       id: 'bb4a6173-afa8-4b3a-8915-c2332f1d7ee1',
       name: 'Colon Cancer',
-      data: JSON.stringify({}),
     },
   };
 
@@ -98,8 +87,6 @@ exports.seed = (knex) => {
     salz: {
       id: '201eaf6c-8fc9-49e3-bd1d-4596a6f79487',
       name: 'Talya Salz, PhD',
-      type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -107,14 +94,10 @@ exports.seed = (knex) => {
     niaid: {
       id: '60a0f4b2-b0c5-4d6f-a442-4ef8e31abed5',
       name: 'National Institute of Allergy and Infectious Diseases (NIAID)',
-      type: 'other',
-      data: JSON.stringify({}),
     },
     mskcc: {
       id: '68b963fa-48d1-4ae8-95ab-0155314c8162',
       name: 'Memorial Sloan Kettering Cancer Center',
-      type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -139,47 +122,38 @@ exports.seed = (knex) => {
         {
           location: locations.usa,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
         {
           location: locations.puertoRico,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
       ],
       interventions: [
         {
           intervention: interventions.hiv1mn,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.hiv1sf2,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.placeboHiv1mn,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.placeboHiv1sf2,
-          context: JSON.stringify({}),
         },
       ],
       conditions: [
         {
           condition: conditions.hiv,
-          context: JSON.stringify({}),
         },
         {
           condition: conditions.hivSeronegativity,
-          context: JSON.stringify({}),
         },
       ],
       organisations: [
         {
           organisation: organisations.niaid,
           role: 'primary_sponsor',
-          context: JSON.stringify({}),
         },
       ],
     },
@@ -201,37 +175,31 @@ exports.seed = (knex) => {
         {
           location: locations.usa,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
       ],
       interventions: [
         {
           intervention: interventions.questionnaire,
-          context: JSON.stringify({}),
         },
       ],
       conditions: [
         {
           condition: conditions.rectalCancer,
-          context: JSON.stringify({}),
         },
         {
           condition: conditions.colonCancer,
-          context: JSON.stringify({}),
         },
       ],
       persons: [
         {
           person: persons.salz,
           role: 'principal_investigator',
-          context: JSON.stringify({}),
         },
       ],
       organisations: [
         {
           organisation: organisations.mskcc,
           role: 'primary_sponsor',
-          context: JSON.stringify({}),
         },
       ],
     },
@@ -243,13 +211,11 @@ exports.seed = (knex) => {
       id: 'nct',
       name: 'nct',
       type: 'register',
-      data: JSON.stringify({}),
     },
     isrctn: {
       id: 'isrctn',
       name: 'isrctn',
       type: 'register',
-      data: JSON.stringify({}),
     },
   };
 

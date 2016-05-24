@@ -15,7 +15,7 @@ describe('Organisation', () => {
       return factory.create('trialWithRelated')
         .then((trial) => {
           trialId = trial.id;
-          const organisationId = toJSON(trial).organisations[0].attributes.id;
+          const organisationId = toJSON(trial).organisations[0].id;
           return new Organisation({ id: organisationId }).fetch({ withRelated: 'trials' });
         }).then((organisation) => {
           const trialsIds = organisation.related('trials').models.map((trial) => trial.id);
