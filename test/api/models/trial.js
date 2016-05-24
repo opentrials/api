@@ -229,19 +229,26 @@ describe('Trial', () => {
 
     it('returns trials count per year', () => {
       const registrationDates = [
-        { registration_date: '2016-01-01'},
-        { registration_date: '2015-01-01'},
-        { registration_date: '2016-01-01'},
+        { registration_date: '2016-01-01' },
+        { registration_date: '2015-01-01' },
+        { registration_date: '2016-01-01' },
       ];
 
       return factory.createMany('trial', registrationDates)
         .then(() => new Trial().trialsPerYear())
         .then((result) => {
           should(result).deepEqual([
-            { year: 2015, count: 1},
-            { year: 2016, count: 2},
+            { year: 2015, count: 1 },
+            { year: 2016, count: 2 },
           ]);
         });
+    });
+  });
+
+  describe('_convertIdentifiers', () => {
+    it('should build a identifiers', () => {
+      const identifiers = new Trial()._convertIdentifiers({primary_id: 'someId'});
+      should(identifiers).deepEqual(['someId']);
     });
   });
 

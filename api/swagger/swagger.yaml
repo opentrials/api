@@ -352,7 +352,9 @@ definitions:
       primary_id:
         type: string
       identifiers:
-        type: object
+        type: array
+        items:
+          type: "string"
       url:
         type: string
       public_title:

@@ -21,11 +21,11 @@ const relatedModels = [
   'records.source',
 ];
 
+const proto = BaseModel.prototype;
 const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
-    'primary_id',
     'identifiers',
     'public_title',
     'brief_summary',
@@ -34,6 +34,9 @@ const Trial = BaseModel.extend({
     'has_published_results',
     'registration_date',
   ].concat(relatedModels),
+  _convertIdentifiers: function(attributes) {
+    return [ attributes.primary_id ];
+  },
   serialize: function (options) {
     const attributes = Object.assign(
       {},
@@ -68,7 +71,7 @@ const Trial = BaseModel.extend({
     }
 
     attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
-
+    attributes.identifiers = this._convertIdentifiers(attributes);
     return attributes;
   },
   locations: function () {
