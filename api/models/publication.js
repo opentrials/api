@@ -21,11 +21,12 @@ const Publication = BaseModel.extend({
     'updated_at',
     'facts',
     'authors',
-    'slug',
   ],
   source: function () {
     return this.belongsTo('Source');
   },
-}, { relatedModels });
+}, {
+  relatedModels
+});
 
 module.exports = bookshelf.model('Publication', Publication);

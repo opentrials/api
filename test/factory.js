@@ -15,8 +15,6 @@ const Publication = require('../api/models/publication');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
-  created_at: new Date('2016-01-01'),
-  updated_at: new Date('2016-01-03'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
   title: 'some title',

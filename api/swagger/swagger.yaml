@@ -122,11 +122,11 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /publicaions/{id}:
-    x-swagger-router-controller: publicaions
+  /publications/{id}:
+    x-swagger-router-controller: publications
     get:
       tags:
-        - publicaions
+        - publications
       description: Returns publicaion details
       operationId: get
       parameters:
