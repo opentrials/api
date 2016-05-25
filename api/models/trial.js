@@ -2,7 +2,7 @@
 
 require('./location');
 require('./intervention');
-require('./problem');
+require('./condition');
 require('./person');
 require('./organisation');
 require('./source');
@@ -15,7 +15,7 @@ const BaseModel = require('./base');
 const relatedModels = [
   'locations',
   'interventions',
-  'problems',
+  'conditions',
   'persons',
   'organisations',
   'records',
@@ -43,7 +43,7 @@ const Trial = BaseModel.extend({
 
     attributes.locations = [];
     attributes.interventions = [];
-    attributes.problems = [];
+    attributes.conditions = [];
     attributes.persons = [];
     attributes.organisations = [];
     attributes.publications = [];
@@ -51,20 +51,17 @@ const Trial = BaseModel.extend({
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
         const attributes = model.toJSON();
-        const result = {
-          attributes: attributes,
-        }
 
         if (model.pivot) {
           Object.keys(model.pivot.attributes).forEach((key) => {
             const value = model.pivot.attributes[key];
             if (!key.endsWith('_id') && value) {
-              result[key] = value;
+              attributes[key] = value;
             }
           });
         }
 
-        return result;
+        return attributes;
       });
     }
 
@@ -77,12 +74,10 @@ const Trial = BaseModel.extend({
       'trial_id', 'location_id').withPivot(['role']);
   },
   interventions: function () {
-    return this.belongsToMany('Intervention', 'trials_interventions',
-        'trial_id', 'intervention_id').withPivot(['role']);
+    return this.belongsToMany('Intervention', 'trials_interventions');
   },
-  problems: function () {
-    return this.belongsToMany('Problem', 'trials_problems',
-        'trial_id', 'problem_id').withPivot(['role']);
+  conditions: function () {
+    return this.belongsToMany('Condition', 'trials_conditions');
   },
   persons: function () {
     return this.belongsToMany('Person', 'trials_persons',

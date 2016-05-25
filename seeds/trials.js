@@ -28,13 +28,11 @@ exports.seed = (knex) => {
       id: '525740cd-12ef-43ba-87a0-0bf98b2c5026',
       name: 'United States of America',
       type: 'country',
-      data: JSON.stringify({}),
     },
     puertoRico: {
       id: '87e4b972-1a03-4b4b-8a6e-d512f99a6c57',
       name: 'Puerto Rico',
       type: 'country',
-      data: JSON.stringify({}),
     },
   };
 
@@ -43,58 +41,45 @@ exports.seed = (knex) => {
       id: '1a2be669-299c-4fc4-aa0c-2cb6ec11a0da',
       name: 'Questionnaire',
       type: 'other',
-      data: JSON.stringify({}),
     },
     hiv1mn: {
       id: '15b51693-b455-4851-b54c-911d958b246b',
       name: 'rgp120/HIV-1MN',
       type: 'drug',
-      data: JSON.stringify({}),
     },
     hiv1sf2: {
       id: '37db8144-070a-4727-a7fe-d4c61d6c389c',
       name: 'rgp120/HIV-1 SF-2',
       type: 'drug',
-      data: JSON.stringify({}),
     },
     placeboHiv1mn: {
       id: '9324a829-8982-4b93-99a4-88f7af32bfac',
       name: 'Placebo version of rgp120/HIV-1MN',
       type: 'other',
-      data: JSON.stringify({}),
     },
     placeboHiv1sf2: {
       id: 'b7db98db-dfcd-4bb8-a8a0-8d7bf83c551b',
       name: 'Placebo version of rgp120/HIV-1SF2',
       type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
-  const problems = {
+  const conditions = {
     hiv: {
       id: '0ae7346d-09bf-4781-bde0-3c07525c462d',
       name: 'HIV Infections',
-      type: 'condition',
-      data: JSON.stringify({}),
     },
     hivSeronegativity: {
       id: 'e5e9a8b9-d671-48fc-8310-365f332025c3',
       name: 'HIV Seronegativity',
-      type: 'condition',
-      data: JSON.stringify({}),
     },
     rectalCancer: {
       id: 'b330752f-ebe1-45c1-a7e3-8c62def8cfb6',
       name: 'Rectal Cancer',
-      type: 'condition',
-      data: JSON.stringify({}),
     },
     colonCancer: {
       id: 'bb4a6173-afa8-4b3a-8915-c2332f1d7ee1',
       name: 'Colon Cancer',
-      type: 'condition',
-      data: JSON.stringify({}),
     },
   };
 
@@ -102,8 +87,6 @@ exports.seed = (knex) => {
     salz: {
       id: '201eaf6c-8fc9-49e3-bd1d-4596a6f79487',
       name: 'Talya Salz, PhD',
-      type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -111,14 +94,10 @@ exports.seed = (knex) => {
     niaid: {
       id: '60a0f4b2-b0c5-4d6f-a442-4ef8e31abed5',
       name: 'National Institute of Allergy and Infectious Diseases (NIAID)',
-      type: 'other',
-      data: JSON.stringify({}),
     },
     mskcc: {
       id: '68b963fa-48d1-4ae8-95ab-0155314c8162',
       name: 'Memorial Sloan Kettering Cancer Center',
-      type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -143,47 +122,38 @@ exports.seed = (knex) => {
         {
           location: locations.usa,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
         {
           location: locations.puertoRico,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
       ],
       interventions: [
         {
           intervention: interventions.hiv1mn,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.hiv1sf2,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.placeboHiv1mn,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.placeboHiv1sf2,
-          context: JSON.stringify({}),
         },
       ],
-      problems: [
+      conditions: [
         {
-          problem: problems.hiv,
-          context: JSON.stringify({}),
+          condition: conditions.hiv,
         },
         {
-          problem: problems.hivSeronegativity,
-          context: JSON.stringify({}),
+          condition: conditions.hivSeronegativity,
         },
       ],
       organisations: [
         {
           organisation: organisations.niaid,
           role: 'primary_sponsor',
-          context: JSON.stringify({}),
         },
       ],
     },
@@ -205,37 +175,31 @@ exports.seed = (knex) => {
         {
           location: locations.usa,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
       ],
       interventions: [
         {
           intervention: interventions.questionnaire,
-          context: JSON.stringify({}),
         },
       ],
-      problems: [
+      conditions: [
         {
-          problem: problems.rectalCancer,
-          context: JSON.stringify({}),
+          condition: conditions.rectalCancer,
         },
         {
-          problem: problems.colonCancer,
-          context: JSON.stringify({}),
+          condition: conditions.colonCancer,
         },
       ],
       persons: [
         {
           person: persons.salz,
           role: 'principal_investigator',
-          context: JSON.stringify({}),
         },
       ],
       organisations: [
         {
           organisation: organisations.mskcc,
           role: 'primary_sponsor',
-          context: JSON.stringify({}),
         },
       ],
     },
@@ -247,13 +211,11 @@ exports.seed = (knex) => {
       id: 'nct',
       name: 'nct',
       type: 'register',
-      data: JSON.stringify({}),
     },
     isrctn: {
       id: 'isrctn',
       name: 'isrctn',
       type: 'register',
-      data: JSON.stringify({}),
     },
   };
 
@@ -287,7 +249,7 @@ exports.seed = (knex) => {
         ],
         date_of_first_enrollment: 'April 2012',
         date_of_registration: '01/05/2013',
-        health_conditions_or_problems_studied: [
+        health_conditions_or_conditions_studied: [
           'Diabetes Mellitus, Type 2',
         ],
         interventions: [
@@ -449,7 +411,7 @@ exports.seed = (knex) => {
 
   const trialsLocations = _generateRelationships(trials, 'location');
   const trialsInterventions = _generateRelationships(trials, 'intervention');
-  const trialsProblems = _generateRelationships(trials, 'problem');
+  const trialsConditions = _generateRelationships(trials, 'condition');
   const trialsPersons = _generateRelationships(trials, 'person');
   const trialsOrganisations = _generateRelationships(trials, 'organisation');
 
@@ -457,7 +419,7 @@ exports.seed = (knex) => {
     const result = Object.assign({}, trial);
     delete result.locations;
     delete result.interventions;
-    delete result.problems;
+    delete result.conditions;
     delete result.persons;
     delete result.organisations;
 
@@ -468,13 +430,13 @@ exports.seed = (knex) => {
     .then(() => knex('locations').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
-    .then(() => knex('trials_problems').del())
-    .then(() => knex('problems').del())
+    .then(() => knex('trials_conditions').del())
+    .then(() => knex('conditions').del())
     .then(() => knex('trials_persons').del())
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
-    .then(() => knex('trialrecords').del())
+    .then(() => knex('records').del())
     .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
@@ -483,12 +445,12 @@ exports.seed = (knex) => {
     .then(() => knex('trials_locations').insert(trialsLocations))
     .then(() => knex('interventions').insert(_getEntries(interventions)))
     .then(() => knex('trials_interventions').insert(trialsInterventions))
-    .then(() => knex('problems').insert(_getEntries(problems)))
-    .then(() => knex('trials_problems').insert(trialsProblems))
+    .then(() => knex('conditions').insert(_getEntries(conditions)))
+    .then(() => knex('trials_conditions').insert(trialsConditions))
     .then(() => knex('persons').insert(_getEntries(persons)))
     .then(() => knex('trials_persons').insert(trialsPersons))
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
-    .then(() => knex('trialrecords').insert(records));
+    .then(() => knex('records').insert(records));
 };

@@ -3,7 +3,7 @@
 
 const client = require('../config').elasticsearch;
 const Trial = require('../api/models/trial');
-const Problem = require('../api/models/problem');
+const Condition = require('../api/models/condition');
 const Intervention = require('../api/models/intervention');
 const Location = require('../api/models/location');
 const Person = require('../api/models/person');
@@ -24,17 +24,13 @@ const trialMapping = {
     },
     interventions: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'intervention',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'intervention',
         },
       },
     },
@@ -43,21 +39,17 @@ const trialMapping = {
     },
     locations: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'location',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'location',
+        },
+        type: {
+          type: 'string',
+          index: 'not_analyzed',
         },
         role: {
           type: 'string',
@@ -68,47 +60,35 @@ const trialMapping = {
     location: {
       type: 'string',
     },
-    problems: {
+    conditions: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'problem',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'condition',
         },
       },
     },
-    problem: {
+    condition: {
       type: 'string',
     },
     persons: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'person',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
-        },
-        role: {
+        id: {
           type: 'string',
           index: 'not_analyzed',
         },
+        name: {
+          type: 'string',
+          copy_to: 'person',
+        },
+      },
+      role: {
+        type: 'string',
+        index: 'not_analyzed',
       },
     },
     person: {
@@ -116,26 +96,18 @@ const trialMapping = {
     },
     organisations: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'organisation',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
-        },
-        role: {
+        id: {
           type: 'string',
           index: 'not_analyzed',
         },
+        name: {
+          type: 'string',
+          copy_to: 'organisation',
+        },
+      },
+      role: {
+        type: 'string',
+        index: 'not_analyzed',
       },
     },
     organisation: {
@@ -209,7 +181,7 @@ const autocompleteIndex = {
       },
     },
     mappings: {
-      problem: autocompleteModelMapping,
+      condition: autocompleteModelMapping,
       intervention: autocompleteModelMapping,
       location: autocompleteModelMapping,
       person: autocompleteModelMapping,
@@ -265,7 +237,7 @@ function indexModel(model, index, indexType, fetchOptions) {
       offset = offset + bufferLength;
     } while (offset <= modelCount);
 
-    return chain;
+    return chain.catch(console.error);
   });
 }
 
@@ -278,7 +250,7 @@ client.indices.delete({ index: 'trials', ignore: 404 })
   .then(() => indexModel(Trial, 'trials', 'trial', { withRelated: Trial.relatedModels }))
   .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
   .then(() => client.indices.create(autocompleteIndex))
-  .then(() => indexAutocompleteModel(Problem, 'problem'))
+  .then(() => indexAutocompleteModel(Condition, 'condition'))
   .then(() => indexAutocompleteModel(Intervention, 'intervention'))
   .then(() => indexAutocompleteModel(Location, 'location'))
   .then(() => indexAutocompleteModel(Person, 'person'))

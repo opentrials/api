@@ -82,7 +82,7 @@ paths:
           description: The entity to search for
           type: string
           enum:
-            - problem
+            - condition
             - intervention
             - location
             - person
@@ -127,12 +127,12 @@ paths:
     get:
       tags:
         - publications
-      description: Returns publicaion details
+      description: Returns publication details
       operationId: get
       parameters:
         - name: id
           in: path
-          description: ID of the publicaion
+          description: ID of the publictaion
           required: true
           type: string
       responses:
@@ -141,32 +141,32 @@ paths:
           schema:
             $ref: "#/definitions/Publication"
         "404":
-          description: Publicaion not found
+          description: Publictaion not found
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /problems/{id}:
-    x-swagger-router-controller: problems
+  /conditions/{id}:
+    x-swagger-router-controller: conditions
     get:
       tags:
-        - problems
-      description: Returns problem details
+        - conditions
+      description: Returns condition details
       operationId: get
       parameters:
         - name: id
           in: path
-          description: ID of the problem
+          description: ID of the condition
           required: true
           type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Problem"
+            $ref: "#/definitions/Condition"
         "404":
-          description: Problem not found
+          description: Condition not found
         default:
           description: Error
           schema:
@@ -268,31 +268,6 @@ paths:
             $ref: "#/definitions/Intervention"
         "404":
           description: Intervention not found
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /publications/{id}:
-    x-swagger-router-controller: publications
-    get:
-      tags:
-        - publications
-      description: Returns publication details
-      operationId: get
-      parameters:
-        - name: id
-          in: path
-          description: ID of the publication
-          required: true
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Publication"
-        "404":
-          description: Publication not found
         default:
           description: Error
           schema:
@@ -427,11 +402,11 @@ definitions:
       interventions:
         type: array
         items:
-          $ref: '#/definitions/TrialIntervention'
-      problems:
+          $ref: '#/definitions/Intervention'
+      conditions:
         type: array
         items:
-          $ref: '#/definitions/TrialProblem'
+          $ref: '#/definitions/Condition'
       persons:
         type: array
         items:
@@ -450,16 +425,15 @@ definitions:
           $ref: '#/definitions/TrialPublication'
 
   TrialLocation:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - recruitment_countries
-          - other
-      attributes:
-        $ref: '#/definitions/Location'
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - recruitment_countries
+              - other
   Location:
     required:
       - id
@@ -476,16 +450,6 @@ definitions:
           - city
           - other
 
-  TrialIntervention:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - other
-      attributes:
-        $ref: '#/definitions/Intervention'
   Intervention:
     required:
       - id
@@ -501,17 +465,7 @@ definitions:
           - drug
           - other
 
-  TrialProblem:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - other
-      attributes:
-        $ref: '#/definitions/Problem'
-  Problem:
+  Condition:
     required:
       - id
       - name
@@ -520,25 +474,19 @@ definitions:
         type: string
       name:
         type: string
-      type:
-        type: string
-        enum:
-          - condition
-          - other
 
   TrialPerson:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - principal_investigator
-          - public_queries
-          - scientific_queries
-          - other
-      attributes:
-        $ref: '#/definitions/Person'
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - principal_investigator
+              - public_queries
+              - scientific_queries
+              - other
   Person:
     required:
       - id
@@ -554,19 +502,17 @@ definitions:
           - other
 
   TrialOrganisation:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - primary_sponsor
-          - sponsor
-          - funder
-          - other
-      attributes:
-        $ref: '#/definitions/Organisation'
-
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - primary_sponsor
+              - sponsor
+              - funder
+              - other
   Organisation:
     required:
       - id
@@ -576,10 +522,6 @@ definitions:
         type: string
       name:
         type: string
-      type:
-        type: string
-        enum:
-          - other
 
   Record:
     required:

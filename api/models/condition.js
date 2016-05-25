@@ -1,0 +1,19 @@
+'use strict';
+
+require('./trial');
+
+const bookshelf = require('../../config').bookshelf;
+const BaseModel = require('./base');
+
+const Condition = BaseModel.extend({
+  tableName: 'conditions',
+  visible: [
+    'id',
+    'name',
+  ],
+  trials: function () {
+    return this.belongsToMany('Trial', 'trials_conditions');
+  },
+});
+
+module.exports = bookshelf.model('Condition', Condition);

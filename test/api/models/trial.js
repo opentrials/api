@@ -17,7 +17,7 @@ describe('Trial', () => {
     Trial.relatedModels.should.deepEqual([
       'locations',
       'interventions',
-      'problems',
+      'conditions',
       'persons',
       'organisations',
       'records',
@@ -44,17 +44,13 @@ describe('Trial', () => {
             return trial.locations().attach({
               location_id: loc.id,
               role: 'recruitment_countries',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
           should(toJSON(trial).locations).deepEqual([
-            {
-              role: 'recruitment_countries',
-              attributes: toJSON(loc),
-            }
+            Object.assign({ role: 'recruitment_countries' }, toJSON(loc)),
           ]);
         });
     });
@@ -78,53 +74,43 @@ describe('Trial', () => {
 
             return trial.interventions().attach({
               intervention_id: intervention.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'interventions' })
         }).then((trial) => {
           should(toJSON(trial).interventions).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(intervention),
-            }
+            toJSON(intervention),
           ]);
         });
     });
   });
 
-  describe('problems', () => {
+  describe('conditions', () => {
     it('is an empty array if there\'re none', () => {
-      should(toJSON(new Trial()).problems).deepEqual([]);
+      should(toJSON(new Trial()).conditions).deepEqual([]);
     });
 
-    it('adds the problems and its metadata from relationship into the resulting JSON', () => {
+    it('adds the conditions and its metadata from relationship into the resulting JSON', () => {
       let trial_id;
-      let problem;
+      let condition;
 
       return factory.create('trial')
         .then((trial) => {
           trial_id = trial.id;
 
-          return factory.create('problem').then((_problem) => {
-            problem = _problem;
+          return factory.create('condition').then((_condition) => {
+            condition = _condition;
 
-            return trial.problems().attach({
-              problem_id: problem.id,
-              role: 'other',
-              context: JSON.stringify(''),
+            return trial.conditions().attach({
+              condition_id: condition.id,
             });
           });
         }).then((trial) => {
-          return new Trial({ id: trial_id }).fetch({ withRelated: 'problems' })
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'conditions' })
         }).then((trial) => {
-          should(toJSON(trial).problems).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(problem),
-            }
+          should(toJSON(trial).conditions).deepEqual([
+            toJSON(condition),
           ]);
         });
     });
@@ -149,17 +135,13 @@ describe('Trial', () => {
             return trial.persons().attach({
               person_id: person.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'persons' })
         }).then((trial) => {
           should(toJSON(trial).persons).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(person),
-            }
+            Object.assign({ role: 'other' }, toJSON(person)),
           ]);
         });
     });
@@ -184,17 +166,14 @@ describe('Trial', () => {
             return trial.organisations().attach({
               organisation_id: organisation.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'organisations' })
         }).then((trial) => {
+
           should(toJSON(trial).organisations).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(organisation),
-            }
+            Object.assign({ role: 'other' }, toJSON(organisation)),
           ]);
         });
     });

@@ -35,8 +35,8 @@ describe('Search', () => {
   });
 
   describe('GET /v1/search/autocomplete/{in}', () => {
-    describe('GET /v1/search/autocomplete/problem',
-             autocompleteTests('/v1/search/autocomplete/problem', 'problem'));
+    describe('GET /v1/search/autocomplete/condition',
+             autocompleteTests('/v1/search/autocomplete/condition', 'condition'));
 
     describe('GET /v1/search/autocomplete/intervention',
              autocompleteTests('/v1/search/autocomplete/intervention', 'intervention'));
