@@ -32,6 +32,10 @@ const trialMapping = {
           type: 'string',
           copy_to: 'intervention',
         },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
       },
     },
     intervention: {
@@ -46,6 +50,10 @@ const trialMapping = {
         name: {
           type: 'string',
           copy_to: 'location',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
         },
         type: {
           type: 'string',
@@ -70,6 +78,10 @@ const trialMapping = {
           type: 'string',
           copy_to: 'condition',
         },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
       },
     },
     condition: {
@@ -85,10 +97,14 @@ const trialMapping = {
           type: 'string',
           copy_to: 'person',
         },
-      },
-      role: {
-        type: 'string',
-        index: 'not_analyzed',
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        role: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
       },
     },
     person: {
@@ -104,10 +120,14 @@ const trialMapping = {
           type: 'string',
           copy_to: 'organisation',
         },
-      },
-      role: {
-        type: 'string',
-        index: 'not_analyzed',
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        role: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
       },
     },
     organisation: {

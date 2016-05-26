@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Condition = require('../../../api/models/condition');
 
 describe('Condition', () => {
@@ -24,4 +25,10 @@ describe('Condition', () => {
     })
   });
 
+  describe('url', () => {
+    it('returns the url', () => {
+      return factory.build('condition')
+        .then((condition) => should(condition.toJSON().url).eql(helpers.urlFor(condition)));
+    });
+  });
 });

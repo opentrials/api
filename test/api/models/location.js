@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Location = require('../../../api/models/location');
 
 describe('Location', () => {
@@ -37,6 +38,13 @@ describe('Location', () => {
         .then((result) => {
           should(result.length).equal(10);
         });
+    });
+  });
+
+  describe('url', () => {
+    it('returns the url', () => {
+      return factory.build('location')
+        .then((loc) => should(loc.toJSON().url).eql(helpers.urlFor(loc)));
     });
   });
 });
