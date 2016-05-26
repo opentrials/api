@@ -4,6 +4,7 @@ require('./trial');
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+const helpers = require('../helpers');
 
 const Location = BaseModel.extend({
   tableName: 'locations',
@@ -15,6 +16,11 @@ const Location = BaseModel.extend({
   trials: function () {
     return this.belongsToMany('Trial', 'trials_locations',
       'location_id', 'trial_id').withPivot(['role']);
+  },
+  virtuals: {
+    url: function () {
+      return helpers.urlFor(this);
+    },
   },
   topLocations: function () {
     return bookshelf.knex

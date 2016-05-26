@@ -408,10 +408,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -424,10 +427,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -439,15 +445,18 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
         type: string
+      url:
+        type: string
 
   TrialPerson:
     allOf:
-      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/Person'
       - type: object
         properties:
           role:
@@ -461,10 +470,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -473,7 +485,7 @@ definitions:
 
   TrialOrganisation:
     allOf:
-      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/Organisation'
       - type: object
         properties:
           role:
@@ -487,10 +499,13 @@ definitions:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
 
   Record:

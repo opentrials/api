@@ -4,6 +4,7 @@ require('./trial');
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+const helpers = require('../helpers');
 
 const Condition = BaseModel.extend({
   tableName: 'conditions',
@@ -13,6 +14,11 @@ const Condition = BaseModel.extend({
   ],
   trials: function () {
     return this.belongsToMany('Trial', 'trials_conditions');
+  },
+  virtuals: {
+    url: function () {
+      return helpers.urlFor(this);
+    },
   },
 });
 

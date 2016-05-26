@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Intervention = require('../../../api/models/intervention');
 
 describe('Intervention', () => {
@@ -22,5 +23,12 @@ describe('Intervention', () => {
           should(trialsIds).containEql(trialId);
         })
     })
+  });
+
+  describe('url', () => {
+    it('returns the url', () => {
+      return factory.build('intervention')
+        .then((intervention) => should(intervention.toJSON().url).eql(helpers.urlFor(intervention)));
+    });
   });
 });

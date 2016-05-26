@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Organisation = require('../../../api/models/organisation');
 
 describe('Organisation', () => {
@@ -24,4 +25,10 @@ describe('Organisation', () => {
     })
   });
 
+  describe('url', () => {
+    it('returns the url', () => {
+      return factory.build('person')
+        .then((person) => should(person.toJSON().url).eql(helpers.urlFor(person)));
+    });
+  });
 });
