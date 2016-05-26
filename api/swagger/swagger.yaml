@@ -456,7 +456,7 @@ definitions:
 
   TrialPerson:
     allOf:
-      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/Person'
       - type: object
         properties:
           role:
@@ -485,7 +485,7 @@ definitions:
 
   TrialOrganisation:
     allOf:
-      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/Organisation'
       - type: object
         properties:
           role:
