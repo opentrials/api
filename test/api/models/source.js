@@ -80,7 +80,7 @@ describe('Source', () => {
             };
           }).sort((a, b) => (a.name > b.name));
 
-          should(result).deepEqual(expectedResult);
+          should(result).containDeep(expectedResult);
         });
     });
   });

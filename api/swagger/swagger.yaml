@@ -197,6 +197,27 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /trials/{id}/records:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns all trial's raw records from its sources
+      operationId: getRecords
+      parameters:
+        - name: id
+          in: path
+          description: ID of the trial
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/RecordList"
+        "404":
+          description: Trial not found
+
   /trials/{trialId}/records/{id}:
     x-swagger-router-controller: trials
     get:
@@ -537,6 +558,11 @@ definitions:
         type: string
       url:
         type: string
+
+  RecordList:
+    type: array
+    items:
+      $ref: '#/definitions/Record'
 
   Record:
     required:
