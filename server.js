@@ -6,10 +6,11 @@ const Hapi = require('hapi');
 const server = new Hapi.Server();
 
 SwaggerHapi.create(config.swaggerHapi, (err, swaggerHapi) => {
+  if (err) { throw err; }
+
   const port = config.port;
   const plugins = [swaggerHapi.plugin,
                    ...config.hapi.plugins];
-  if (err) { throw err; }
 
   server.connection({
     host: config.host,
