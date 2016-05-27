@@ -471,10 +471,8 @@ exports.seed = (knex) => {
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
     .then(() => knex('records').del())
-
     .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())
-
     .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert

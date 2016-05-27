@@ -145,6 +145,9 @@ const trialMapping = {
         },
       },
     },
+    publication: {
+      type: 'string',
+    },
     public_title: {
       type: 'string',
     },

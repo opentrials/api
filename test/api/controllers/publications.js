@@ -15,17 +15,19 @@ describe('Publication', () => {
         })
     ));
 
-    it('returns the Publication', () => (
-      factory.create('publication').then((model) => {
-        return server.inject('/v1/publications/' + model.attributes.id)
-          .then((response) => {
-            response.statusCode.should.equal(200);
+    it('returns the Publication', () => {
+      let publication;
 
-            const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
-            const result = JSON.parse(response.result);
-            result.should.deepEqual(expectedResult);
-          })
-      })
-    ));
+      return factory.create('publication')
+        .then((_publication) => publication = _publication)
+        .then(() => server.inject(`/v1/publications/${publication.attributes.id}`))
+        .then((response) => {
+          response.statusCode.should.equal(200);
+
+          const expectedResult = JSON.parse(JSON.stringify(publication.toJSON()));
+          const result = JSON.parse(response.result);
+          result.should.deepEqual(expectedResult);
+        });
+    });
   });
 });

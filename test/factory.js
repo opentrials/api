@@ -21,7 +21,7 @@ factory.define('publication', Publication, {
   abstract: 'abstract',
   journal: 'some journal',
   date: new Date('2016-01-02'),
-  slug: 'some slag',
+  slug: 'some-slug',
 }, {
   afterCreate: (publication, attrs, callback) => {
     new Publication({ id: publication.id })

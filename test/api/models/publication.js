@@ -15,14 +15,13 @@ describe('Publication', () => {
   })
 
   it('#toJSONSummary returns simplified record representation', () => {
-    return factory.create('publication').then((publication) => {
-      const publicationJSON = publication.toJSON();
-
-      publication.toJSONSummary().should.deepEqual({
-        id: publicationJSON.id,
-        title: publicationJSON.title,
-        source: publication.related('source').toJSON(),
+    return factory.create('publication')
+      .then((publication) => {
+        publication.toJSONSummary().should.deepEqual({
+          id: publication.attributes.id,
+          title: publication.attributes.title,
+          source: publication.related('source').toJSON(),
+        });
       });
-    });
   });
 });
