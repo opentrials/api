@@ -559,13 +559,6 @@ definitions:
         type: string
         format: date-time
 
-  TrialPublication:
-    required:
-      - attributes
-    properties:
-      attributes:
-        $ref: '#/definitions/Publication'
-
   Publication:
     required:
       - id
@@ -592,9 +585,9 @@ definitions:
         type: string
       authors:
         type: array
-        items: {
-          "type": "string"
-        }
+        items:
+          type: string
+
       journal:
         type: string
       date:
@@ -604,9 +597,9 @@ definitions:
         type: string
       facts:
         type: array
-        items: {
-          "type": "string"
-        }
+        items:
+          type: string
+
 
   RecordSummary:
     required:
