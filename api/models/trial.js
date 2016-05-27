@@ -21,6 +21,7 @@ const relatedModels = [
   'records',
   'records.source',
   'publications',
+  'publications.source',
 ];
 
 const Trial = BaseModel.extend({
@@ -46,7 +47,6 @@ const Trial = BaseModel.extend({
     attributes.conditions = [];
     attributes.persons = [];
     attributes.organisations = [];
-    attributes.publications = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
@@ -66,6 +66,7 @@ const Trial = BaseModel.extend({
     }
 
     attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
+    attributes.publications  = (relations.publications || []).map((publication) => publication.toJSONSummary());
 
     return attributes;
   },

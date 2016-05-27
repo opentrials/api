@@ -113,6 +113,18 @@ const trialMapping = {
     organisation: {
       type: 'string',
     },
+    publications: {
+      properties: {
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        title: {
+          type: 'string',
+          copy_to: 'publication',
+        },
+      },
+    },
     public_title: {
       type: 'string',
     },

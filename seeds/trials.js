@@ -101,6 +101,43 @@ exports.seed = (knex) => {
     },
   };
 
+  const sources = {
+    nct: {
+      id: 'nct',
+      name: 'nct',
+      type: 'register',
+    },
+    isrctn: {
+      id: 'isrctn',
+      name: 'isrctn',
+      type: 'register',
+    },
+  };
+
+  const publications = {
+    publication1: {
+      id: '7cd88d88-031d-11e6-b512-3e1d05defe00',
+      created_at: new Date('2016-01-01'),
+      updated_at: new Date('2016-04-01'),
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
+      title: 'Test title1',
+      abstract: '',
+      authors: ['author1', 'author2'],
+    },
+    publication2: {
+      id: '7cd88d88-031d-11e6-b512-3e1d05defe01',
+      created_at: new Date('2016-01-01'),
+      updated_at: new Date('2016-04-01'),
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
+      title: 'Test title2',
+      abstract: '',
+      authors: ['author1'],
+    },
+  };
+
+
   const trials = [
     {
       id: '05cc77ad-5575-4c04-9309-4c64d5144b07',
@@ -118,6 +155,14 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       has_published_results: true,
+      publications: [
+        {
+          publication: publications.publication1,
+        },
+        {
+          publication: publications.publication2,
+        },
+      ],
       locations: [
         {
           location: locations.usa,
@@ -206,19 +251,6 @@ exports.seed = (knex) => {
   ];
 
   // Records
-  const sources = {
-    nct: {
-      id: 'nct',
-      name: 'nct',
-      type: 'register',
-    },
-    isrctn: {
-      id: 'isrctn',
-      name: 'isrctn',
-      type: 'register',
-    },
-  };
-
   const records = [
     {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe78',
@@ -414,6 +446,7 @@ exports.seed = (knex) => {
   const trialsConditions = _generateRelationships(trials, 'condition');
   const trialsPersons = _generateRelationships(trials, 'person');
   const trialsOrganisations = _generateRelationships(trials, 'organisation');
+  const trialsPublications = _generateRelationships(trials, 'publication');
 
   const trialsWithoutRelatedModels = trials.map((trial) => {
     const result = Object.assign({}, trial);
@@ -422,6 +455,7 @@ exports.seed = (knex) => {
     delete result.conditions;
     delete result.persons;
     delete result.organisations;
+    delete result.publications;
 
     return result;
   });
@@ -437,6 +471,10 @@ exports.seed = (knex) => {
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
     .then(() => knex('records').del())
+
+    .then(() => knex('trials_publications').del())
+    .then(() => knex('publications').del())
+
     .then(() => knex('sources').del())
     .then(() => knex('trials').del())
     // Insert
@@ -452,5 +490,7 @@ exports.seed = (knex) => {
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('sources').insert(_getEntries(sources)))
+    .then(() => knex('publications').insert(_getEntries(publications)))
+    .then(() => knex('trials_publications').insert(trialsPublications))
     .then(() => knex('records').insert(records));
 };

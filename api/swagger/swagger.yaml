@@ -422,7 +422,7 @@ definitions:
       publications:
         type: array
         items:
-          $ref: '#/definitions/TrialPublication'
+          $ref: '#/definitions/PublicationSummary'
 
   TrialLocation:
     allOf:
@@ -569,6 +569,7 @@ definitions:
   Publication:
     required:
       - id
+      - source
       - source_url
       - title
       - abstract
@@ -616,6 +617,19 @@ definitions:
       id:
         type: string
       url:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+
+  PublicationSummary:
+    required:
+      - id
+      - title
+      - source
+    properties:
+      id:
+        type: string
+      title:
         type: string
       source:
         $ref: '#/definitions/Source'

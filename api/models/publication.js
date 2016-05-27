@@ -25,6 +25,16 @@ const Publication = BaseModel.extend({
   source: function () {
     return this.belongsTo('Source');
   },
+  toJSONSummary: function () {
+    const attributes = this.toJSON();
+    const result = {
+      id: attributes.id,
+      title: attributes.title,
+      source: this.related('source').toJSON(),
+    };
+
+    return result;
+  },
 }, {
   relatedModels
 });

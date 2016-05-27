@@ -23,6 +23,7 @@ describe('Trial', () => {
       'records',
       'records.source',
       'publications',
+      'publications.source',
     ]);
   });
 
