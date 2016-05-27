@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const _ = require('lodash');
 const Trial = require('../../../api/models/trial');
 const Location = require('../../../api/models/location');
 
@@ -226,4 +227,38 @@ describe('Trial', () => {
     });
   });
 
+  describe('virtuals', () => {
+    describe('has_discrepancies', () => {
+      it('returns false if there\'re no discrepancies in the records', () => {
+        let trial_id;
+
+        return factory.create('record')
+          .then((record) => {
+            const baseFields = _.pick(record.toJSON(), [
+              'trial_id',
+              'public_title',
+              'brief_summary',
+              'target_sample_size',
+              'gender',
+              'registration_date',
+            ]);
+            trial_id = baseFields.trial_id;
+
+            return factory.create('record', baseFields);
+          })
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
+          .then((trial) => should(trial.has_discrepancies).be.false());
+      });
+
+      it('returns true if there\'re discrepancies in the records', () => {
+        let trial_id;
+
+        return factory.create('trial')
+          .then((trial) => trial_id = trial.attributes.id)
+          .then(() => factory.createMany('record', [{ trial_id }, { trial_id, brief_summary: 'foobar' }], 2))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
+          .then((trial) => should(trial.has_discrepancies).be.true());
+      });
+    });
+  });
 });

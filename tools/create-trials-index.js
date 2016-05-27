@@ -158,6 +158,9 @@ const trialMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
+    has_discrepancies: {
+      type: 'boolean',
+    },
     has_published_results: {
       type: 'boolean',
     },

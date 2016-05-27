@@ -9,6 +9,7 @@ require('./source');
 require('./record');
 require('./publication');
 
+const _ = require('lodash');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
@@ -98,6 +99,29 @@ const Trial = BaseModel.extend({
   virtuals: {
     url: function () {
       return helpers.urlFor(this);
+    },
+    has_discrepancies: function () {
+      const discrepancyFields = [
+        'public_title',
+        'brief_summary',
+        'target_sample_size',
+        'gender',
+        'registration_date',
+      ];
+      const records = this.related('records');
+
+      for (const field of discrepancyFields) {
+        const values = records.map((record) => record.attributes[field]);
+        // Have to convert to JSON to handle values that normally aren't
+        // comparable like dates.
+        const uniqueValues = _.uniq(JSON.parse(JSON.stringify(values)));
+
+        if (uniqueValues.length > 1) {
+          return true;
+        }
+      }
+
+      return false;
     },
   },
   trialsPerYear: function () {
