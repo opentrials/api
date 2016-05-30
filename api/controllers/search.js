@@ -20,6 +20,10 @@ function searchTrials(req, res) {
     from: (page - 1) * perPage,
     size: perPage,
     defaultOperator: 'AND',
+    sort: [
+      'registration_date:desc',
+      '_score:desc',
+    ],
   };
 
   return client.search(searchQuery)

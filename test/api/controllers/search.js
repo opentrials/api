@@ -32,6 +32,19 @@ describe('Search', () => {
           elasticsearch.search.calledWithMatch({ q: 'foo' }).should.be.true();
         });
     });
+
+    it('sort results by registration_date and _score', () => {
+      const expectedSort = [
+        'registration_date:desc',
+        '_score:desc',
+      ];
+      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+
+      return server.inject(url)
+        .then(() => {
+          elasticsearch.search.calledWithMatch({ sort: expectedSort }).should.be.true();
+        });
+    });
   });
 
   describe('GET /v1/search/autocomplete/{in}', () => {
