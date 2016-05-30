@@ -23,6 +23,7 @@ const Record = BaseModel.extend({
     'brief_summary',
     'target_sample_size',
     'gender',
+    'recruitment_status',
     'registration_date',
     'created_at',
     'updated_at',

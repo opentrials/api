@@ -164,6 +164,10 @@ const trialMapping = {
     has_published_results: {
       type: 'boolean',
     },
+    recruitment_status: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
     registration_date: {
       type: 'date',
       format: 'dateOptionalTime',

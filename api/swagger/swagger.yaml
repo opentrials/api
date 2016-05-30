@@ -420,6 +420,14 @@ definitions:
       registration_date:
         type: string
         format: date-time
+      recruitment_status:
+        type: string
+        enum:
+          - pending
+          - recruiting
+          - suspended
+          - complete
+          - other
       locations:
         type: array
         items:
@@ -597,6 +605,14 @@ definitions:
         type: object
       public_title:
         type: string
+      recruitment_status:
+        type: string
+        enum:
+          - pending
+          - recruiting
+          - suspended
+          - complete
+          - other
       created_at:
         type: string
         format: date-time

@@ -75,7 +75,7 @@ const trialAttributes = {
   has_published_results: true,
   public_title: 'public_title',
   brief_summary: 'brief_summary',
-  recruitment_status: 'recruitment_status',
+  recruitment_status: 'complete',
   eligibility_criteria: JSON.stringify('[]'),
   study_type: 'study_type',
   study_design: 'study_design',
