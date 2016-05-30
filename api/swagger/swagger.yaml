@@ -621,12 +621,15 @@ definitions:
   Publication:
     required:
       - id
+      - url
       - source
       - source_url
       - title
       - abstract
     properties:
       id:
+        type: string
+      url:
         type: string
       source:
         $ref: '#/definitions/Source'
@@ -646,7 +649,6 @@ definitions:
         type: array
         items:
           type: string
-
       journal:
         type: string
       date:
@@ -676,10 +678,13 @@ definitions:
   PublicationSummary:
     required:
       - id
+      - url
       - title
       - source
     properties:
       id:
+        type: string
+      url:
         type: string
       title:
         type: string

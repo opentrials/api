@@ -3,6 +3,7 @@
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
 const Source = require('./source');
+const helpers = require('../helpers');
 
 const relatedModels = [
   'source',
@@ -29,11 +30,17 @@ const Publication = BaseModel.extend({
     const attributes = this.toJSON();
     const result = {
       id: attributes.id,
+      url: attributes.url,
       title: attributes.title,
       source: this.related('source').toJSON(),
     };
 
     return result;
+  },
+  virtuals: {
+    url: function () {
+      return helpers.urlFor(this);
+    },
   },
 }, {
   relatedModels

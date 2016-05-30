@@ -139,6 +139,10 @@ const trialMapping = {
           type: 'string',
           index: 'not_analyzed',
         },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
         title: {
           type: 'string',
           copy_to: 'publication',
