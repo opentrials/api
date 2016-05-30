@@ -385,8 +385,6 @@ definitions:
       - id
       - url
       - public_title
-      - brief_summary
-      - registration_date
       - has_discrepancies
       - locations
       - interventions
