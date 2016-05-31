@@ -395,6 +395,10 @@ definitions:
     properties:
       id:
         type: string
+      primary_id:
+        type: string
+      identifiers:
+        type: object
       url:
         type: string
       public_title:

@@ -25,8 +25,8 @@ function clearDB() {
     'publications',
     'trials_publications',
     'records',
-    'sources',
     'trials',
+    'sources',
   ];
   let deferred = config.bookshelf.knex.migrate.latest();
 

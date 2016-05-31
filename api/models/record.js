@@ -32,7 +32,7 @@ const Record = BaseModel.extend({
     return this.belongsTo('Trial');
   },
   source: function () {
-    return this.belongsTo('Source');
+    return this.belongsTo('Source', 'primary_source_id');
   },
   toJSONSummary: function () {
     const attributes = this.toJSON();

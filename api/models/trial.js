@@ -29,6 +29,8 @@ const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
+    'primary_source_id',
+    'identifiers',
     'public_title',
     'brief_summary',
     'target_sample_size',
@@ -69,7 +71,6 @@ const Trial = BaseModel.extend({
 
     attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
     attributes.publications  = (relations.publications || []).map((publication) => publication.toJSONSummary());
-
     return attributes;
   },
   locations: function () {

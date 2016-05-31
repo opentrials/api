@@ -143,7 +143,8 @@ exports.seed = (knex) => {
       id: '05cc77ad-5575-4c04-9309-4c64d5144b07',
       primary_register: 'nct',
       primary_id: 'NCT00000774',
-      identifiers: JSON.stringify({ others: ['11207'] }),
+      identifiers: { nct: 'NCT00000774', isrctn: 'ISRCTN2342342' },
+      primary_source_id: sources.nct.id,
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
@@ -206,7 +207,8 @@ exports.seed = (knex) => {
       id: '475456f3-23bc-4f5e-9d19-51f4a1165540',
       primary_register: 'nct',
       primary_id: 'NCT01003600',
-      identifiers: JSON.stringify({ others: null }),
+      identifiers: { nct: 'NCT01003600' },
+      primary_source_id: sources.nct.id,
       public_title: 'Colorectal Cancer Survivors\' Needs and Preferences for Survivorship Information',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
@@ -255,7 +257,7 @@ exports.seed = (knex) => {
     {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe78',
       trial_id: trials[0].id,
-      source_id: sources.nct.id,
+      primary_source_id: sources.nct.id,
       source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
       source_data: JSON.stringify({
         contacts: [
@@ -302,9 +304,7 @@ exports.seed = (knex) => {
         recruitment_status: 'complete',
         register: 'ClinicalTrials.gov',
         scientific_title: 'Study of the Metabolism of 13C Labelled Glucose to 13CO2 in Human Breath',
-        identifiers: [
-          '13CGLU',
-        ],
+        identifiers: { nct: sources.nct.id },
         secondary_outcomes: [
           'Per cent dose recovered',
         ],
@@ -323,7 +323,7 @@ exports.seed = (knex) => {
 
       primary_register: 'nct',
       primary_id: 'NCT00000774',
-      identifiers: JSON.stringify({ others: ['11207'] }),
+      identifiers: { nct: sources.nct.id, someId: '1234567890' },
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
@@ -341,7 +341,7 @@ exports.seed = (knex) => {
     {
       id: '2e3406c4-031f-11e6-b512-3e1d05defe78',
       trial_id: trials[0].id,
-      source_id: sources.isrctn.id,
+      primary_source_id: sources.isrctn.id,
       source_url: 'http://www.isrctn.com/ISRCTN11631712',
       source_data: JSON.stringify({
         acronym: null,
@@ -426,7 +426,7 @@ exports.seed = (knex) => {
 
       primary_register: 'isrctn',
       primary_id: 'ISRCTN11631712',
-      identifiers: JSON.stringify({ others: null }),
+      identifiers: { isrctn: sources.isrctn.id },
       public_title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
@@ -469,13 +469,15 @@ exports.seed = (knex) => {
     .then(() => knex('trials_persons').del())
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
+    .then(() => knex('trials_publications').del())
     .then(() => knex('organisations').del())
     .then(() => knex('records').del())
     .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())
-    .then(() => knex('sources').del())
     .then(() => knex('trials').del())
+    .then(() => knex('sources').del())
     // Insert
+    .then(() => knex('sources').insert(_getEntries(sources)))
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
     .then(() => knex('locations').insert(_getEntries(locations)))
     .then(() => knex('trials_locations').insert(trialsLocations))
@@ -487,7 +489,6 @@ exports.seed = (knex) => {
     .then(() => knex('trials_persons').insert(trialsPersons))
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
-    .then(() => knex('sources').insert(_getEntries(sources)))
     .then(() => knex('publications').insert(_getEntries(publications)))
     .then(() => knex('trials_publications').insert(trialsPublications))
     .then(() => knex('records').insert(records));
