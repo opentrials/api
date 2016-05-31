@@ -11,46 +11,57 @@ const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
 const Record = require('../api/models/record');
+const Publication = require('../api/models/publication');
+
+factory.define('publication', Publication, {
+  id: () => uuid.v1(),
+  source_id: factory.assoc('source', 'id'),
+  source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
+  title: 'some title',
+  abstract: 'abstract',
+  journal: 'some journal',
+  date: new Date('2016-01-02'),
+  slug: 'some-slug',
+}, {
+  afterCreate: (publication, attrs, callback) => {
+    new Publication({ id: publication.id })
+      .fetch({ withRelated: Publication.relatedModels })
+      .then((instance) => callback(null, instance))
+      .catch((err) => callback(err));
+  },
+});
 
 factory.define('location', Location, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `location${n}`),
   type: 'country',
-  data: JSON.stringify(''),
 });
 
 factory.define('intervention', Intervention, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `intervention${n}`),
   type: 'drug',
-  data: JSON.stringify(''),
 });
 
 factory.define('condition', Condition, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `condition${n}`),
-  data: JSON.stringify(''),
 });
 
 factory.define('person', Person, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `person${n}`),
-  type: 'other',
-  data: JSON.stringify(''),
 });
 
 factory.define('organisation', Organisation, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `organisation${n}`),
-  type: 'other',
-  data: JSON.stringify(''),
 });
 
 factory.define('source', Source, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `source${n}`),
   type: 'register',
-  data: JSON.stringify(''),
 });
 
 const trialAttributes = {
@@ -64,7 +75,7 @@ const trialAttributes = {
   has_published_results: true,
   public_title: 'public_title',
   brief_summary: 'brief_summary',
-  recruitment_status: 'recruitment_status',
+  recruitment_status: 'complete',
   eligibility_criteria: JSON.stringify('[]'),
   study_type: 'study_type',
   study_design: 'study_design',
@@ -79,36 +90,29 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
       factory.create('intervention').then((intervention) => (
           trial.interventions().attach({
             intervention_id: intervention.id,
-            role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('condition').then((condition) => (
           trial.conditions().attach({
             condition_id: condition.id,
-            role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('location').then((loc) => (
           trial.locations().attach({
             location_id: loc.id,
             role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('person').then((person) => (
           trial.persons().attach({
             person_id: person.id,
             role: 'other',
-            context: JSON.stringify(''),
           })
       )),
       factory.create('organisation').then((organisation) => (
           trial.organisations().attach({
             organisation_id: organisation.id,
             role: 'other',
-            context: JSON.stringify(''),
           })
       )),
     ])
@@ -138,7 +142,6 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
   id: () => uuid.v1(),
   name: 'test_source',
   type: 'register',
-  data: JSON.stringify(''),
 }, {
   afterCreate: (source, attrs, callback) => {
     const records = [

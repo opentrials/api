@@ -78,9 +78,9 @@ describe('Source', () => {
               name: source.attributes.name,
               count: 2,
             };
-          });
+          }).sort((a, b) => (a.name > b.name));
 
-          should(result).deepEqual(expectedResult);
+          should(result).containDeep(expectedResult);
         });
     });
   });

@@ -122,6 +122,31 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /publications/{id}:
+    x-swagger-router-controller: publications
+    get:
+      tags:
+        - publications
+      description: Returns publication details
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of the publictaion
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Publication"
+        "404":
+          description: Publictaion not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /conditions/{id}:
     x-swagger-router-controller: conditions
     get:
@@ -171,6 +196,27 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /trials/{id}/records:
+    x-swagger-router-controller: trials
+    get:
+      tags:
+        - trials
+      description: Returns all trial's raw records from its sources
+      operationId: getRecords
+      parameters:
+        - name: id
+          in: path
+          description: ID of the trial
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/RecordList"
+        "404":
+          description: Trial not found
 
   /trials/{trialId}/records/{id}:
     x-swagger-router-controller: trials
@@ -339,13 +385,13 @@ definitions:
       - id
       - url
       - public_title
-      - brief_summary
-      - registration_date
+      - has_discrepancies
       - locations
       - interventions
       - persons
       - organisations
       - records
+      - publications
     properties:
       id:
         type: string
@@ -370,9 +416,20 @@ definitions:
           - female
       has_published_results:
         type: boolean
+      has_discrepancies:
+        type: boolean
+        description: Describes if there are any data discrepancies among the sources of this Trial.
       registration_date:
         type: string
         format: date-time
+      recruitment_status:
+        type: string
+        enum:
+          - pending
+          - recruiting
+          - suspended
+          - complete
+          - other
       locations:
         type: array
         items:
@@ -380,11 +437,11 @@ definitions:
       interventions:
         type: array
         items:
-          $ref: '#/definitions/TrialIntervention'
+          $ref: '#/definitions/Intervention'
       conditions:
         type: array
         items:
-          $ref: '#/definitions/TrialCondition'
+          $ref: '#/definitions/Condition'
       persons:
         type: array
         items:
@@ -397,26 +454,32 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/RecordSummary'
+      publications:
+        type: array
+        items:
+          $ref: '#/definitions/PublicationSummary'
 
   TrialLocation:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - recruitment_countries
-          - other
-      attributes:
-        $ref: '#/definitions/Location'
+    allOf:
+      - $ref: '#/definitions/Location'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - recruitment_countries
+              - other
   Location:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -425,24 +488,17 @@ definitions:
           - city
           - other
 
-  TrialIntervention:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - other
-      attributes:
-        $ref: '#/definitions/Intervention'
   Intervention:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -450,47 +506,42 @@ definitions:
           - drug
           - other
 
-  TrialCondition:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - other
-      attributes:
-        $ref: '#/definitions/Condition'
   Condition:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
         type: string
+      url:
+        type: string
 
   TrialPerson:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - principal_investigator
-          - public_queries
-          - scientific_queries
-          - other
-      attributes:
-        $ref: '#/definitions/Person'
+    allOf:
+      - $ref: '#/definitions/Person'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - principal_investigator
+              - public_queries
+              - scientific_queries
+              - other
   Person:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
+        type: string
+      url:
         type: string
       type:
         type: string
@@ -498,31 +549,34 @@ definitions:
           - other
 
   TrialOrganisation:
-    required:
-      - attributes
-    properties:
-      role:
-        type: string
-        enum:
-          - primary_sponsor
-          - sponsor
-          - funder
-          - other
-      attributes:
-        $ref: '#/definitions/Organisation'
+    allOf:
+      - $ref: '#/definitions/Organisation'
+      - type: object
+        properties:
+          role:
+            type: string
+            enum:
+              - primary_sponsor
+              - sponsor
+              - funder
+              - other
   Organisation:
     required:
       - id
       - name
+      - url
     properties:
       id:
         type: string
       name:
         type: string
-      type:
+      url:
         type: string
-        enum:
-          - other
+
+  RecordList:
+    type: array
+    items:
+      $ref: '#/definitions/Record'
 
   Record:
     required:
@@ -553,12 +607,64 @@ definitions:
         type: object
       public_title:
         type: string
+      recruitment_status:
+        type: string
+        enum:
+          - pending
+          - recruiting
+          - suspended
+          - complete
+          - other
       created_at:
         type: string
         format: date-time
       updated_at:
         type: string
         format: date-time
+
+  Publication:
+    required:
+      - id
+      - url
+      - source
+      - source_url
+      - title
+      - abstract
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      source_url:
+        type: string
+      title:
+        type: string
+      abstract:
+        type: string
+      authors:
+        type: array
+        items:
+          type: string
+      journal:
+        type: string
+      date:
+        type: string
+        format: date-time
+      slug:
+        type: string
+      facts:
+        type: array
+        items:
+          type: string
+
 
   RecordSummary:
     required:
@@ -572,6 +678,23 @@ definitions:
         type: string
       source:
         $ref: '#/definitions/Source'
+
+  PublicationSummary:
+    required:
+      - id
+      - url
+      - title
+      - source
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      title:
+        type: string
+      source:
+        $ref: '#/definitions/Source'
+
   Source:
     required:
       - id

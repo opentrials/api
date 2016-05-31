@@ -1,19 +1,29 @@
 language: node_js
 node_js:
   - "5.8"
+sudo: required
 cache:
   directories:
     - node_modules
     - .nvm
 env:
   global:
+    - NODE_ENV=test
     - TEST_DATABASE_URL=postgres://postgres@localhost:5432/opentrials_api_test
+    - ELASTICSEARCH_URL=http://localhost:9200
     - URL=http://localhost:10010
 
 addons:
   postgresql: "9.4"
 services:
   - postgresql
+before_install:
+  - curl -O https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.2.deb && sudo dpkg -i --force-confnew elasticsearch-1.5.2.deb && sudo service elasticsearch restart
 before_script:
   - psql -c 'create database opentrials_api_test;' -U postgres
-script: npm run coveralls
+  - npm run migrate
+  - npm run seed
+  - npm run reindex
+script:
+  - npm run e2e
+  - npm run coveralls

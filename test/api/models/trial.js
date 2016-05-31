@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const _ = require('lodash');
 const Trial = require('../../../api/models/trial');
 const Location = require('../../../api/models/location');
 
@@ -22,6 +23,8 @@ describe('Trial', () => {
       'organisations',
       'records',
       'records.source',
+      'publications',
+      'publications.source',
     ]);
   });
 
@@ -43,17 +46,13 @@ describe('Trial', () => {
             return trial.locations().attach({
               location_id: loc.id,
               role: 'recruitment_countries',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'locations' })
         }).then((trial) => {
           should(toJSON(trial).locations).deepEqual([
-            {
-              role: 'recruitment_countries',
-              attributes: toJSON(loc),
-            }
+            Object.assign({ role: 'recruitment_countries' }, toJSON(loc)),
           ]);
         });
     });
@@ -77,18 +76,13 @@ describe('Trial', () => {
 
             return trial.interventions().attach({
               intervention_id: intervention.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'interventions' })
         }).then((trial) => {
           should(toJSON(trial).interventions).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(intervention),
-            }
+            toJSON(intervention),
           ]);
         });
     });
@@ -112,18 +106,13 @@ describe('Trial', () => {
 
             return trial.conditions().attach({
               condition_id: condition.id,
-              role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'conditions' })
         }).then((trial) => {
           should(toJSON(trial).conditions).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(condition),
-            }
+            toJSON(condition),
           ]);
         });
     });
@@ -148,17 +137,13 @@ describe('Trial', () => {
             return trial.persons().attach({
               person_id: person.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'persons' })
         }).then((trial) => {
           should(toJSON(trial).persons).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(person),
-            }
+            Object.assign({ role: 'other' }, toJSON(person)),
           ]);
         });
     });
@@ -183,17 +168,14 @@ describe('Trial', () => {
             return trial.organisations().attach({
               organisation_id: organisation.id,
               role: 'other',
-              context: JSON.stringify(''),
             });
           });
         }).then((trial) => {
           return new Trial({ id: trial_id }).fetch({ withRelated: 'organisations' })
         }).then((trial) => {
+
           should(toJSON(trial).organisations).deepEqual([
-            {
-              role: 'other',
-              attributes: toJSON(organisation),
-            }
+            Object.assign({ role: 'other' }, toJSON(organisation)),
           ]);
         });
     });
@@ -242,6 +224,56 @@ describe('Trial', () => {
             { year: 2016, count: 2 },
           ]);
         });
+    });
+
+    it('ignores trials without registration_date', () => {
+      const registrationDates = [
+        { registration_date: '2016-01-01' },
+        { registration_date: null },
+      ];
+
+      return factory.createMany('trial', registrationDates)
+        .then(() => new Trial().trialsPerYear())
+        .then((result) => {
+          should(result).deepEqual([
+            { year: 2016, count: 1 },
+          ]);
+        });
+    });
+  });
+
+  describe('virtuals', () => {
+    describe('has_discrepancies', () => {
+      it('returns false if there\'re no discrepancies in the records', () => {
+        let trial_id;
+
+        return factory.create('record')
+          .then((record) => {
+            const baseFields = _.pick(record.toJSON(), [
+              'trial_id',
+              'public_title',
+              'brief_summary',
+              'target_sample_size',
+              'gender',
+              'registration_date',
+            ]);
+            trial_id = baseFields.trial_id;
+
+            return factory.create('record', baseFields);
+          })
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
+          .then((trial) => should(trial.has_discrepancies).be.false());
+      });
+
+      it('returns true if there\'re discrepancies in the records', () => {
+        let trial_id;
+
+        return factory.create('trial')
+          .then((trial) => trial_id = trial.attributes.id)
+          .then(() => factory.createMany('record', [{ trial_id }, { trial_id, brief_summary: 'foobar' }], 2))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
+          .then((trial) => should(trial.has_discrepancies).be.true());
+      });
     });
   });
 });

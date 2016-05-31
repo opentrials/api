@@ -20,6 +20,11 @@ const Record = BaseModel.extend({
     'source_url',
     'source_data',
     'public_title',
+    'brief_summary',
+    'target_sample_size',
+    'gender',
+    'recruitment_status',
+    'registration_date',
     'created_at',
     'updated_at',
   ],
@@ -27,7 +32,7 @@ const Record = BaseModel.extend({
     return this.belongsTo('Trial');
   },
   source: function () {
-    return this.belongsTo('Source');
+    return this.belongsTo('Source', 'primary_source_id');
   },
   toJSONSummary: function () {
     const attributes = this.toJSON();
@@ -55,8 +60,9 @@ const Record = BaseModel.extend({
       return helpers.urlFor([fakeTrial, fakeRecord]);
     },
     trial_url: function () {
-      return this.related('trial').url;
-    }
+      const fakeTrial = { id: this.attributes.trial_id, tableName: 'trials' };
+      return helpers.urlFor(fakeTrial);
+    },
   },
 }, {
   relatedModels,

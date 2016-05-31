@@ -1,6 +1,6 @@
 'use strict';
 
-exports.up = function(knex, Promise) {
+exports.up = (knex) => {
   const schema = knex.schema;
 
   schema.table('trials', (table) => {
@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
   return schema;
 };
 
-exports.down = function(knex, Promise) {
+exports.down = (knex) => {
   const schema = knex.schema;
 
   schema.table('trials', (table) => {

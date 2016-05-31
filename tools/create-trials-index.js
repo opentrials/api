@@ -24,17 +24,17 @@ const trialMapping = {
     },
     interventions: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'intervention',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'intervention',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
         },
       },
     },
@@ -43,21 +43,21 @@ const trialMapping = {
     },
     locations: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'location',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'location',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        type: {
+          type: 'string',
+          index: 'not_analyzed',
         },
         role: {
           type: 'string',
@@ -70,17 +70,17 @@ const trialMapping = {
     },
     conditions: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'condition',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'condition',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
         },
       },
     },
@@ -89,21 +89,17 @@ const trialMapping = {
     },
     persons: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'person',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'person',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
         },
         role: {
           type: 'string',
@@ -116,21 +112,17 @@ const trialMapping = {
     },
     organisations: {
       properties: {
-        attributes: {
-          properties: {
-            id: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-            name: {
-              type: 'string',
-              copy_to: 'organisation',
-            },
-            type: {
-              type: 'string',
-              index: 'not_analyzed',
-            },
-          },
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        name: {
+          type: 'string',
+          copy_to: 'organisation',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
         },
         role: {
           type: 'string',
@@ -139,6 +131,25 @@ const trialMapping = {
       },
     },
     organisation: {
+      type: 'string',
+    },
+    publications: {
+      properties: {
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        title: {
+          type: 'string',
+          copy_to: 'publication',
+        },
+      },
+    },
+    publication: {
       type: 'string',
     },
     public_title: {
@@ -151,8 +162,15 @@ const trialMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
+    has_discrepancies: {
+      type: 'boolean',
+    },
     has_published_results: {
       type: 'boolean',
+    },
+    recruitment_status: {
+      type: 'string',
+      index: 'not_analyzed',
     },
     registration_date: {
       type: 'date',
@@ -250,6 +268,7 @@ function indexModel(model, index, indexType, fetchOptions) {
 
     do {
       const queryParams = {
+        orderBy: 'id',
         limit: bufferLength,
         offset,
       };
@@ -265,7 +284,7 @@ function indexModel(model, index, indexType, fetchOptions) {
       offset = offset + bufferLength;
     } while (offset <= modelCount);
 
-    return chain;
+    return chain.catch(console.error);
   });
 }
 

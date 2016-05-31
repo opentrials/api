@@ -28,13 +28,11 @@ exports.seed = (knex) => {
       id: '525740cd-12ef-43ba-87a0-0bf98b2c5026',
       name: 'United States of America',
       type: 'country',
-      data: JSON.stringify({}),
     },
     puertoRico: {
       id: '87e4b972-1a03-4b4b-8a6e-d512f99a6c57',
       name: 'Puerto Rico',
       type: 'country',
-      data: JSON.stringify({}),
     },
   };
 
@@ -43,31 +41,26 @@ exports.seed = (knex) => {
       id: '1a2be669-299c-4fc4-aa0c-2cb6ec11a0da',
       name: 'Questionnaire',
       type: 'other',
-      data: JSON.stringify({}),
     },
     hiv1mn: {
       id: '15b51693-b455-4851-b54c-911d958b246b',
       name: 'rgp120/HIV-1MN',
       type: 'drug',
-      data: JSON.stringify({}),
     },
     hiv1sf2: {
       id: '37db8144-070a-4727-a7fe-d4c61d6c389c',
       name: 'rgp120/HIV-1 SF-2',
       type: 'drug',
-      data: JSON.stringify({}),
     },
     placeboHiv1mn: {
       id: '9324a829-8982-4b93-99a4-88f7af32bfac',
       name: 'Placebo version of rgp120/HIV-1MN',
       type: 'other',
-      data: JSON.stringify({}),
     },
     placeboHiv1sf2: {
       id: 'b7db98db-dfcd-4bb8-a8a0-8d7bf83c551b',
       name: 'Placebo version of rgp120/HIV-1SF2',
       type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -75,22 +68,18 @@ exports.seed = (knex) => {
     hiv: {
       id: '0ae7346d-09bf-4781-bde0-3c07525c462d',
       name: 'HIV Infections',
-      data: JSON.stringify({}),
     },
     hivSeronegativity: {
       id: 'e5e9a8b9-d671-48fc-8310-365f332025c3',
       name: 'HIV Seronegativity',
-      data: JSON.stringify({}),
     },
     rectalCancer: {
       id: 'b330752f-ebe1-45c1-a7e3-8c62def8cfb6',
       name: 'Rectal Cancer',
-      data: JSON.stringify({}),
     },
     colonCancer: {
       id: 'bb4a6173-afa8-4b3a-8915-c2332f1d7ee1',
       name: 'Colon Cancer',
-      data: JSON.stringify({}),
     },
   };
 
@@ -98,8 +87,6 @@ exports.seed = (knex) => {
     salz: {
       id: '201eaf6c-8fc9-49e3-bd1d-4596a6f79487',
       name: 'Talya Salz, PhD',
-      type: 'other',
-      data: JSON.stringify({}),
     },
   };
 
@@ -107,16 +94,49 @@ exports.seed = (knex) => {
     niaid: {
       id: '60a0f4b2-b0c5-4d6f-a442-4ef8e31abed5',
       name: 'National Institute of Allergy and Infectious Diseases (NIAID)',
-      type: 'other',
-      data: JSON.stringify({}),
     },
     mskcc: {
       id: '68b963fa-48d1-4ae8-95ab-0155314c8162',
       name: 'Memorial Sloan Kettering Cancer Center',
-      type: 'other',
-      data: JSON.stringify({}),
     },
   };
+
+  const sources = {
+    nct: {
+      id: 'nct',
+      name: 'nct',
+      type: 'register',
+    },
+    isrctn: {
+      id: 'isrctn',
+      name: 'isrctn',
+      type: 'register',
+    },
+  };
+
+  const publications = {
+    publication1: {
+      id: '7cd88d88-031d-11e6-b512-3e1d05defe00',
+      created_at: new Date('2016-01-01'),
+      updated_at: new Date('2016-04-01'),
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
+      title: 'Test title1',
+      abstract: '',
+      authors: ['author1', 'author2'],
+    },
+    publication2: {
+      id: '7cd88d88-031d-11e6-b512-3e1d05defe01',
+      created_at: new Date('2016-01-01'),
+      updated_at: new Date('2016-04-01'),
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
+      title: 'Test title2',
+      abstract: '',
+      authors: ['author1'],
+    },
+  };
+
 
   const trials = [
     {
@@ -128,7 +148,7 @@ exports.seed = (knex) => {
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
-      recruitment_status: 'Completed',
+      recruitment_status: 'complete',
       eligibility_criteria: JSON.stringify([]),
       study_type: 'Interventional',
       study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Treatment',
@@ -136,51 +156,50 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       has_published_results: true,
+      publications: [
+        {
+          publication: publications.publication1,
+        },
+        {
+          publication: publications.publication2,
+        },
+      ],
       locations: [
         {
           location: locations.usa,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
         {
           location: locations.puertoRico,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
       ],
       interventions: [
         {
           intervention: interventions.hiv1mn,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.hiv1sf2,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.placeboHiv1mn,
-          context: JSON.stringify({}),
         },
         {
           intervention: interventions.placeboHiv1sf2,
-          context: JSON.stringify({}),
         },
       ],
       conditions: [
         {
           condition: conditions.hiv,
-          context: JSON.stringify({}),
         },
         {
           condition: conditions.hivSeronegativity,
-          context: JSON.stringify({}),
         },
       ],
       organisations: [
         {
           organisation: organisations.niaid,
           role: 'primary_sponsor',
-          context: JSON.stringify({}),
         },
       ],
     },
@@ -193,7 +212,7 @@ exports.seed = (knex) => {
       public_title: 'Colorectal Cancer Survivors\' Needs and Preferences for Survivorship Information',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
-      recruitment_status: 'Completed',
+      recruitment_status: 'complete',
       eligibility_criteria: JSON.stringify([]),
       study_type: 'Observational',
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
@@ -203,58 +222,37 @@ exports.seed = (knex) => {
         {
           location: locations.usa,
           role: 'recruitment_countries',
-          context: JSON.stringify({}),
         },
       ],
       interventions: [
         {
           intervention: interventions.questionnaire,
-          context: JSON.stringify({}),
         },
       ],
       conditions: [
         {
           condition: conditions.rectalCancer,
-          context: JSON.stringify({}),
         },
         {
           condition: conditions.colonCancer,
-          context: JSON.stringify({}),
         },
       ],
       persons: [
         {
           person: persons.salz,
           role: 'principal_investigator',
-          context: JSON.stringify({}),
         },
       ],
       organisations: [
         {
           organisation: organisations.mskcc,
           role: 'primary_sponsor',
-          context: JSON.stringify({}),
         },
       ],
     },
   ];
 
   // Records
-  const sources = {
-    nct: {
-      id: 'nct',
-      name: 'nct',
-      type: 'register',
-      data: JSON.stringify({}),
-    },
-    isrctn: {
-      id: 'isrctn',
-      name: 'isrctn',
-      type: 'register',
-      data: JSON.stringify({}),
-    },
-  };
-
   const records = [
     {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe78',
@@ -303,7 +301,7 @@ exports.seed = (knex) => {
         ],
         primary_sponsor: 'National University of Ireland, Galway, Ireland',
         public_title: 'Exogenous Glucose Oxidation Breath Test',
-        recruitment_status: 'Completed',
+        recruitment_status: 'complete',
         register: 'ClinicalTrials.gov',
         scientific_title: 'Study of the Metabolism of 13C Labelled Glucose to 13CO2 in Human Breath',
         identifiers: { nct: sources.nct.id },
@@ -329,7 +327,7 @@ exports.seed = (knex) => {
       registration_date: new Date('1999-11-02'),
       public_title: 'A Phase I Study to Evaluate the Safety and Immunogenicity of Recombinant HIV-1 Envelope Antigen in Children Born to HIV-Infected Mothers',
       brief_summary: 'PRIMARY: To determine the safety of envelope recombinant proteins rgp120/HIV-1MN (Genentech) and rgp120/HIV-1SF2 (Chiron/Biocine) in infants who are of indeterminate HIV status born to HIV-infected women. To evaluate changes in viral load in infants proven to be infected and absolute CD4 counts in all immunized infants. SECONDARY: To evaluate the immunogenicity of these envelope recombinant proteins in infants of indeterminate HIV status born to HIV-infected women. Only 30-50 percent of HIV-infected infants have detectable virus at birth. Successful early sensitization to HIV envelope epitopes may help prevent infection or, alternatively, may enhance HIV-specific immune function to alter HIV replication and disease progression.',
-      recruitment_status: 'Completed',
+      recruitment_status: 'complete',
       eligibility_criteria: JSON.stringify([]),
       study_type: 'Interventional',
       study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Treatment',
@@ -404,7 +402,7 @@ exports.seed = (knex) => {
         reason_abandoned: null,
         recruitment_end_date: '2009-09-30',
         recruitment_start_date: '1984-01-01',
-        recruitment_status: 'No longer recruiting',
+        recruitment_status: 'suspended',
         scientific_title: null,
         secondary_outcome_measures: 'Not provided at time of registration.',
         secondary_study_design: 'Randomised controlled trial',
@@ -432,7 +430,7 @@ exports.seed = (knex) => {
       public_title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
       registration_date: new Date('2009-10-28'),
-      recruitment_status: 'Completed',
+      recruitment_status: 'complete',
       eligibility_criteria: JSON.stringify([]),
       study_type: 'Observational',
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
@@ -448,6 +446,7 @@ exports.seed = (knex) => {
   const trialsConditions = _generateRelationships(trials, 'condition');
   const trialsPersons = _generateRelationships(trials, 'person');
   const trialsOrganisations = _generateRelationships(trials, 'organisation');
+  const trialsPublications = _generateRelationships(trials, 'publication');
 
   const trialsWithoutRelatedModels = trials.map((trial) => {
     const result = Object.assign({}, trial);
@@ -456,6 +455,7 @@ exports.seed = (knex) => {
     delete result.conditions;
     delete result.persons;
     delete result.organisations;
+    delete result.publications;
 
     return result;
   });
@@ -472,10 +472,12 @@ exports.seed = (knex) => {
     .then(() => knex('trials_publications').del())
     .then(() => knex('organisations').del())
     .then(() => knex('records').del())
+    .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())
-    .then(() => knex('sources').del())
     .then(() => knex('trials').del())
+    .then(() => knex('sources').del())
     // Insert
+    .then(() => knex('sources').insert(_getEntries(sources)))
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
     .then(() => knex('locations').insert(_getEntries(locations)))
     .then(() => knex('trials_locations').insert(trialsLocations))
@@ -487,6 +489,7 @@ exports.seed = (knex) => {
     .then(() => knex('trials_persons').insert(trialsPersons))
     .then(() => knex('organisations').insert(_getEntries(organisations)))
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
-    .then(() => knex('sources').insert(_getEntries(sources)))
+    .then(() => knex('publications').insert(_getEntries(publications)))
+    .then(() => knex('trials_publications').insert(trialsPublications))
     .then(() => knex('records').insert(records));
 };

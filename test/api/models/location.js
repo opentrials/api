@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Location = require('../../../api/models/location');
 
 describe('Location', () => {
@@ -15,7 +16,7 @@ describe('Location', () => {
       return factory.create('trialWithRelated')
         .then((trial) => {
           trialId = trial.id;
-          const locationId = toJSON(trial).locations[0].attributes.id;
+          const locationId = toJSON(trial).locations[0].id;
           return new Location({ id: locationId }).fetch({ withRelated: 'trials' });
         }).then((loc) => {
           const trialsIds = loc.related('trials').models.map((trial) => trial.id);
@@ -37,6 +38,13 @@ describe('Location', () => {
         .then((result) => {
           should(result.length).equal(10);
         });
+    });
+  });
+
+  describe('url', () => {
+    it('returns the url', () => {
+      return factory.build('location')
+        .then((loc) => should(loc.toJSON().url).eql(helpers.urlFor(loc)));
     });
   });
 });

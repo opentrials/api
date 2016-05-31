@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Organisation = require('../../../api/models/organisation');
 
 describe('Organisation', () => {
@@ -15,7 +16,7 @@ describe('Organisation', () => {
       return factory.create('trialWithRelated')
         .then((trial) => {
           trialId = trial.id;
-          const organisationId = toJSON(trial).organisations[0].attributes.id;
+          const organisationId = toJSON(trial).organisations[0].id;
           return new Organisation({ id: organisationId }).fetch({ withRelated: 'trials' });
         }).then((organisation) => {
           const trialsIds = organisation.related('trials').models.map((trial) => trial.id);
@@ -24,4 +25,10 @@ describe('Organisation', () => {
     })
   });
 
+  describe('url', () => {
+    it('returns the url', () => {
+      return factory.build('person')
+        .then((person) => should(person.toJSON().url).eql(helpers.urlFor(person)));
+    });
+  });
 });

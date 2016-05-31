@@ -50,14 +50,15 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "test": "node ./node_modules/.bin/istanbul cover _mocha",
+    "e2e": "mocha --grep e2e",
+    "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert",
     "posttest": "npm run lint",
     "lint": "eslint *.js **/*.js",
     "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "start": "node server.js",
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
     "dev": "nodemon server.js",
     "reindex": "node ./tools/create-trials-index.js"
   }

@@ -8,6 +8,7 @@ describe('Stats', () => {
   describe('GET /v1/stats', () => {
 
     it('returns the Stats', () => {
+
       return factory.create('trialWithRelated')
         .then(() => factory.create('record'))
         .then(() => server.inject('/v1/stats'))

@@ -39,7 +39,21 @@ function getRecord(req, res) {
     });
 }
 
+function getRecords(req, res) {
+  const id = req.swagger.params.id.value;
+
+  return Record.query({ where: { trial_id: id } }).fetchAll({ withRelated: ['source'] })
+    .catch((err) => {
+      res.finish();
+      throw err;
+    })
+    .then((records) => {
+      res.json(records);
+    });
+}
+
 module.exports = {
   get: getTrial,
   getRecord,
+  getRecords,
 }
