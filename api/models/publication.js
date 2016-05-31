@@ -20,7 +20,6 @@ const Publication = BaseModel.extend({
     'abstract',
     'created_at',
     'updated_at',
-    'facts',
     'authors',
   ],
   source: function () {
