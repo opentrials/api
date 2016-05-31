@@ -60,8 +60,9 @@ const Record = BaseModel.extend({
       return helpers.urlFor([fakeTrial, fakeRecord]);
     },
     trial_url: function () {
-      return this.related('trial').url;
-    }
+      const fakeTrial = { id: this.attributes.trial_id, tableName: 'trials' };
+      return helpers.urlFor(fakeTrial);
+    },
   },
 }, {
   relatedModels,

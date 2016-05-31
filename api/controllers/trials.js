@@ -42,7 +42,7 @@ function getRecord(req, res) {
 function getRecords(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Record({ trial_id: id }).fetchAll({ withRelated: Record.relatedModels })
+  return Record.query({ where: { trial_id: id } }).fetchAll({ withRelated: ['source'] })
     .catch((err) => {
       res.finish();
       throw err;

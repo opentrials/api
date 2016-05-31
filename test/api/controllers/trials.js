@@ -69,7 +69,7 @@ describe('Trials', () => {
       return factory.create('trial')
         .then((trial) => trial_id = trial.attributes.id)
         .then(() => factory.createMany('record', { trial_id }, 2))
-        .then(() => new Record({ trial_id }).fetchAll({ withRelated: Record.relatedModels }))
+        .then(() => Record.query({ where: { trial_id } }).fetchAll({ withRelated: ['source'] }))
         .then((_records) => records = _records)
         .then(() => server.inject(`/v1/trials/${trial_id}/records`))
         .then((response) => {
