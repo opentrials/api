@@ -660,11 +660,6 @@ definitions:
         format: date-time
       slug:
         type: string
-      facts:
-        type: array
-        items:
-          type: string
-
 
   RecordSummary:
     required:
