@@ -3,6 +3,7 @@
 const should = require('should');
 const _ = require('lodash');
 const Trial = require('../../../api/models/trial');
+const Record = require('../../../api/models/record');
 const Location = require('../../../api/models/location');
 
 describe('Trial', () => {
@@ -273,6 +274,18 @@ describe('Trial', () => {
           .then(() => factory.createMany('record', [{ trial_id }, { trial_id, brief_summary: 'foobar' }], 2))
           .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
           .then((trial) => should(trial.has_discrepancies).be.true());
+      });
+
+      it('ignores undefined fields', () => {
+        let trial_id;
+
+        return factory.create('trial')
+          .then((trial) => trial_id = trial.attributes.id)
+          .then(() => factory.create('record', { trial_id, gender: 'male' }))
+          .then(() => factory.build('record', { trial_id }))
+          .then((record) => record.save({ gender: undefined }, { method: 'insert' }))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
+          .then((trial) => should(trial.has_discrepancies).be.false());
       });
     });
   });

@@ -112,7 +112,13 @@ const Trial = BaseModel.extend({
       const records = this.related('records');
 
       for (const field of discrepancyFields) {
-        const values = records.map((record) => record.attributes[field]);
+        const values = records.reduce((results, record) => {
+          if (record.attributes[field]) {
+            results.push(record.attributes[field]);
+          }
+
+          return results;
+        }, []);
         // Have to convert to JSON to handle values that normally aren't
         // comparable like dates.
         const uniqueValues = _.uniq(JSON.parse(JSON.stringify(values)));
