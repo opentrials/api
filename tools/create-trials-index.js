@@ -268,6 +268,7 @@ function indexModel(model, index, indexType, fetchOptions) {
 
     do {
       const queryParams = {
+        orderBy: 'id',
         limit: bufferLength,
         offset,
       };
