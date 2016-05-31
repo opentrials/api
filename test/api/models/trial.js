@@ -244,12 +244,4 @@ describe('Trial', () => {
         });
     });
   });
-
-  describe('_convertIdentifiers', () => {
-    it('should build a identifiers', () => {
-      const identifiers = new Trial()._convertIdentifiers({primary_id: 'someId'});
-      should(identifiers).deepEqual(['someId']);
-    });
-  });
-
 });
