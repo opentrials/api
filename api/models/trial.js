@@ -132,6 +132,7 @@ const Trial = BaseModel.extend({
         bookshelf.knex.raw('count(registration_date)::int')
       )
       .from('trials')
+      .whereNotNull('registration_date')
       .groupByRaw('year')
       .orderBy('year');
   },
