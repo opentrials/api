@@ -10,6 +10,17 @@ const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 
 const trialMapping = {
+  dynamic_templates: [
+    {
+      identifiers_values_arent_analyzed: {
+        path_match: 'identifiers.*',
+        mapping: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+      },
+    },
+  ],
   properties: {
     brief_summary: {
       type: 'string',
@@ -19,6 +30,10 @@ const trialMapping = {
       index: 'not_analyzed',
     },
     id: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    primary_source_id: {
       type: 'string',
       index: 'not_analyzed',
     },
