@@ -9,6 +9,30 @@ const Location = require('../api/models/location');
 const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
 
+
+function getDiscrepancyRecordMapping(valueMapping) {
+  return {
+    properties: {
+      field: {
+        enabled: 'false',
+      },
+      records: {
+        properties: {
+          record_id: {
+            type: 'string',
+            index: 'not_analyzed',
+          },
+          source_name: {
+            type: 'string',
+            index: 'not_analyzed',
+          },
+          value: valueMapping,
+        },
+      },
+    },
+  };
+}
+
 const trialMapping = {
   dynamic_templates: [
     {
@@ -167,6 +191,27 @@ const trialMapping = {
     publication: {
       type: 'string',
     },
+    discrepancies: {
+      properties: {
+        public_title: getDiscrepancyRecordMapping({
+          type: 'string',
+        }),
+        brief_summary: getDiscrepancyRecordMapping({
+          type: 'string',
+        }),
+        gender: getDiscrepancyRecordMapping({
+          type: 'string',
+          index: 'not_analyzed',
+        }),
+        target_sample_size: getDiscrepancyRecordMapping({
+          type: 'integer',
+        }),
+        registration_date: getDiscrepancyRecordMapping({
+          type: 'date',
+          format: 'dateOptionalTime',
+        }),
+      },
+    },
     public_title: {
       type: 'string',
     },
@@ -176,9 +221,6 @@ const trialMapping = {
     gender: {
       type: 'string',
       index: 'not_analyzed',
-    },
-    has_discrepancies: {
-      type: 'boolean',
     },
     has_published_results: {
       type: 'boolean',
