@@ -244,8 +244,43 @@ describe('Trial', () => {
   });
 
   describe('virtuals', () => {
-    describe('has_discrepancies', () => {
-      it('returns false if there\'re no discrepancies in the records', () => {
+    describe('discrepancies', () => {
+      it('returns the discrepancies', () => {
+        let trial_id;
+
+        return factory.create('trial')
+          .then((trial) => trial_id = trial.attributes.id)
+          .then(() => factory.createMany('record', [
+              {
+                trial_id,
+                public_title: 'foo',
+                brief_summary: 'foo',
+                target_sample_size: 0,
+                gender: 'female',
+                registration_date: new Date('2016-01-01'),
+              },
+              {
+                trial_id,
+                public_title: 'bar',
+                brief_summary: 'bar',
+                target_sample_size: 100,
+                gender: 'both',
+                registration_date: new Date('2015-01-01'),
+              },
+           ]))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
+          .then((trial) => {
+            should(trial.discrepancies).have.keys([
+              'public_title',
+              'brief_summary',
+              'target_sample_size',
+              'gender',
+              'registration_date',
+            ]);
+          });
+      });
+
+      it('returns undefined if there\'re no discrepancies in the records', () => {
         let trial_id;
 
         return factory.create('record')
@@ -262,18 +297,8 @@ describe('Trial', () => {
 
             return factory.create('record', baseFields);
           })
-          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
-          .then((trial) => should(trial.has_discrepancies).be.false());
-      });
-
-      it('returns true if there\'re discrepancies in the records', () => {
-        let trial_id;
-
-        return factory.create('trial')
-          .then((trial) => trial_id = trial.attributes.id)
-          .then(() => factory.createMany('record', [{ trial_id }, { trial_id, brief_summary: 'foobar' }], 2))
-          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
-          .then((trial) => should(trial.has_discrepancies).be.true());
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
+          .then((trial) => should(trial.discrepancies).be.undefined());
       });
 
       it('ignores undefined fields', () => {
@@ -281,11 +306,9 @@ describe('Trial', () => {
 
         return factory.create('trial')
           .then((trial) => trial_id = trial.attributes.id)
-          .then(() => factory.create('record', { trial_id, gender: 'male' }))
-          .then(() => factory.build('record', { trial_id }))
-          .then((record) => record.save({ gender: undefined }, { method: 'insert' }))
-          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: 'records' }))
-          .then((trial) => should(trial.has_discrepancies).be.false());
+          .then(() => factory.createMany('record', [{ trial_id, gender: 'male' }, { trial_id, gender: null }]))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
+          .then((trial) => should(trial.discrepancies).be.undefined());
       });
     });
   });

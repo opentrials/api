@@ -103,7 +103,7 @@ const Trial = BaseModel.extend({
     url: function () {
       return helpers.urlFor(this);
     },
-    has_discrepancies: function () {
+    discrepancies: function () {
       const discrepancyFields = [
         'public_title',
         'brief_summary',
@@ -111,26 +111,33 @@ const Trial = BaseModel.extend({
         'gender',
         'registration_date',
       ];
-      const records = this.related('records');
+      const records = this.related('records').toJSON();
+      let discrepancies;
 
       for (const field of discrepancyFields) {
-        const values = records.reduce((results, record) => {
-          if (record.attributes[field]) {
-            results.push(record.attributes[field]);
+        const values = records.reduce((result, record) => {
+          if (record[field] !== undefined) {
+            result.push({
+              record_id: record.id,
+              source_name: record.source.name,
+              value: record[field],
+            });
           }
 
-          return results;
+          return result;
         }, []);
+
         // Have to convert to JSON to handle values that normally aren't
         // comparable like dates.
-        const uniqueValues = _.uniq(JSON.parse(JSON.stringify(values)));
-
-        if (uniqueValues.length > 1) {
-          return true;
+        const cleanValues = JSON.parse(JSON.stringify(values));
+        const hasDiscrepantValues = _.uniqBy(cleanValues, 'value').length > 1;
+        if (hasDiscrepantValues) {
+          discrepancies = discrepancies || {};
+          discrepancies[field] = values;
         }
       }
 
-      return false;
+      return discrepancies;
     },
   },
   trialsPerYear: function () {

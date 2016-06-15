@@ -385,7 +385,6 @@ definitions:
       - id
       - url
       - public_title
-      - has_discrepancies
       - locations
       - interventions
       - persons
@@ -417,9 +416,6 @@ definitions:
           - female
       has_published_results:
         type: boolean
-      has_discrepancies:
-        type: boolean
-        description: Describes if there are any data discrepancies among the sources of this Trial.
       registration_date:
         type: string
         format: date-time
@@ -459,6 +455,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PublicationSummary'
+      discrepancies:
+        type: object
+        items:
+          $ref: '#/definitions/Discrepancies'
 
   TrialLocation:
     allOf:
@@ -470,6 +470,7 @@ definitions:
             enum:
               - recruitment_countries
               - other
+
   Location:
     required:
       - id
@@ -695,6 +696,65 @@ definitions:
         type: string
       source:
         $ref: '#/definitions/Source'
+
+  Discrepancies:
+    description: Object listing the Trial's discrepant fields
+    properties:
+      public_title:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      brief_summary:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      gender:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      target_sample_size:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldInteger'
+      registration_date:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldDateTime'
+
+  DiscrepantFieldString:
+    allOf:
+      - $ref: '#/definitions/DiscrepancyFieldBase'
+      - type: object
+        properties:
+          value:
+            type: string
+
+  DiscrepantFieldInteger:
+    allOf:
+      - $ref: '#/definitions/DiscrepancyFieldBase'
+      - type: object
+        properties:
+          value:
+            type: integer
+
+  DiscrepantFieldDateTime:
+    allOf:
+      - $ref: '#/definitions/DiscrepancyFieldBase'
+      - type: object
+        properties:
+          value:
+            type: string
+            format: date-time
+
+  DiscrepancyFieldBase:
+    required:
+      - record_id
+      - source_name
+    properties:
+      record_id:
+        type: string
+      source_name:
+        type: string
 
   Source:
     required:
