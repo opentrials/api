@@ -129,8 +129,18 @@ const Trial = BaseModel.extend({
 
         // Have to convert to JSON to handle values that normally aren't
         // comparable like dates.
-        const cleanValues = JSON.parse(JSON.stringify(values));
-        const hasDiscrepantValues = _.uniqBy(cleanValues, 'value').length > 1;
+        // We also remove whitespaces and punctuation to make sure they don't
+        // influence in the discrepancy calculation
+        const spaceAndPunctuation = /[\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~\s]/g;
+        const cleanValues = JSON.parse(JSON.stringify(values)).map((v) => {
+          v.value = v.value
+                      .toString()
+                      .replace(spaceAndPunctuation, '')
+                      .toLowerCase();
+          return v;
+        });
+
+        const hasDiscrepantValues = (_.uniqBy(cleanValues, 'value').length > 1);
         if (hasDiscrepantValues) {
           discrepancies = discrepancies || {};
           discrepancies[field] = values;
