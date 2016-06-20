@@ -301,6 +301,27 @@ describe('Trial', () => {
           .then((trial) => should(trial.discrepancies).be.undefined());
       });
 
+      it('ignores whitespace and punctuation', () => {
+        let trial_id;
+
+        return factory.create('trial')
+          .then((trial) => trial_id = trial.attributes.id)
+          .then(() => factory.createMany('record', [
+              {
+                trial_id,
+                public_title: 'FoO! BaR? !"#$%&\\/\'()*+,-./:;<=>?@[]^_`{|}~',
+              },
+              {
+                trial_id,
+                public_title: 'foo bar',
+              },
+           ]))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
+          .then((trial) => {
+            should(trial.discrepancies).be.undefined();
+          });
+      });
+
       it('ignores undefined fields', () => {
         let trial_id;
 
