@@ -10,6 +10,7 @@ if (!process.env.ELASTICSEARCH_URL) {
 const elasticsearch = require('elasticsearch');
 const path = require('path');
 const good = require('good');
+const inert = require('inert');
 const httpAwsEs = require('http-aws-es');
 
 const config = {
@@ -34,6 +35,8 @@ const config = {
           }, 'stdout'],
         },
       },
+    }, {
+      register: inert,
     }],
   },
 };
