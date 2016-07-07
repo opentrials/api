@@ -110,6 +110,7 @@ const Trial = BaseModel.extend({
         'target_sample_size',
         'gender',
         'registration_date',
+        'recruitment_status',
       ];
       const records = this.related('records').toJSON();
       let discrepancies;
