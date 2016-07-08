@@ -252,6 +252,25 @@ exports.seed = (knex) => {
     },
   ];
 
+  const documents = [
+    {
+      id: '77b81059-19b2-4f5d-a00b-85b9c12b6002',
+      source_id: sources.nct.id,
+      trial_id: trials[0].id,
+      name: 'Blank Consent Form',
+      type: 'blank_consent_form',
+      url: 'http://example.com/consent_form.pdf',
+    },
+    {
+      id: 'e43a38cc-6a32-44f3-9f97-d4859fc6de47',
+      source_id: sources.isrctn.id,
+      trial_id: trials[0].id,
+      name: 'Clinical Study Report (CSR)',
+      type: 'csr',
+      url: 'http://example.com/csr.pdf',
+    },
+  ];
+
   // Records
   const records = [
     {
@@ -473,11 +492,13 @@ exports.seed = (knex) => {
     .then(() => knex('records').del())
     .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())
+    .then(() => knex('documents').del())
     .then(() => knex('trials').del())
     .then(() => knex('sources').del())
     // Insert
     .then(() => knex('sources').insert(_getEntries(sources)))
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
+    .then(() => knex('documents').insert(documents))
     .then(() => knex('locations').insert(_getEntries(locations)))
     .then(() => knex('trials_locations').insert(trialsLocations))
     .then(() => knex('interventions').insert(_getEntries(interventions)))

@@ -6,6 +6,7 @@ require('./condition');
 require('./person');
 require('./organisation');
 require('./source');
+require('./document');
 require('./record');
 require('./publication');
 
@@ -23,6 +24,7 @@ const relatedModels = [
   'records.source',
   'publications',
   'publications.source',
+  'documents',
 ];
 
 const Trial = BaseModel.extend({
@@ -95,6 +97,9 @@ const Trial = BaseModel.extend({
   publications: function () {
     return this.belongsToMany('Publication', 'trials_publications',
       'trial_id', 'publication_id');
+  },
+  documents: function () {
+    return this.hasMany('Document');
   },
   records: function () {
     return this.hasMany('Record');
