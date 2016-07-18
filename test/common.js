@@ -21,7 +21,6 @@ function clearDB() {
     'trials_organisations',
     'organisations',
     'documents',
-    'trials_documents',
     'publications',
     'trials_publications',
     'records',
