@@ -299,6 +299,9 @@ function bulkIndexEntities(entities, index, indexType) {
   }
 
   const bulkBody = entities.models.reduce((result, entity) => {
+    if (entity.relations.trials && entity.relations.trials.length === 0) {
+      return result;
+    }
     const action = {
       index: {
         _index: index,
@@ -346,7 +349,12 @@ function indexModel(model, index, indexType, fetchOptions) {
 }
 
 function indexAutocompleteModel(model, indexType) {
-  return indexModel(model, 'autocomplete', indexType, { columns: ['id', 'name'] });
+  return indexModel(
+    model,
+    'autocomplete',
+    indexType,
+    { columns: ['id', 'name'], withRelated: 'trials' }
+  );
 }
 
 client.indices.delete({ index: 'trials', ignore: 404 })
