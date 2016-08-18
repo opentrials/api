@@ -9,6 +9,8 @@ const Document = BaseModel.extend({
     'type',
     'name',
     'url',
+    'documentcloud_url',
+    'text',
   ],
 });
 
