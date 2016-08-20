@@ -5,6 +5,7 @@ exports.up = (knex) => (
     table.dropColumn('primary_register');
     table.dropColumn('primary_id');
     table.dropColumn('facts');
+    table.dropColumn('slug');
   })
 );
 
