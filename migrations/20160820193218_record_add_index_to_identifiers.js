@@ -6,8 +6,8 @@ exports.up = (knex) => (
   })
 );
 
-exports.down = (knex) => {
+exports.down = (knex) => (
   knex.schema.table('records', (table) => {
     table.dropIndex('identifiers');
   })
-};
+);
