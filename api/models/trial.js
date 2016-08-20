@@ -31,7 +31,6 @@ const Trial = BaseModel.extend({
   tableName: 'trials',
   visible: [
     'id',
-    'primary_source_id',
     'identifiers',
     'public_title',
     'brief_summary',
