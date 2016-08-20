@@ -125,7 +125,7 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
 factory.define('record', Record, Object.assign({}, trialAttributes, {
   id: () => uuid.v1(),
   trial_id: factory.assoc('trial', 'id'),
-  primary_source_id: factory.assoc('source', 'id'),
+  source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
   source_data: JSON.stringify({}),
 }), {
@@ -146,11 +146,11 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
   afterCreate: (source, attrs, callback) => {
     const records = [
       {
-        primary_source_id: source.id,
+        source_id: source.id,
         updated_at: new Date('2015-01-01'),
       },
       {
-        primary_source_id: source.id,
+        source_id: source.id,
         updated_at: new Date('2016-01-01'),
       },
     ];
