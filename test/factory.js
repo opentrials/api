@@ -126,7 +126,7 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
   source_data: JSON.stringify({}),
-  primary_id: factory.sequence((n) => `primary_id${n}`),
+  source_trial_id: factory.sequence((n) => `source_trial_id${n}`),
 }), {
   afterCreate: (record, attrs, callback) => {
     new Record({ id: record.id })
