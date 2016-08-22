@@ -779,6 +779,10 @@ definitions:
           - other
       url:
         type: string
+      documentcloud_url:
+        type: string
+      text:
+        type: string
 
   Source:
     required:

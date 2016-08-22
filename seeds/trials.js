@@ -481,6 +481,7 @@ exports.seed = (knex) => {
 
   return knex('trials_locations').del()
     .then(() => knex('locations').del())
+    .then(() => knex('documents').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
     .then(() => knex('trials_conditions').del())
@@ -492,13 +493,11 @@ exports.seed = (knex) => {
     .then(() => knex('records').del())
     .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())
-    .then(() => knex('documents').del())
     .then(() => knex('trials').del())
     .then(() => knex('sources').del())
     // Insert
     .then(() => knex('sources').insert(_getEntries(sources)))
     .then(() => knex('trials').insert(trialsWithoutRelatedModels))
-    .then(() => knex('documents').insert(documents))
     .then(() => knex('locations').insert(_getEntries(locations)))
     .then(() => knex('trials_locations').insert(trialsLocations))
     .then(() => knex('interventions').insert(_getEntries(interventions)))
@@ -511,5 +510,6 @@ exports.seed = (knex) => {
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('publications').insert(_getEntries(publications)))
     .then(() => knex('trials_publications').insert(trialsPublications))
+    .then(() => knex('documents').insert(documents))
     .then(() => knex('records').insert(records));
 };
