@@ -312,9 +312,14 @@ function bulkIndexEntities(entities, index, indexType) {
     return result.concat([action, JSON.stringify(entity)]);
   }, []);
 
-  return client.bulk({
-    body: bulkBody,
-  });
+  let result;
+  if (bulkBody.length > 0) {
+    result = client.bulk({
+      body: bulkBody,
+    });
+  }
+
+  return result;
 }
 
 function indexModel(model, index, indexType, fetchOptions) {
