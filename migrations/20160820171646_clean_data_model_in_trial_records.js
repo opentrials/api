@@ -9,7 +9,7 @@ exports.up = (knex) => (
       table.dropColumn('slug');
     })
     .table('records', (table) => {
-      table.renameColumn('primary_source_id', 'source_id' );
+      table.renameColumn('primary_source_id', 'source_id');
       table.dropColumn('primary_register');
       table.renameColumn('primary_id', 'source_trial_id');
       table.index('identifiers', undefined, 'GIN');
