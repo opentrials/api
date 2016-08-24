@@ -57,6 +57,10 @@ const trialMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
+    source_id: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
     interventions: {
       properties: {
         id: {
