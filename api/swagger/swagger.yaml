@@ -394,6 +394,8 @@ definitions:
     properties:
       id:
         type: string
+      source_id:
+        type: string
       identifiers:
         type: object
         description: Object that maps the Trial's sources ids with its identifiers.
