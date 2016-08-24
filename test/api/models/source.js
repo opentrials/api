@@ -23,8 +23,8 @@ describe('Source', () => {
         .then((_source) => source = _source)
         .then(() => (
           factory.createMany('record', [
-              { primary_source_id: source.attributes.id },
-              { primary_source_id: source.attributes.id },
+              { source_id: source.attributes.id },
+              { source_id: source.attributes.id },
             ])
         ))
         .then((records) => {
@@ -61,11 +61,11 @@ describe('Source', () => {
           sources = results[1];
 
           const recordsAttributes = [
-            { primary_source_id: sources[0].attributes.id, trial_id: trials[0].attributes.id },
-            { primary_source_id: sources[0].attributes.id, trial_id: trials[1].attributes.id },
-            { primary_source_id: sources[0].attributes.id, trial_id: trials[1].attributes.id },
-            { primary_source_id: sources[1].attributes.id, trial_id: trials[0].attributes.id },
-            { primary_source_id: sources[1].attributes.id, trial_id: trials[1].attributes.id },
+            { source_id: sources[0].attributes.id, trial_id: trials[0].attributes.id },
+            { source_id: sources[0].attributes.id, trial_id: trials[1].attributes.id },
+            { source_id: sources[0].attributes.id, trial_id: trials[1].attributes.id },
+            { source_id: sources[1].attributes.id, trial_id: trials[0].attributes.id },
+            { source_id: sources[1].attributes.id, trial_id: trials[1].attributes.id },
           ];
 
           return factory.createMany('record', recordsAttributes);
