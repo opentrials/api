@@ -342,7 +342,7 @@ describe('Trial', () => {
           .then((euctr) => factory.createMany('record', [
               {
                 trial_id,
-                primary_source_id: euctr.id,
+                source_id: euctr.id,
                 gender: 'female',
               },
               {
