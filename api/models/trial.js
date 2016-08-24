@@ -117,7 +117,9 @@ const Trial = BaseModel.extend({
         'registration_date',
         'recruitment_status',
       ];
-      const records = this.related('records').toJSON();
+      const records = this.related('records')
+                          .toJSON()
+                          .filter((record) => record.source.id !== 'euctr');
       let discrepancies;
 
       for (const field of discrepancyFields) {
