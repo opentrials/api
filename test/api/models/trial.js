@@ -259,6 +259,8 @@ describe('Trial', () => {
                 target_sample_size: 0,
                 gender: 'female',
                 registration_date: new Date('2016-01-01'),
+                status: 'complete',
+                recruitment_status: 'not_recruiting',
               },
               {
                 trial_id,
@@ -267,6 +269,8 @@ describe('Trial', () => {
                 target_sample_size: 100,
                 gender: 'both',
                 registration_date: new Date('2015-01-01'),
+                status: 'ongoing',
+                recruitment_status: 'recruiting',
               },
            ]))
           .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
@@ -277,6 +281,8 @@ describe('Trial', () => {
               'target_sample_size',
               'gender',
               'registration_date',
+              'status',
+              'recruitment_status',
             ]);
           });
       });
