@@ -225,6 +225,10 @@ const trialMapping = {
     has_published_results: {
       type: 'boolean',
     },
+    status: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
     recruitment_status: {
       type: 'string',
       index: 'not_analyzed',
