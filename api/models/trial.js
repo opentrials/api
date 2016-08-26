@@ -38,6 +38,7 @@ const Trial = BaseModel.extend({
     'target_sample_size',
     'gender',
     'has_published_results',
+    'status',
     'recruitment_status',
     'registration_date',
   ].concat(relatedModels),
@@ -115,6 +116,7 @@ const Trial = BaseModel.extend({
         'target_sample_size',
         'gender',
         'registration_date',
+        'status',
         'recruitment_status',
       ];
       const records = this.related('records')

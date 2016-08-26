@@ -419,13 +419,21 @@ definitions:
       registration_date:
         type: string
         format: date-time
+      status:
+        type: string
+        enum:
+          - ongoing
+          - withdrawn
+          - suspended
+          - terminated
+          - complete
+          - other
       recruitment_status:
         type: string
         enum:
-          - pending
           - recruiting
-          - suspended
-          - complete
+          - not_recruiting
+          - unknown
           - other
       locations:
         type: array
@@ -618,13 +626,21 @@ definitions:
         type: object
       public_title:
         type: string
+      status:
+        type: string
+        enum:
+          - ongoing
+          - withdrawn
+          - suspended
+          - terminated
+          - complete
+          - other
       recruitment_status:
         type: string
         enum:
-          - pending
           - recruiting
-          - suspended
-          - complete
+          - not_recruiting
+          - unknown
           - other
       created_at:
         type: string
