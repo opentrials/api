@@ -788,6 +788,7 @@ definitions:
         type: string
         enum:
           - csr
+          - csr_synopsis
           - epar_segment
           - blank_consent_form
           - patient_information_sheet
