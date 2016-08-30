@@ -720,14 +720,6 @@ definitions:
   Discrepancies:
     description: Object listing the Trial's discrepant fields
     properties:
-      public_title:
-        type: array
-        items:
-          $ref: '#/definitions/DiscrepantFieldString'
-      brief_summary:
-        type: array
-        items:
-          $ref: '#/definitions/DiscrepantFieldString'
       gender:
         type: array
         items:
@@ -736,10 +728,18 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/DiscrepantFieldInteger'
-      registration_date:
+      status:
         type: array
         items:
-          $ref: '#/definitions/DiscrepantFieldDateTime'
+          $ref: '#/definitions/DiscrepantFieldString'
+      recruitment_status:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldString'
+      has_published_results:
+        type: array
+        items:
+          $ref: '#/definitions/DiscrepantFieldBoolean'
 
   DiscrepantFieldString:
     allOf:
@@ -757,14 +757,13 @@ definitions:
           value:
             type: integer
 
-  DiscrepantFieldDateTime:
+  DiscrepantFieldBoolean:
     allOf:
       - $ref: '#/definitions/DiscrepancyFieldBase'
       - type: object
         properties:
           value:
-            type: string
-            format: date-time
+            type: boolean
 
   DiscrepancyFieldBase:
     required:
