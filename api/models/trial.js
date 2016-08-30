@@ -111,13 +111,11 @@ const Trial = BaseModel.extend({
     },
     discrepancies: function () {
       const discrepancyFields = [
-        'public_title',
-        'brief_summary',
         'target_sample_size',
         'gender',
-        'registration_date',
         'status',
         'recruitment_status',
+        'has_published_results',
       ];
       const records = this.related('records')
                           .toJSON()
@@ -139,16 +137,7 @@ const Trial = BaseModel.extend({
 
         // Have to convert to JSON to handle values that normally aren't
         // comparable like dates.
-        // We also remove whitespaces and punctuation to make sure they don't
-        // influence in the discrepancy calculation
-        const spaceAndPunctuation = /[\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~\s]/g;
-        const cleanValues = JSON.parse(JSON.stringify(values)).map((v) => {
-          v.value = v.value
-                      .toString()
-                      .replace(spaceAndPunctuation, '')
-                      .toLowerCase();
-          return v;
-        });
+        const cleanValues = JSON.parse(JSON.stringify(values))
 
         const hasDiscrepantValues = (_.uniqBy(cleanValues, 'value').length > 1);
         if (hasDiscrepantValues) {
