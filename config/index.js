@@ -56,7 +56,7 @@ config.bookshelf.plugin('virtuals');
 // ElasticSearch
 const elasticsearchConfig = {
   host: process.env.ELASTICSEARCH_URL,
-  apiVersion: '1.5',
+  apiVersion: '2.3',
 };
 if (process.env.ELASTICSEARCH_AWS_REGION &&
     process.env.ELASTICSEARCH_AWS_ACCESS_KEY &&
