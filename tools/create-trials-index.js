@@ -299,9 +299,6 @@ function bulkIndexEntities(entities, index, indexType) {
   }
 
   const bulkBody = entities.models.reduce((result, entity) => {
-    if (entity.relations.trials && entity.relations.trials.length === 0) {
-      return result;
-    }
     const action = {
       index: {
         _index: index,
@@ -322,7 +319,7 @@ function bulkIndexEntities(entities, index, indexType) {
   return result;
 }
 
-function indexModel(model, index, indexType, fetchOptions) {
+function indexModel(model, index, indexType, _queryParams, fetchOptions) {
   return model.count().then((modelCount) => {
     const bufferLength = 1000;
     console.info(
@@ -332,11 +329,15 @@ function indexModel(model, index, indexType, fetchOptions) {
     let chain = Promise.resolve();
 
     do {
-      const queryParams = {
-        orderBy: 'id',
-        limit: bufferLength,
-        offset,
-      };
+      const queryParams = Object.assign(
+        {},
+        {
+          orderBy: 'id',
+          limit: bufferLength,
+          offset,
+        },
+        _queryParams
+      );
 
       chain = chain
         .then(() => model.query(queryParams).fetchAll(fetchOptions))
@@ -358,13 +359,25 @@ function indexAutocompleteModel(model, indexType) {
     model,
     'autocomplete',
     indexType,
-    { columns: ['id', 'name'], withRelated: 'trials' }
+    {
+      // Filter out entities without trials
+      innerJoin: [
+        `trials_${indexType}s`,
+        `${indexType}s.id`,
+        `trials_${indexType}s.${indexType}_id`,
+      ],
+      // Remove duplicates
+      groupBy: 'id',
+    },
+    {
+      columns: ['id', 'name'],
+    }
   );
 }
 
 client.indices.delete({ index: 'trials', ignore: 404 })
   .then(() => client.indices.create(trialsIndex))
-  .then(() => indexModel(Trial, 'trials', 'trial', { withRelated: Trial.relatedModels }))
+  .then(() => indexModel(Trial, 'trials', 'trial', {}, { withRelated: Trial.relatedModels }))
   .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
   .then(() => client.indices.create(autocompleteIndex))
   .then(() => indexAutocompleteModel(Condition, 'condition'))
