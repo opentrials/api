@@ -321,9 +321,9 @@ function bulkIndexEntities(entities, index, indexType) {
 
 function indexModel(model, index, indexType, _queryParams, fetchOptions) {
   return model.count().then((modelCount) => {
-    const bufferLength = 1000;
+    const batchSize = 1000;
     console.info(
-      `${modelCount} entities being indexed in "${index}/${indexType}" (${bufferLength} at a time).`
+      `${modelCount} entities being indexed in "${index}/${indexType}" (${batchSize} at a time).`
     );
     let offset = 0;
     let chain = Promise.resolve();
@@ -333,7 +333,7 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
         {},
         {
           orderBy: 'id',
-          limit: bufferLength,
+          limit: batchSize,
           offset,
         },
         _queryParams
@@ -347,7 +347,7 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
           console.info(`${count} successfully reindexed.`);
         });
 
-      offset = offset + bufferLength;
+      offset = offset + batchSize;
     } while (offset <= modelCount);
 
     return chain.catch(console.error);
