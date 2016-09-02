@@ -37,7 +37,6 @@ const Trial = BaseModel.extend({
     'brief_summary',
     'target_sample_size',
     'gender',
-    'has_published_results',
     'status',
     'recruitment_status',
     'registration_date',
@@ -108,6 +107,13 @@ const Trial = BaseModel.extend({
   virtuals: {
     url: function () {
       return helpers.urlFor(this);
+    },
+    has_published_results: function () {
+      const results = this.related('documents')
+                          .toJSON()
+                          .filter((record) => record.type == 'results');
+
+      return results.length > 0;
     },
     discrepancies: function () {
       const discrepancyFields = [

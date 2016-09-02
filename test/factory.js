@@ -12,6 +12,7 @@ const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
 const Record = require('../api/models/record');
 const Publication = require('../api/models/publication');
+const Document = require('../api/models/document');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
@@ -70,7 +71,6 @@ const trialAttributes = {
   registration_date: new Date('2016-01-01'),
   target_sample_size: 1000,
   gender: 'both',
-  has_published_results: true,
   public_title: 'public_title',
   brief_summary: 'brief_summary',
   status: 'complete',
@@ -158,6 +158,17 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
       .then(() => callback(null, source))
       .catch((err) => callback(err));
   },
+});
+
+factory.define('document', Document, {
+  id: () => uuid.v1(),
+  source_id: factory.assoc('source', 'id'),
+  trial_id: factory.assoc('trial', 'id'),
+  name: factory.sequence((n) => `Document ${n}`),
+  type: 'other',
+  url: factory.sequence((n) => `https://example.org/document-${n}.pdf`),
+  documentcloud_url: factory.sequence((n) => `https://documentcloud.org/documents/document-${n}.html`),
+  text: 'lorem ipsum',
 });
 
 module.exports = factory;

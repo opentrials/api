@@ -245,6 +245,32 @@ describe('Trial', () => {
   });
 
   describe('virtuals', () => {
+    describe('has_published_results', () => {
+      it('is true if the trial has a document type "results"', () => {
+        return factory.create('document', { type: 'results' })
+          .then((doc) => {
+            const trial_id = doc.attributes.trial_id;
+            return new Trial({ id: trial_id }).fetch({
+              require: true,
+              withRelated: ['documents'],
+            });
+          })
+          .then((trial) => should(trial.toJSON().has_published_results).be.true());
+      })
+
+      it('is false if the trial has no documents type "results"', () => {
+        return factory.create('document', { type: 'other' })
+          .then((doc) => {
+            const trial_id = doc.attributes.trial_id;
+            return new Trial({ id: trial_id }).fetch({
+              require: true,
+              withRelated: ['documents'],
+            });
+          })
+          .then((trial) => should(trial.toJSON().has_published_results).be.false());
+      })
+    });
+
     describe('discrepancies', () => {
       it('returns the discrepancies', () => {
         let trial_id;
@@ -261,7 +287,6 @@ describe('Trial', () => {
                 registration_date: new Date('2016-01-01'),
                 status: 'complete',
                 recruitment_status: 'not_recruiting',
-                has_published_results: true,
               },
               {
                 trial_id,
@@ -272,7 +297,6 @@ describe('Trial', () => {
                 registration_date: new Date('2015-01-01'),
                 status: 'ongoing',
                 recruitment_status: 'recruiting',
-                has_published_results: false,
               },
            ]))
           .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))

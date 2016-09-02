@@ -154,7 +154,6 @@ exports.seed = (knex) => {
       study_phase: 'Phase 1',
       target_sample_size: 2000,
       gender: 'both',
-      has_published_results: true,
       publications: [
         {
           publication: publications.publication1,
@@ -351,7 +350,6 @@ exports.seed = (knex) => {
       study_phase: 'Phase 1',
       target_sample_size: 2000,
       gender: 'both',
-      has_published_results: true,
       created_at: new Date('2016-01-01'),
       updated_at: new Date('2016-04-01'),
     },
