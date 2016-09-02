@@ -792,6 +792,7 @@ definitions:
           - blank_consent_form
           - patient_information_sheet
           - blank_case_report_form
+          - results
           - other
       url:
         type: string
