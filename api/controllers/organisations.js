@@ -21,5 +21,5 @@ function getOrganisation(req, res) {
 }
 
 module.exports = {
-  get: getOrganisation,
+  getOrganisation,
 }

@@ -21,5 +21,5 @@ function getIntervention(req, res) {
 }
 
 module.exports = {
-  get: getIntervention,
+  getIntervention,
 }

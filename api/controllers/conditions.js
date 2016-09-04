@@ -21,5 +21,5 @@ function getCondition(req, res) {
 }
 
 module.exports = {
-  get: getCondition,
+  getCondition,
 }
