@@ -21,5 +21,5 @@ function getPerson(req, res) {
 }
 
 module.exports = {
-  get: getPerson,
+  getPerson,
 }

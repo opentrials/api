@@ -70,6 +70,6 @@ function autocomplete(req, res) {
 }
 
 module.exports = {
-  search: searchTrials,
+  searchTrials,
   autocomplete,
 };
