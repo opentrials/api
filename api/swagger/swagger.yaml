@@ -487,13 +487,10 @@ definitions:
     required:
       - id
       - name
-      - url
     properties:
       id:
         type: string
       name:
-        type: string
-      url:
         type: string
       type:
         type: string

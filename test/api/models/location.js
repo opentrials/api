@@ -40,11 +40,4 @@ describe('Location', () => {
         });
     });
   });
-
-  describe('url', () => {
-    it('returns the url', () => {
-      return factory.build('location')
-        .then((loc) => should(loc.toJSON().url).eql(helpers.urlFor(loc)));
-    });
-  });
 });
