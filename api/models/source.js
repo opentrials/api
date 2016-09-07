@@ -10,6 +10,8 @@ const Source = BaseModel.extend({
   visible: [
     'id',
     'name',
+    'url',
+    'terms_and_conditions_url',
     'type',
   ],
   latestUpdatedDates: function () {
