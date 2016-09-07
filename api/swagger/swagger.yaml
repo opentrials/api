@@ -779,7 +779,6 @@ definitions:
     required:
       - name
       - type
-      - url
     properties:
       name:
         type: string
@@ -796,7 +795,7 @@ definitions:
           - other
       url:
         type: string
-      documentcloud_url:
+      documentcloud_id:
         type: string
       text:
         type: string

@@ -250,11 +250,29 @@ exports.seed = (knex) => {
     },
   ];
 
+  const files = [
+    {
+      id: '93adc23a-75b9-11e6-8b77-86f30ca893d3',
+      documentcloud_id: '1-example-file',
+      sha1: '60b27f004e454aca81b0480209cce5081ec52390',
+      url: 'http://example.org/file1.pdf',
+      text: 'Lorem ipsum dolor sit amet',
+    },
+    {
+      id: '9e536a14-75b9-11e6-8b77-86f30ca893d3',
+      documentcloud_id: '2-example-file',
+      sha1: 'cb99b709a1978bd205ab9dfd4c5aaa1fc91c7523',
+      url: 'http://example.org/file2.pdf',
+      text: 'Sed ut perspiciatis unde omnis iste natus',
+    },
+  ];
+
   const documents = [
     {
       id: '77b81059-19b2-4f5d-a00b-85b9c12b6002',
       source_id: sources.nct.id,
       trial_id: trials[0].id,
+      file_id: files[0].id,
       name: 'Blank Consent Form',
       type: 'blank_consent_form',
       url: 'http://example.com/consent_form.pdf',
@@ -263,6 +281,7 @@ exports.seed = (knex) => {
       id: 'e43a38cc-6a32-44f3-9f97-d4859fc6de47',
       source_id: sources.isrctn.id,
       trial_id: trials[0].id,
+      file_id: files[1].id,
       name: 'Clinical Study Report (CSR)',
       type: 'csr',
       url: 'http://example.com/csr.pdf',
@@ -479,6 +498,7 @@ exports.seed = (knex) => {
 
   return knex('trials_locations').del()
     .then(() => knex('locations').del())
+    .then(() => knex('files').del())
     .then(() => knex('documents').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
@@ -508,6 +528,7 @@ exports.seed = (knex) => {
     .then(() => knex('trials_organisations').insert(trialsOrganisations))
     .then(() => knex('publications').insert(_getEntries(publications)))
     .then(() => knex('trials_publications').insert(trialsPublications))
+    .then(() => knex('files').insert(files))
     .then(() => knex('documents').insert(documents))
     .then(() => knex('records').insert(records));
 };

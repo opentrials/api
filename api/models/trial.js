@@ -25,6 +25,7 @@ const relatedModels = [
   'publications',
   'publications.source',
   'documents',
+  'documents.file',
 ];
 
 const Trial = BaseModel.extend({

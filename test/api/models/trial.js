@@ -27,6 +27,7 @@ describe('Trial', () => {
       'publications',
       'publications.source',
       'documents',
+      'documents.file',
     ]);
   });
 

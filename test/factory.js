@@ -12,6 +12,8 @@ const Organisation = require('../api/models/organisation');
 const Source = require('../api/models/source');
 const Record = require('../api/models/record');
 const Publication = require('../api/models/publication');
+const Document = require('../api/models/document');
+const File = require('../api/models/file');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
@@ -62,6 +64,25 @@ factory.define('source', Source, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `source${n}`),
   type: 'register',
+});
+
+factory.define('file', File, {
+  id: () => uuid.v1(),
+  url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
+  sha1: factory.sequence(),
+  documentcloud_id: factory.sequence((n) => `${n}-file`),
+  text: 'Lorem ipsum dolor sit amet',
+});
+
+factory.define('document', Document, {
+  id: () => uuid.v1(),
+  file_id: factory.assoc('file', 'id'),
+  source_id: factory.assoc('source', 'id'),
+  trial_id: factory.assoc('trial', 'id'),
+  url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
+  documentcloud_url: factory.sequence((n) => `http://documentcloud.org/file${n}.pdf`),
+  name: factory.sequence((n) => `Document ${n}`),
+  type: 'other',
 });
 
 const trialAttributes = {
