@@ -498,8 +498,8 @@ exports.seed = (knex) => {
 
   return knex('trials_locations').del()
     .then(() => knex('locations').del())
-    .then(() => knex('files').del())
     .then(() => knex('documents').del())
+    .then(() => knex('files').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
     .then(() => knex('trials_conditions').del())

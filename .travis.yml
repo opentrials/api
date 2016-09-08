@@ -22,6 +22,8 @@ before_install:
 before_script:
   - psql -c 'create database opentrials_api_test;' -U postgres
   - npm run migrate
+  # Run seed twice to make sure we're cleaning the DB correctly
+  - npm run seed
   - npm run seed
   - npm run reindex
 script:
