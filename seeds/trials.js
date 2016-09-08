@@ -275,7 +275,6 @@ exports.seed = (knex) => {
       file_id: files[0].id,
       name: 'Blank Consent Form',
       type: 'blank_consent_form',
-      url: 'http://example.com/consent_form.pdf',
     },
     {
       id: 'e43a38cc-6a32-44f3-9f97-d4859fc6de47',
@@ -284,7 +283,6 @@ exports.seed = (knex) => {
       file_id: files[1].id,
       name: 'Clinical Study Report (CSR)',
       type: 'csr',
-      url: 'http://example.com/csr.pdf',
     },
   ];
 
