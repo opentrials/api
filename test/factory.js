@@ -79,8 +79,6 @@ factory.define('document', Document, {
   file_id: factory.assoc('file', 'id'),
   source_id: factory.assoc('source', 'id'),
   trial_id: factory.assoc('trial', 'id'),
-  url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
-  documentcloud_url: factory.sequence((n) => `http://documentcloud.org/file${n}.pdf`),
   name: factory.sequence((n) => `Document ${n}`),
   type: 'other',
 });

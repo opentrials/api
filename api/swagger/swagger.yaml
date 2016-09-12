@@ -779,6 +779,7 @@ definitions:
     required:
       - name
       - type
+      - url
     properties:
       name:
         type: string
