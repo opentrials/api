@@ -17,11 +17,6 @@ const Location = BaseModel.extend({
     return this.belongsToMany('Trial', 'trials_locations',
       'location_id', 'trial_id').withPivot(['role']);
   },
-  virtuals: {
-    url: function () {
-      return helpers.urlFor(this);
-    },
-  },
   topLocations: function () {
     return bookshelf.knex
       .select(
