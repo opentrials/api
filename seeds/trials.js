@@ -104,12 +104,16 @@ exports.seed = (knex) => {
   const sources = {
     nct: {
       id: 'nct',
-      name: 'nct',
+      name: 'ClinicalTrials.gov',
+      url: 'https://clinicaltrials.gov',
+      terms_and_conditions_url: 'https://clinicaltrials.gov/ct2/about-site/terms-conditions',
       type: 'register',
     },
     isrctn: {
       id: 'isrctn',
-      name: 'isrctn',
+      name: 'ISRCTN',
+      url: 'http://www.isrctn.com',
+      terms_and_conditions_url: 'http://www.isrctn.com/page/terms',
       type: 'register',
     },
   };

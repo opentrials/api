@@ -63,6 +63,8 @@ factory.define('organisation', Organisation, {
 factory.define('source', Source, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `source${n}`),
+  url: factory.sequence((n) => `http://example.org/source/${n}`),
+  terms_and_conditions_url: factory.sequence((n) => `http://example.org/source/${n}/terms`),
   type: 'register',
 });
 

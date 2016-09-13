@@ -294,6 +294,23 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /sources:
+    x-swagger-router-controller: sources
+    get:
+      tags:
+        - sources
+      description: Returns list of sources
+      operationId: list
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Source"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /stats:
     x-swagger-router-controller: stats
     get:
@@ -809,6 +826,11 @@ definitions:
       id:
         type: string
       name:
+        type: string
+      url:
+        type: string
+        description: URL to source's website
+      terms_and_conditions_url:
         type: string
       type:
         type: string
