@@ -205,9 +205,9 @@
       }
     },
     "bluebird": {
-      "version": "3.4.1",
-      "from": "bluebird@>=3.3.5 <4.0.0",
-      "resolved": "http://registry.npmjs.org/bluebird/-/bluebird-3.4.1.tgz"
+      "version": "3.4.6",
+      "from": "bluebird@>=3.4.6 <4.0.0",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.4.6.tgz"
     },
     "body-parser": {
       "version": "1.12.4",
@@ -1185,19 +1185,19 @@
       "resolved": "http://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz"
     },
     "inert": {
-      "version": "4.0.1",
-      "from": "inert@>=4.0.0 <5.0.0",
-      "resolved": "http://registry.npmjs.org/inert/-/inert-4.0.1.tgz",
+      "version": "4.0.2",
+      "from": "inert@>=4.0.2 <5.0.0",
+      "resolved": "https://registry.npmjs.org/inert/-/inert-4.0.2.tgz",
       "dependencies": {
         "hoek": {
-          "version": "4.0.1",
+          "version": "4.0.2",
           "from": "hoek@>=4.0.0 <5.0.0",
-          "resolved": "http://registry.npmjs.org/hoek/-/hoek-4.0.1.tgz"
+          "resolved": "https://registry.npmjs.org/hoek/-/hoek-4.0.2.tgz"
         },
         "joi": {
-          "version": "8.4.2",
-          "from": "joi@>=8.0.0 <9.0.0",
-          "resolved": "http://registry.npmjs.org/joi/-/joi-8.4.2.tgz"
+          "version": "9.0.4",
+          "from": "joi@>=9.0.0 <10.0.0",
+          "resolved": "https://registry.npmjs.org/joi/-/joi-9.0.4.tgz"
         }
       }
     },
@@ -1541,9 +1541,9 @@
       "resolved": "https://registry.npmjs.org/liftoff/-/liftoff-2.2.5.tgz"
     },
     "lodash": {
-      "version": "4.13.1",
-      "from": "lodash@>=4.13.1 <5.0.0",
-      "resolved": "http://registry.npmjs.org/lodash/-/lodash-4.13.1.tgz"
+      "version": "4.15.0",
+      "from": "lodash@>=4.15.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.15.0.tgz"
     },
     "lodash-compat": {
       "version": "3.10.2",
