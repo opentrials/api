@@ -347,7 +347,7 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
           console.info(`${count} successfully reindexed.`);
         });
 
-      offset = offset + batchSize;
+      offset += batchSize;
     } while (offset <= modelCount);
 
     return chain.catch(console.error);

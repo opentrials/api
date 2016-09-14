@@ -38,7 +38,7 @@ describe('Source', () => {
               name: source.attributes.name,
               latest_updated_date: latestUpdatedAtDate,
             }];
-          should(result).deepEqual(expected);
+          should(result).match(expected);
         });
     });
   });

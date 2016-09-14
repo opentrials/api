@@ -48,10 +48,12 @@ if (!config.url) {
 const env = process.env.NODE_ENV || 'development';
 const knexConfig = require(path.join(__dirname, '..', './knexfile'))[env];
 const knex = require('knex')(knexConfig);
-config.bookshelf = require('bookshelf')(knex);
-config.bookshelf.plugin('registry');
-config.bookshelf.plugin('visibility');
-config.bookshelf.plugin('virtuals');
+const bookshelf = require('bookshelf')(knex);
+
+bookshelf.plugin('registry');
+bookshelf.plugin('visibility');
+bookshelf.plugin('virtuals');
+config.bookshelf = bookshelf;
 
 // ElasticSearch
 const elasticsearchConfig = {

@@ -222,7 +222,7 @@ describe('Trial', () => {
       return factory.createMany('trial', registrationDates)
         .then(() => new Trial().trialsPerYear())
         .then((result) => {
-          should(result).deepEqual([
+          should(result).match([
             { year: 2015, count: 1 },
             { year: 2016, count: 2 },
           ]);
@@ -238,7 +238,7 @@ describe('Trial', () => {
       return factory.createMany('trial', registrationDates)
         .then(() => new Trial().trialsPerYear())
         .then((result) => {
-          should(result).deepEqual([
+          should(result).match([
             { year: 2016, count: 1 },
           ]);
         });
@@ -278,7 +278,7 @@ describe('Trial', () => {
            ]))
           .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
           .then((trial) => {
-            should(trial.discrepancies).have.keys([
+            should(trial.discrepancies).have.properties([
               'gender',
               'target_sample_size',
               'status',
