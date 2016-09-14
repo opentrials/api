@@ -35,7 +35,7 @@
     "node-uuid": "^1.4.7",
     "pg": "^4.4.4",
     "swagger-hapi": "^0.1.0",
-    "swagger-ui": "^2.1.4"
+    "swagger-ui": "^2.2.3"
   },
   "main": "server.js",
   "devDependencies": {
