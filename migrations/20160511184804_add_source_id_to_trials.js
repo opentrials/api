@@ -4,9 +4,9 @@ exports.up = (knex) => {
   const schema = knex.schema;
 
   schema.table('trials', (table) => {
-    table.text('source_id').
-      references('sources.id').
-      onUpdate('CASCADE');
+    table.text('source_id')
+      .references('sources.id')
+      .onUpdate('CASCADE');
   });
 
   return schema;

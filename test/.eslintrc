@@ -1,14 +1,8 @@
 ---
-extends: airbnb/base
+extends: ../.eslintrc
 env:
   mocha: true
-parserOptions:
-  sourceType: script
 rules:
-  strict:
+  import/no-extraneous-dependencies:
     - error
-    - safe
-  quotes:
-    - error
-    - single
-    - avoid-escape
+    - devDependencies: true
