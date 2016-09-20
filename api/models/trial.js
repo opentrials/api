@@ -110,6 +110,28 @@ const Trial = BaseModel.extend({
     url: function () {
       return helpers.urlFor(this);
     },
+    sources: function () {
+      const publicationsSources = this.related('publications')
+                                      .toJSON()
+                                      .map((publication) => publication.source);
+      const recordsSources = this.related('records')
+                                 .toJSON()
+                                 .map((record) => record.source);
+      const sources = [...publicationsSources,
+                       ...recordsSources];
+
+      const result = sources.reduce((data, source) => {
+        data[source.id] = {
+          id: source.id,
+          name: source.name,
+          url: source.url,
+        };
+
+        return data;
+      }, {});
+
+      return result;
+    },
     discrepancies: function () {
       const discrepancyFields = [
         'target_sample_size',

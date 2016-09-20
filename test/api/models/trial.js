@@ -246,6 +246,30 @@ describe('Trial', () => {
   });
 
   describe('virtuals', () => {
+    describe('sources', () => {
+      it('returns the publications sources', () => {
+        return factory.create('trialWithRelated')
+          .then((trial) => {
+            const publications = trial.related('publications');
+            const publicationsSourcesIds = publications.map((pub) => pub.attributes.source_id);
+            const sources = trial.toJSON().sources;
+
+            should(sources).have.keys(publicationsSourcesIds);
+          })
+      });
+
+      it('returns the records sources', () => {
+        return factory.create('trialWithRecord')
+          .then((trial) => {
+            const records = trial.related('records');
+            const recordsSourcesIds = records.map((rec) => rec.attributes.source_id);
+            const sources = trial.toJSON().sources;
+
+            should(sources).have.keys(recordsSourcesIds);
+          })
+      });
+    });
+
     describe('discrepancies', () => {
       it('returns the discrepancies', () => {
         let trial_id;

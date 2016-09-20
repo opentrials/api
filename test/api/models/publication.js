@@ -22,7 +22,7 @@ describe('Publication', () => {
           id: publication.attributes.id,
           url: publication.url,
           title: publication.attributes.title,
-          source: publication.related('source').toJSON(),
+          source_id: publication.attributes.source_id,
         });
       });
   });

@@ -40,7 +40,7 @@ const Record = BaseModel.extend({
     const attributes = this.toJSON();
     const result = {
       id: attributes.id,
-      source: this.related('source').toJSON(),
+      source_id: this.attributes.source_id,
     };
 
     if (attributes.url) {

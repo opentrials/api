@@ -34,7 +34,7 @@ describe('Record', () => {
       const recordJSON = record.toJSON();
 
       record.toJSONSummary().should.deepEqual({
-        source: record.related('source').toJSON(),
+        source_id: record.attributes.source_id,
         id: recordJSON.id,
         url: recordJSON.url,
         source_url: recordJSON.source_url,
