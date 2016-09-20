@@ -378,7 +378,7 @@ exports.seed = (knex) => {
     },
     {
       id: '2e3406c4-031f-11e6-b512-3e1d05defe78',
-      trial_id: trials[0].id,
+      trial_id: trials[1].id,
       source_id: sources.isrctn.id,
       source_url: 'http://www.isrctn.com/ISRCTN11631712',
       source_data: JSON.stringify({
