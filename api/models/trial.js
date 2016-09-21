@@ -106,7 +106,7 @@ const Trial = BaseModel.extend({
   records: function () {
     return this.hasMany('Record');
   },
-  risks_of_bias: function () {
+  risk_of_biases: function () {
     return this.hasMany('RiskOfBias');
   },
   virtuals: {

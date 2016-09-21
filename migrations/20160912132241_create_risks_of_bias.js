@@ -3,13 +3,13 @@
 exports.up = (knex) => {
   const schema = knex.schema;
 
-  schema.createTable('risks_of_bias', (table) => {
+  schema.createTable('risk_of_biases', (table) => {
     table.uuid('id').primary();
 
     table.uuid('trial_id')
       .notNullable()
       .references('trials.id');
-    table.uuid('source_id')
+    table.text('source_id')
       .notNullable()
       .references('sources.id');
     table.text('source_url')
@@ -19,34 +19,35 @@ exports.up = (knex) => {
     table.timestamps(true, true);
   });
 
-  schema.createTable('risk_of_bias_criteria', (table) => {
+  schema.createTable('risk_of_bias_criterias', (table) => {
     table.uuid('id').primary();
 
     table.text('name')
       .notNullable();
+    table.timestamps(true, true);
   });
 
-  schema.createTable('risks_of_bias_risk_of_bias_criteria', (table) => {
+  schema.createTable('risk_of_biases_risk_of_bias_criterias', (table) => {
     table.uuid('risk_of_bias_id')
-    .references('risks_of_bias.id');
-    table.uuid('risk_of_bias_criterion_id')
-    .references('risk_of_bias_criteria.id');
+    .references('risk_of_biases.id');
+    table.uuid('risk_of_bias_criteria_id')
+    .references('risk_of_bias_criterias.id');
 
-      table.enu('value', [
-        'yes',
-        'no',
-        'unknown',
-      ]).notNullable();
+    table.enu('value', [
+      'yes',
+      'no',
+      'unknown',
+    ]).notNullable();
 
-    table.primary(['risk_of_bias_id', 'risk_of_bias_criterion_id']);
+    table.primary(['risk_of_bias_id', 'risk_of_bias_criteria_id']);
   });
 
-  return schema
+  return schema;
 };
 
 exports.down = (knex) => (
   knex.schema
-    .dropTableIfExists('risks_of_bias_risk_of_bias_criteria')
-    .dropTableIfExists('risk_of_bias_criteria')
-    .dropTableIfExists('risks_of_bias')
+    .dropTableIfExists('risk_of_biases_risk_of_bias_criterias')
+    .dropTableIfExists('risk_of_bias_criterias')
+    .dropTableIfExists('risk_of_biases')
 );

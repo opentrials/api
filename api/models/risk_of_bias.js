@@ -2,19 +2,19 @@
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
-const Source = require('./source');
-const Trial = require('./trial');
-const RiskOfBiasCriterion = require('./risk_of_bias_criterion')
-const helpers = require('../helpers');
+require('./source');
+require('./trial');
+require('./risk_of_bias_criteria')
+require('../helpers');
 
 const relatedModels = [
   'source',
   'trial',
-  'risk_of_bias_criterion'
+  'risk_of_bias_criteria'
 ];
 
 const RiskOfBias = BaseModel.extend({
-  tableName: 'risks_of_bias',
+  tableName: 'risk_of_biases',
   hasTimestamps: true,
   visible: [
     'id',
@@ -26,14 +26,14 @@ const RiskOfBias = BaseModel.extend({
     'updated_at'
   ],
   source: function () {
-    return this.belongsTo('Source', 'source_id');
+    return this.belongsTo('Source');
   },
   trial: function() {
-    return this.belongsTo('Trial', 'trial_id');
+    return this.belongsTo('Trial');
   },
-  risk_of_bias_criterion: function() {
-    return this.belongsToMany('RiskOfBiasCriterion', 'risks_of_bias_risk_of_bias_criteria',
-      'risk_of_bias_id', 'risk_of_bias_criterion_id').withPivot(['value']);
+  risk_of_bias_criteria: function() {
+    return this.belongsToMany('RiskOfBiasCriteria', 'risk_of_biases_risk_of_bias_criterias',
+      'risk_of_bias_id', 'risk_of_bias_criteria_id').withPivot(['value']);
   },
   toJSONSummary: function () {
     const attributes = this.toJSON();
