@@ -23,7 +23,7 @@ factory.define('publication', Publication, {
   abstract: 'abstract',
   journal: 'some journal',
   date: new Date('2016-01-02'),
-  slug: 'some-slug',
+  slug: factory.sequence((n) => `slug-${n}`),
 }, {
   afterCreate: (publication, attrs, callback) => {
     new Publication({ id: publication.id })
@@ -104,6 +104,15 @@ const trialAttributes = {
 
 factory.define('trial', Trial, trialAttributes);
 
+factory.define('trialWithRecord', Trial, trialAttributes, {
+  afterCreate: (trial, options, callback) => {
+    factory.create('record', { trial_id: trial.id })
+    .then(() => new Trial({ id: trial.id }).fetch({ withRelated: Trial.relatedModels }))
+    .then((instance) => callback(null, instance))
+    .catch((err) => callback(err));
+  },
+});
+
 factory.define('trialWithRelated', Trial, trialAttributes, {
   afterCreate: (trial, options, callback) => {
     Promise.all([
@@ -133,6 +142,11 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
           trial.organisations().attach({
             organisation_id: organisation.id,
             role: 'other',
+          })
+      )),
+      factory.create('publication').then((publication) => (
+          trial.publications().attach({
+            publication_id: publication.id,
           })
       )),
     ])

@@ -408,6 +408,7 @@ definitions:
       - organisations
       - records
       - publications
+      - sources
     properties:
       id:
         type: string
@@ -488,6 +489,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Document'
+      sources:
+        type: object
+        items:
+          $ref: '#/definitions/Source'
 
   TrialLocation:
     allOf:
@@ -706,21 +711,21 @@ definitions:
     required:
       - id
       - url
-      - source
+      - source_id
     properties:
       id:
         type: string
       url:
         type: string
-      source:
-        $ref: '#/definitions/Source'
+      source_id:
+        type: string
 
   PublicationSummary:
     required:
       - id
       - url
       - title
-      - source
+      - source_id
     properties:
       id:
         type: string
@@ -728,8 +733,8 @@ definitions:
         type: string
       title:
         type: string
-      source:
-        $ref: '#/definitions/Source'
+      source_id:
+        type: string
 
   Discrepancies:
     description: Object listing the Trial's discrepant fields
