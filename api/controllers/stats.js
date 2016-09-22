@@ -31,5 +31,5 @@ function getStats(req, res) {
 }
 
 module.exports = {
-  get: getStats,
+  getStats,
 }

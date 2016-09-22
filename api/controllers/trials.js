@@ -53,7 +53,7 @@ function getRecords(req, res) {
 }
 
 module.exports = {
-  get: getTrial,
+  getTrial,
   getRecord,
   getRecords,
 }

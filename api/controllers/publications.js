@@ -20,5 +20,5 @@ function getPublication(req, res) {
 }
 
 module.exports = {
-  get: getPublication,
+  getPublication,
 }
