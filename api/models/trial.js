@@ -9,6 +9,7 @@ require('./source');
 require('./document');
 require('./record');
 require('./publication');
+require('./risk_of_bias');
 
 const _ = require('lodash');
 const helpers = require('../helpers');
@@ -106,7 +107,7 @@ const Trial = BaseModel.extend({
   records: function () {
     return this.hasMany('Record');
   },
-  risk_of_biases: function () {
+  risks_of_bias: function () {
     return this.hasMany('RiskOfBias');
   },
   virtuals: {

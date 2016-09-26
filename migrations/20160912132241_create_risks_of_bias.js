@@ -17,6 +17,8 @@ exports.up = (knex) => {
     table.text('study_id')
       .notNullable();
     table.timestamps(true, true);
+
+    table.unique(['study_id', 'source_url']);
   });
 
   schema.createTable('risk_of_bias_criterias', (table) => {
@@ -29,9 +31,9 @@ exports.up = (knex) => {
 
   schema.createTable('risk_of_biases_risk_of_bias_criterias', (table) => {
     table.uuid('risk_of_bias_id')
-    .references('risk_of_biases.id');
+      .references('risk_of_biases.id');
     table.uuid('risk_of_bias_criteria_id')
-    .references('risk_of_bias_criterias.id');
+      .references('risk_of_bias_criterias.id');
 
     table.enu('value', [
       'yes',
