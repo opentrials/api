@@ -25,6 +25,9 @@ function clearDB() {
     'publications',
     'trials_publications',
     'records',
+    'risk_of_biases_risk_of_bias_criterias',
+    'risk_of_bias_criterias',
+    'risk_of_biases',
     'trials',
     'sources',
   ];
