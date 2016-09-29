@@ -23,6 +23,7 @@ describe('Publication', () => {
           url: publication.url,
           title: publication.attributes.title,
           source_id: publication.attributes.source_id,
+          source_url: publication.attributes.source_url,
         });
       });
   });
