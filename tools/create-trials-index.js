@@ -327,6 +327,8 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
     );
     let offset = 0;
     let chain = Promise.resolve();
+    let done = 0;
+    let left = modelCount;
 
     do {
       const queryParams = Object.assign(
@@ -343,8 +345,10 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
         .then(() => model.query(queryParams).fetchAll(fetchOptions))
         .then((entities) => bulkIndexEntities(entities, index, indexType))
         .then((resp) => {
-          const count = (resp) ? resp.items.length : 0;
-          console.info(`${count} successfully reindexed.`);
+          let count = (resp) ? resp.items.length : 0;
+          left -= count;
+          done += count;
+          console.info(`${done} successfully reindexed (${left} remaining, ${count} at a time).`);
         });
 
       offset += batchSize;
