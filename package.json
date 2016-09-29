@@ -63,6 +63,6 @@
     "seed": "knex seed:run",
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
     "dev": "nodemon server.js",
-    "reindex": "node ./tools/create-trials-index.js"
+    "reindex": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./tools/create-trials-index.js"
   }
 }
