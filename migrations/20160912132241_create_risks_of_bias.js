@@ -25,6 +25,7 @@ exports.up = (knex) => {
     table.uuid('id').primary();
 
     table.text('name')
+      .unique()
       .notNullable();
     table.timestamps(true, true);
   });
