@@ -31,6 +31,7 @@ const Publication = BaseModel.extend({
       id: attributes.id,
       url: attributes.url,
       title: attributes.title,
+      source_url: attributes.source_url,
       source_id: this.attributes.source_id,
     };
 
