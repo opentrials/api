@@ -792,6 +792,7 @@ definitions:
       - url
       - title
       - source_id
+      - source_url
     properties:
       id:
         type: string
@@ -800,6 +801,8 @@ definitions:
       title:
         type: string
       source_id:
+        type: string
+      source_url:
         type: string
 
   Discrepancies:
