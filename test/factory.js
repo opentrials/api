@@ -76,14 +76,29 @@ factory.define('file', File, {
   text: 'Lorem ipsum dolor sit amet',
 });
 
-factory.define('document', Document, {
+const documentAttributes = {
   id: () => uuid.v1(),
-  file_id: factory.assoc('file', 'id'),
   source_id: factory.assoc('source', 'id'),
   trial_id: factory.assoc('trial', 'id'),
   name: factory.sequence((n) => `Document ${n}`),
   type: 'other',
-});
+};
+
+factory.define('document', Document, Object.assign(
+  {},
+  documentAttributes,
+  {
+    url: factory.sequence((n) => `http://example.org/document${n}`),
+  }
+));
+
+factory.define('documentWithFile', Document, Object.assign(
+  {},
+  documentAttributes,
+  {
+    file_id: factory.assoc('file', 'id'),
+  }
+));
 
 const trialAttributes = {
   id: () => uuid.v1(),
