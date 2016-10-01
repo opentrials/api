@@ -10,14 +10,25 @@ const Document = BaseModel.extend({
   visible: [
     'type',
     'name',
+    'url',
   ],
   file: function () {
     return this.belongsTo('File');
   },
+  serialize: function (options) {
+    const attributes = Object.assign(
+      {},
+      Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments)
+    );
+
+    const fileURL = this.related('file').toJSON().url;
+    if (fileURL) {
+      attributes.url = fileURL;
+    }
+
+    return attributes;
+  },
   virtuals: {
-    url: function () {
-      return this.related('file').toJSON().url;
-    },
     documentcloud_id: function () {
       return this.related('file').toJSON().documentcloud_id;
     },
