@@ -26,13 +26,17 @@ const config = {
     plugins: [{
       register: good,
       options: {
-        ops: {
-          interval: 15000,
-        },
         reporters: {
-          console: [{
-            module: 'good-console',
-          }, 'stdout'],
+          console: [
+            {
+              module: 'good-console',
+              args: [{
+                log: '*',
+                response: '*',
+                error: '*',
+              }],
+            },
+          ],
         },
       },
     }, {
