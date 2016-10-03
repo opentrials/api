@@ -41,7 +41,7 @@
   "devDependencies": {
     "coveralls": "^2.11.12",
     "eslint": "^3.5.0",
-    "eslint-config-airbnb": "^11.1.0",
+    "eslint-config-airbnb-base": "^8.0.0",
     "eslint-plugin-import": "^1.15.0",
     "factory-girl": "^3.0.1",
     "factory-girl-bookshelf": "^1.0.3",

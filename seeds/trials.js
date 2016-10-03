@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+
 'use strict';
 
 function _generateRelationships(trials, relationshipName) {
