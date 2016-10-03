@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 'use strict';
 
 const client = require('../config').elasticsearch;
