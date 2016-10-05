@@ -51,7 +51,7 @@ exports.seed = (knex) => {
     hiv1sf2: {
       id: '37db8144-070a-4727-a7fe-d4c61d6c389c',
       name: 'rgp120/HIV-1 SF-2',
-      type: 'drug',
+      type: 'procedure',
     },
     placeboHiv1mn: {
       id: '9324a829-8982-4b93-99a4-88f7af32bfac',
