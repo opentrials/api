@@ -28,6 +28,8 @@ describe('Trial', () => {
       'publications.source',
       'documents',
       'documents.file',
+      'risks_of_bias',
+      'risks_of_bias.risk_of_bias_criteria',
     ]);
   });
 
@@ -199,6 +201,27 @@ describe('Trial', () => {
             .then((trial) => {
               should(toJSON(trial).records).deepEqual([
                 toJSON(record.toJSONSummary()),
+              ]);
+            });
+        });
+    });
+  });
+
+  describe('risks_of_bias', () => {
+    it('is an empty array if there\'re none', () => {
+      should(toJSON(new Trial()).risks_of_bias).deepEqual([]);
+    });
+
+    it('adds the risks of bias and their criteria into the resulting JSON', () => {
+      return factory.create('risk_of_bias')
+        .then((rob) => {
+          const criteria = rob.related('risk_of_bias_criteria');
+
+          return new Trial({ id: rob.attributes.trial_id })
+            .fetch({ withRelated: ['risks_of_bias', 'risks_of_bias.risk_of_bias_criteria'] })
+            .then((trial) => {
+              should(toJSON(trial).risks_of_bias).deepEqual([
+                toJSON(rob.toJSON()),
               ]);
             });
         });

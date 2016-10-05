@@ -27,6 +27,8 @@ const relatedModels = [
   'publications.source',
   'documents',
   'documents.file',
+  'risks_of_bias',
+  'risks_of_bias.risk_of_bias_criteria',
 ];
 
 const Trial = BaseModel.extend({
@@ -56,6 +58,7 @@ const Trial = BaseModel.extend({
     attributes.conditions = [];
     attributes.persons = [];
     attributes.organisations = [];
+    attributes.risks_of_bias = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {

@@ -488,13 +488,13 @@ exports.seed = (knex) => {
   const riskOfBiasCriterias = [
     {
       id: '756b06ca-8414-11e6-a6fa-e4b3181a2c8c',
-      name: '3.1',
+      name: 'blinding',
       created_at: new Date('2016-01-02'),
       updated_at: new Date('2016-02-01'),
     },
     {
       id: '7036b016-841c-11e6-a6fa-e4b3181a2c8c',
-      name: '3.2',
+      name: 'detection bias',
       created_at: new Date('2016-01-02'),
       updated_at: new Date('2016-02-01'),
     },
