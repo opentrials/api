@@ -9,6 +9,7 @@ require('./source');
 require('./document');
 require('./record');
 require('./publication');
+require('./risk_of_bias');
 
 const _ = require('lodash');
 const helpers = require('../helpers');
@@ -26,6 +27,8 @@ const relatedModels = [
   'publications.source',
   'documents',
   'documents.file',
+  'risks_of_bias',
+  'risks_of_bias.risk_of_bias_criteria',
 ];
 
 const Trial = BaseModel.extend({
@@ -55,6 +58,7 @@ const Trial = BaseModel.extend({
     attributes.conditions = [];
     attributes.persons = [];
     attributes.organisations = [];
+    attributes.risks_of_bias = [];
 
     for (let relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
@@ -105,6 +109,9 @@ const Trial = BaseModel.extend({
   },
   records: function () {
     return this.hasMany('Record');
+  },
+  risks_of_bias: function () {
+    return this.hasMany('RiskOfBias');
   },
   virtuals: {
     url: function () {

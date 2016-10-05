@@ -14,6 +14,8 @@ const Record = require('../api/models/record');
 const Publication = require('../api/models/publication');
 const Document = require('../api/models/document');
 const File = require('../api/models/file');
+const RiskOfBias = require('../api/models/risk_of_bias');
+const RiskOfBiasCriteria = require('../api/models/risk_of_bias_criteria');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
@@ -100,6 +102,21 @@ factory.define('documentWithFile', Document, Object.assign(
   }
 ));
 
+factory.define('risk_of_bias', RiskOfBias, {
+  id: () => uuid.v1(),
+  trial_id: factory.assoc('trial', 'id'),
+  source_id: factory.assoc('source', 'id'),
+  study_id: factory.sequence((n) => `study-${n}`),
+  source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
+});
+
+factory.define('risk_of_bias_criteria', RiskOfBiasCriteria, {
+  id: () => uuid.v1(),
+  name: 'blinding',
+  value: 'unknown',
+  risk_of_bias: factory.assoc('risk_of_bias', 'id'),
+});
+
 const trialAttributes = {
   id: () => uuid.v1(),
   identifiers: JSON.stringify({}),
@@ -154,10 +171,10 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
           })
       )),
       factory.create('organisation').then((organisation) => (
-          trial.organisations().attach({
-            organisation_id: organisation.id,
-            role: 'other',
-          })
+        trial.organisations().attach({
+          organisation_id: organisation.id,
+          role: 'other',
+        })
       )),
       factory.create('publication').then((publication) => (
           trial.publications().attach({

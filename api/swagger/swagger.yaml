@@ -383,6 +383,7 @@ definitions:
       - records
       - publications
       - sources
+      - risks_of_bias
     properties:
       id:
         type: string
@@ -487,6 +488,10 @@ definitions:
         type: object
         items:
           $ref: '#/definitions/Source'
+      risks_of_bias:
+        type: array
+        items:
+          $ref: '#/definitions/RiskOfBias'
 
   TrialLocation:
     allOf:
@@ -844,6 +849,43 @@ definitions:
         type: string
       text:
         type: string
+
+  RiskOfBias:
+    required:
+      - id
+      - source_id
+      - source_url
+      - study_id
+    properties:
+      id:
+        type: string
+      source_id:
+        type: string
+      source_url:
+        type: string
+      study_id:
+        type: string
+      risk_of_bias_criteria:
+        type: array
+        items:
+          $ref: '#/definitions/RiskOfBiasCriteria'
+
+  RiskOfBiasCriteria:
+    required:
+      - id
+      - name
+      - value
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      value:
+        type: string
+        enum:
+          - yes
+          - no
+          - unknown
 
   Source:
     required:

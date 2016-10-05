@@ -117,6 +117,11 @@ exports.seed = (knex) => {
       terms_and_conditions_url: 'http://www.isrctn.com/page/terms',
       type: 'register',
     },
+    cochrane: {
+      id: 'cochrane',
+      name: 'Cochrane Library',
+      type: 'other',
+    },
   };
 
   const publications = {
@@ -480,6 +485,55 @@ exports.seed = (knex) => {
     },
   ];
 
+  const riskOfBiasCriterias = [
+    {
+      id: '756b06ca-8414-11e6-a6fa-e4b3181a2c8c',
+      name: 'blinding',
+      created_at: new Date('2016-01-02'),
+      updated_at: new Date('2016-02-01'),
+    },
+    {
+      id: '7036b016-841c-11e6-a6fa-e4b3181a2c8c',
+      name: 'detection bias',
+      created_at: new Date('2016-01-02'),
+      updated_at: new Date('2016-02-01'),
+    },
+  ];
+
+  const riskOfBiases = [
+    {
+      id: 'fbc67980-83af-11e6-831c-e4b3181a2c8c',
+      created_at: new Date('2016-01-02'),
+      updated_at: new Date('2015-02-01'),
+      source_id: sources.cochrane.id,
+      trial_id: trials[0].id,
+      source_url: 'http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD006081/full',
+      study_id: 'STD-Barr-2013',
+    },
+    {
+      id: '44470c86-83ee-11e6-a6fa-e4b3181a2c8c',
+      created_at: new Date('2016-02-03'),
+      updated_at: new Date('2016-03-02'),
+      source_id: sources.cochrane.id,
+      trial_id: trials[1].id,
+      source_url: 'http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD009766/full',
+      study_id: 'STD-Bell-2008',
+    },
+  ];
+
+  const riskOfBiasesriskOfBiasCriterias = [
+    {
+      risk_of_bias_id: riskOfBiases[0].id,
+      risk_of_bias_criteria_id: riskOfBiasCriterias[0].id,
+      value: 'unknown',
+    },
+    {
+      risk_of_bias_id: riskOfBiases[1].id,
+      risk_of_bias_criteria_id: riskOfBiasCriterias[1].id,
+      value: 'yes',
+    },
+  ];
+
   const trialsLocations = _generateRelationships(trials, 'location');
   const trialsInterventions = _generateRelationships(trials, 'intervention');
   const trialsConditions = _generateRelationships(trials, 'condition');
@@ -514,6 +568,9 @@ exports.seed = (knex) => {
     .then(() => knex('records').del())
     .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())
+    .then(() => knex('risk_of_biases_risk_of_bias_criterias').del())
+    .then(() => knex('risk_of_biases').del())
+    .then(() => knex('risk_of_bias_criterias').del())
     .then(() => knex('trials').del())
     .then(() => knex('sources').del())
     // Insert
@@ -533,5 +590,8 @@ exports.seed = (knex) => {
     .then(() => knex('trials_publications').insert(trialsPublications))
     .then(() => knex('files').insert(files))
     .then(() => knex('documents').insert(documents))
+    .then(() => knex('risk_of_biases').insert(riskOfBiases))
+    .then(() => knex('risk_of_bias_criterias').insert(riskOfBiasCriterias))
+    .then(() => knex('risk_of_biases_risk_of_bias_criterias').insert(riskOfBiasesriskOfBiasCriterias))
     .then(() => knex('records').insert(records));
 };
