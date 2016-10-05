@@ -93,7 +93,7 @@ function basicSearchTests(url, factoryName) {
         hits: {
           total: 1,
           hits: [
-            { _source: JSON.stringify(factory.build(factoryName)) },
+            { _source: toJSON(factory.buildSync(factoryName)) },
           ],
         },
       };
@@ -102,7 +102,7 @@ function basicSearchTests(url, factoryName) {
 
       return server.inject(url)
         .then((response) => {
-          const items = esResult.hits.hits.map((hit) => hit._source);
+          const items = esResult.hits.hits.map((hit) => toJSON(hit._source));
 
           response.statusCode.should.equal(200);
           JSON.parse(response.result).should.deepEqual({

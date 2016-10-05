@@ -119,7 +119,7 @@ factory.define('risk_of_bias_criteria', RiskOfBiasCriteria, {
 
 const trialAttributes = {
   id: () => uuid.v1(),
-  identifiers: JSON.stringify({}),
+  identifiers: {},
   registration_date: new Date('2016-01-01'),
   target_sample_size: 1000,
   gender: 'both',
@@ -128,7 +128,7 @@ const trialAttributes = {
   brief_summary: 'brief_summary',
   status: 'complete',
   recruitment_status: 'not_recruiting',
-  eligibility_criteria: JSON.stringify('[]'),
+  eligibility_criteria: [],
   study_type: 'study_type',
   study_design: 'study_design',
   study_phase: 'study_phase',
@@ -193,7 +193,7 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   trial_id: factory.assoc('trial', 'id'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
-  source_data: JSON.stringify({}),
+  source_data: {},
 }), {
   afterCreate: (record, attrs, callback) => {
     new Record({ id: record.id })
