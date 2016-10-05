@@ -16,6 +16,7 @@ const RiskOfBias = BaseModel.extend({
     'source_id',
     'study_id',
     'source_url',
+    'risk_of_bias_criteria',
     'created_at',
     'updated_at',
   ],
