@@ -314,7 +314,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Source"
+            $ref: "#/definitions/SourceList"
         default:
           description: Error
           schema:
@@ -372,6 +372,7 @@ definitions:
         description: Date this source was last updated
 
   Trial:
+    type: object
     required:
       - id
       - url
@@ -494,6 +495,7 @@ definitions:
           $ref: '#/definitions/RiskOfBias'
 
   TrialLocation:
+    type: object
     allOf:
       - $ref: '#/definitions/Location'
       - type: object
@@ -506,6 +508,7 @@ definitions:
     description: Location of a trial
 
   Location:
+    type: object
     required:
       - id
       - name
@@ -525,6 +528,7 @@ definitions:
           - other
 
   Intervention:
+    type: object
     required:
       - id
       - name
@@ -547,6 +551,7 @@ definitions:
           - other
 
   Condition:
+    type: object
     required:
       - id
       - name
@@ -563,6 +568,7 @@ definitions:
         description: OpenTrials API URL of the condition
 
   TrialPerson:
+    type: object
     allOf:
       - $ref: '#/definitions/Person'
       - type: object
@@ -577,6 +583,7 @@ definitions:
     description: People related to a trial
 
   Person:
+    type: object
     required:
       - id
       - name
@@ -593,6 +600,7 @@ definitions:
         description: OpenTrials API URL of the person
 
   TrialOrganisation:
+    type: object
     allOf:
       - $ref: '#/definitions/Organisation'
       - type: object
@@ -605,6 +613,7 @@ definitions:
               - funder
               - other
   Organisation:
+    type: object
     required:
       - id
       - name
@@ -626,6 +635,7 @@ definitions:
       $ref: '#/definitions/Record'
 
   Record:
+    type: object
     required:
       - id
       - url
@@ -695,6 +705,7 @@ definitions:
         format: date-time
 
   Publication:
+    type: object
     required:
       - id
       - url
@@ -735,6 +746,7 @@ definitions:
         type: string
 
   RecordSummary:
+    type: object
     required:
       - id
       - url
@@ -748,6 +760,7 @@ definitions:
         type: string
 
   PublicationSummary:
+    type: object
     required:
       - id
       - url
@@ -767,6 +780,7 @@ definitions:
         type: string
 
   Discrepancies:
+    type: object
     description: Object listing the Trial's discrepant fields
     properties:
       gender:
@@ -791,6 +805,7 @@ definitions:
           $ref: '#/definitions/DiscrepantFieldBoolean'
 
   DiscrepantFieldString:
+    type: object
     allOf:
       - $ref: '#/definitions/DiscrepancyFieldBase'
       - type: object
@@ -799,6 +814,7 @@ definitions:
             type: string
 
   DiscrepantFieldInteger:
+    type: object
     allOf:
       - $ref: '#/definitions/DiscrepancyFieldBase'
       - type: object
@@ -807,6 +823,7 @@ definitions:
             type: integer
 
   DiscrepantFieldBoolean:
+    type: object
     allOf:
       - $ref: '#/definitions/DiscrepancyFieldBase'
       - type: object
@@ -815,6 +832,7 @@ definitions:
             type: boolean
 
   DiscrepancyFieldBase:
+    type: object
     required:
       - record_id
       - source_name
@@ -825,6 +843,7 @@ definitions:
         type: string
 
   Document:
+    type: object
     required:
       - name
       - type
@@ -851,6 +870,7 @@ definitions:
         type: string
 
   RiskOfBias:
+    type: object
     required:
       - id
       - source_id
@@ -871,6 +891,7 @@ definitions:
           $ref: '#/definitions/RiskOfBiasCriteria'
 
   RiskOfBiasCriteria:
+    type: object
     required:
       - id
       - name
@@ -887,7 +908,13 @@ definitions:
           - no
           - unknown
 
+  SourceList:
+    type: array
+    items:
+      $ref: '#/definitions/Source'
+
   Source:
+    type: object
     required:
       - id
       - name
@@ -908,6 +935,7 @@ definitions:
           - other
 
   TrialSearchResults:
+    type: object
     required:
       - total_count
       - items
@@ -920,6 +948,7 @@ definitions:
           $ref: '#/definitions/Trial'
 
   AutocompleteResults:
+    type: object
     required:
       - total_count
       - items
@@ -932,6 +961,7 @@ definitions:
           $ref: '#/definitions/AutocompleteResult'
 
   AutocompleteResult:
+    type: object
     required:
       - id
       - name
@@ -942,6 +972,7 @@ definitions:
         type: string
 
   ErrorResponse:
+    type: object
     required:
       - message
     properties:
