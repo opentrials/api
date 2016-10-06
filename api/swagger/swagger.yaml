@@ -23,6 +23,10 @@ paths:
                    If the results span across multiple pages, use the `page` parameter to request a specific page and `per_page`
                    to alter the number of results returned on a single page.
 
+                   - `q` can be a simple string search or an 
+                     [Elasticsearch query string](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax) 
+                     (e.g. `public_title:(depressive OR depression)`)
+
                    - `page` can take a value between `1` and `100`
 
                    - `per_page` can take a value between `10` and `100`
@@ -30,7 +34,7 @@ paths:
       parameters:
         - name: q
           in: query
-          description: The search query
+          description: The [search query](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax)
           type: string
         - name: page
           in: query
