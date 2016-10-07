@@ -28,7 +28,11 @@ function searchTrials(req, res) {
 
   return client.search(searchQuery)
     .then(_convertElasticSearchResult)
-    .then(res.json)
+    .then((data) => {
+      res.status(200);
+      res.setHeader('Content-Type', 'application/json');
+      return res.end(data);
+    })
     .catch((err) => {
       res.finish();
       throw err;
