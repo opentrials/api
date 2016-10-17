@@ -373,16 +373,37 @@ describe('Trial', () => {
           .then((trial) => trial_id = trial.attributes.id)
           .then(() => factory.create('source', { id: 'euctr' }))
           .then((euctr) => factory.createMany('record', [
-              {
-                trial_id,
-                source_id: euctr.id,
-                gender: 'female',
-              },
-              {
-                trial_id,
-                gender: 'both',
-              },
-           ]))
+            {
+              trial_id,
+              source_id: euctr.id,
+              gender: 'female',
+            },
+            {
+              trial_id,
+              gender: 'both',
+            },
+          ]))
+          .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
+          .then((trial) => should(trial.discrepancies).be.undefined());
+      });
+
+      it('ignores records from ICTRP', () => {
+        let trial_id;
+
+        return factory.create('trial')
+          .then((trial) => trial_id = trial.attributes.id)
+          .then(() => factory.create('source', { id: 'ictrp' }))
+          .then((ictrp) => factory.createMany('record', [
+            {
+              trial_id,
+              source_id: ictrp.id,
+              gender: 'female',
+            },
+            {
+              trial_id,
+              gender: 'both',
+            },
+          ]))
           .then(() => new Trial({ id: trial_id }).fetch({ withRelated: ['records', 'records.source'] }))
           .then((trial) => should(trial.discrepancies).be.undefined());
       });

@@ -147,9 +147,10 @@ const Trial = BaseModel.extend({
         'recruitment_status',
         'has_published_results',
       ];
+      const ignoredSources = ['euctr', 'ictrp'];
       const records = this.related('records')
                           .toJSON()
-                          .filter((record) => record.source.id !== 'euctr');
+                          .filter((record) => ignoredSources.indexOf(record.source.id) === -1 );
       let discrepancies;
 
       for (const field of discrepancyFields) {
