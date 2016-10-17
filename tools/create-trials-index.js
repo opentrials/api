@@ -3,12 +3,24 @@
 'use strict';
 
 const client = require('../config').elasticsearch;
+const _ = require('lodash');
 const Trial = require('../api/models/trial');
 const Condition = require('../api/models/condition');
 const Intervention = require('../api/models/intervention');
 const Location = require('../api/models/location');
 const Person = require('../api/models/person');
 const Organisation = require('../api/models/organisation');
+
+const trialsAlias = 'trials';
+const autocompleteAlias = 'autocomplete';
+const date = new Date();
+
+// index name uses a human readable time + unique timestamp
+const indexSuffix = `${date.toISOString().slice(0, 10)}_${date.getTime()}`;
+const trialsNewIndexName = `trials_${indexSuffix}`;
+const autocompleteNewIndexName = `autocomplete_${indexSuffix}`;
+
+const oldIndices = [];
 
 
 function getDiscrepancyRecordMapping(valueMapping) {
@@ -251,8 +263,9 @@ const autocompleteModelMapping = {
   },
 };
 
-const trialsIndex = {
-  index: 'trials',
+
+const trialsNewIndex = {
+  index: trialsNewIndexName,
   body: {
     mappings: {
       trial: trialMapping,
@@ -261,7 +274,7 @@ const trialsIndex = {
 };
 
 const autocompleteIndex = {
-  index: 'autocomplete',
+  index: autocompleteNewIndexName,
   body: {
     settings: {
       analysis: {
@@ -358,10 +371,10 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
   });
 }
 
-function indexAutocompleteModel(model, indexType) {
+function indexAutocompleteModel(model, index, indexType) {
   return indexModel(
     model,
-    'autocomplete',
+    index,
     indexType,
     {
       // Filter out entities without trials
@@ -379,16 +392,46 @@ function indexAutocompleteModel(model, indexType) {
   );
 }
 
-client.indices.delete({ index: 'trials', ignore: 404 })
-  .then(() => client.indices.create(trialsIndex))
-  .then(() => indexModel(Trial, 'trials', 'trial', {}, { withRelated: Trial.relatedModels }))
-  .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
+function getOldIndices(prefix, data) {
+  return _.filter(_.keys(data), (k) => _.startsWith(k, prefix));
+}
+
+client.indices.getAliases()
+  .then((data) => {
+    Array.prototype.push.apply(oldIndices, getOldIndices('trials', data));
+    Array.prototype.push.apply(oldIndices, getOldIndices('autocomplete', data));
+  })
+  // We have the names of any old indices
+  .then(() => client.indices.create(trialsNewIndex))
+  .then(() => indexModel(Trial, trialsNewIndexName, 'trial', {}, { withRelated: Trial.relatedModels }))
+  // Trials are indexed now
   .then(() => client.indices.create(autocompleteIndex))
-  .then(() => indexAutocompleteModel(Condition, 'condition'))
-  .then(() => indexAutocompleteModel(Intervention, 'intervention'))
-  .then(() => indexAutocompleteModel(Location, 'location'))
-  .then(() => indexAutocompleteModel(Person, 'person'))
-  .then(() => indexAutocompleteModel(Organisation, 'organisation'))
+  .then(() => indexAutocompleteModel(Condition, autocompleteNewIndexName, 'condition'))
+  .then(() => indexAutocompleteModel(Intervention, autocompleteNewIndexName, 'intervention'))
+  .then(() => indexAutocompleteModel(Location, autocompleteNewIndexName, 'location'))
+  .then(() => indexAutocompleteModel(Person, autocompleteNewIndexName, 'person'))
+  .then(() => indexAutocompleteModel(Organisation, autocompleteNewIndexName, 'organisation'))
+  // Autocomplete is populated
+  .then(() => client.indices.updateAliases({
+    body: {
+      actions: [
+        { remove: { index: 'trials*', alias: trialsAlias } },
+        { remove: { index: 'autocomplete*', alias: autocompleteAlias } },
+        { add: { index: trialsNewIndexName, alias: trialsAlias } },
+        { add: { index: autocompleteNewIndexName, alias: autocompleteAlias } },
+      ],
+    },
+  }))
+  // Index aliases are set to point to the new indices
+  .then(() => {
+    let result;
+    if (oldIndices.length > 0) {
+      console.log('Removing old indexes:', oldIndices.join(', '));
+      result = client.indices.delete({ index: oldIndices, ignore: 404 });
+    }
+    return result;
+  })
+  // Now we can exit
   .then(() => process.exit())
   .catch((err) => {
     throw err;
