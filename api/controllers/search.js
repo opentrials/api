@@ -34,8 +34,8 @@ function searchTrials(req, res) {
       return res.end(data);
     })
     .catch((err) => {
+      // FIXME: Log error and return 500 HTTP code
       res.finish();
-      throw err;
     });
 }
 
@@ -68,8 +68,8 @@ function autocomplete(req, res) {
     .then(_convertElasticSearchResult)
     .then(res.json)
     .catch((err) => {
+      // FIXME: Log error and return 500 HTTP code
       res.finish();
-      throw err;
     });
 }
 
