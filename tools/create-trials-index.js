@@ -2,6 +2,7 @@
 
 'use strict';
 
+const Promise = require('bluebird');
 const client = require('../config').elasticsearch;
 const _ = require('lodash');
 const Trial = require('../api/models/trial');
@@ -396,7 +397,8 @@ function getOldIndices(prefix, data) {
   return _.filter(_.keys(data), (k) => _.startsWith(k, prefix));
 }
 
-client.indices.getAliases()
+Promise.resolve() // Use bluebird promises
+  .then(() => client.indices.getAliases())
   .then((data) => {
     Array.prototype.push.apply(oldIndices, getOldIndices('trials', data));
     Array.prototype.push.apply(oldIndices, getOldIndices('autocomplete', data));
@@ -432,7 +434,4 @@ client.indices.getAliases()
     return result;
   })
   // Now we can exit
-  .then(() => process.exit())
-  .catch((err) => {
-    throw err;
-  });
+  .then(() => process.exit());

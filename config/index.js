@@ -12,6 +12,7 @@ const path = require('path');
 const good = require('good');
 const inert = require('inert');
 const httpAwsEs = require('http-aws-es');
+require('./bluebird');
 
 const config = {
   host: process.env.HOST || '0.0.0.0',

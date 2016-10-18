@@ -19,13 +19,13 @@ describe('Search', () => {
   });
 
   describe('GET /v1/search', () => {
-    const url = '/v1/search'
+    const url = '/v1/search';
 
     describe('basic search', basicSearchTests(url, 'trial'));
     describe('pagination', paginationTests(url));
 
     it('passes the query string to elasticsearch', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
 
       return server.inject(`${url}?q=foo`)
         .then(() => {
@@ -38,7 +38,7 @@ describe('Search', () => {
         'registration_date:desc',
         '_score:desc',
       ];
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
 
       return server.inject(url)
         .then(() => {
@@ -113,7 +113,7 @@ function basicSearchTests(url, factoryName) {
     });
 
     it('defines the default operator as AND', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
 
       return server.inject(url)
         .then(() => {
@@ -121,12 +121,20 @@ function basicSearchTests(url, factoryName) {
         });
     });
 
+    it('does not hang the connection if there was an error', () => {
+      // FIXME: Remove this when we fix the bug with not being able to change
+      // the error response code.
+      elasticsearch.search.returns(Promise.reject(new Error('ElasticSearch mocked error')));
+
+      return server.inject(url);
+    });
+
     it.skip('returns 500 if there were some error with elasticsearch', () => {
       // FIXME: There doesn't seems to be a way to set the status code with the
       // current swagger-node-runner version. This was fixed in later versions,
       // but other problems were created, so we can't update yet.
       // See https://github.com/theganyo/swagger-node-runner/issues/33
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      elasticsearch.search.returns(Promise.reject(new Error('ElasticSearch mocked error')));
 
       return server.inject(url)
         .then((response) => response.statusCode.should.equal(500));
@@ -138,7 +146,7 @@ function basicSearchTests(url, factoryName) {
 function paginationTests(url) {
   return () => {
     beforeEach(() => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ES result')))
+      elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
     });
 
     it('defaults to first page and 20 items per page', () => {
@@ -236,7 +244,7 @@ function autocompleteTests(url, factoryName) {
     describe('pagination', paginationTests(url));
 
     it('passes an undefined query string to elasticsearch if called with empty query', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
 
       return server.inject(url)
         .then(() => {
@@ -245,7 +253,7 @@ function autocompleteTests(url, factoryName) {
     });
 
     it('matches query on "name" field in elasticsearch', () => {
-      elasticsearch.search.returns(Promise.reject(new Error('Ignore ElasticSearch response')));
+      elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
       const expectedQueryParams = {
         body: {
           query: {
@@ -263,3 +271,11 @@ function autocompleteTests(url, factoryName) {
     });
   };
 }
+
+
+const EMPTY_ES_RESPONSE = {
+  hits: {
+    total: 0,
+    hits: [],
+  },
+};
