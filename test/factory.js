@@ -81,7 +81,6 @@ factory.define('file', File, {
 const documentAttributes = {
   id: () => uuid.v1(),
   source_id: factory.assoc('source', 'id'),
-  trial_id: factory.assoc('trial', 'id'),
   name: factory.sequence((n) => `Document ${n}`),
   type: 'other',
 };
@@ -179,6 +178,11 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
       factory.create('publication').then((publication) => (
           trial.publications().attach({
             publication_id: publication.id,
+          })
+      )),
+      factory.create('document').then((doc) => (
+          trial.documents().attach({
+            document_id: doc.id,
           })
       )),
     ])
