@@ -322,6 +322,62 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /fda_applications:
+    x-swagger-router-controller: fda_applications
+    get:
+      tags:
+        - fda_applications
+      description: Returns FDA applications
+      operationId: getFdaApplications
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FdaApplications"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /fda_applications/{id}:
+    x-swagger-router-controller: fda_applications
+    get:
+      tags:
+        - fda_applications
+      description: Returns an FDA application details
+      operationId: getFdaApplication
+      parameters:
+        - name: id
+          in: path
+          description: ID of the FDA application
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FdaApplication"
+        "404":
+          description: FDA application not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
   TrialsPerSource:
     type: object
@@ -973,6 +1029,59 @@ definitions:
         type: string
       name:
         type: string
+
+  FdaApplications:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/FdaApplication'
+
+  FdaApplication:
+    type: object
+    properties:
+      id:
+        type: string
+        description: FDA application ID
+      drug_name:
+        type: string
+        description: Name of the drug
+      active_ingredients:
+        type: string
+        description: Active ingredients contained by the drug
+      fda_approvals:
+        type: array
+        description: Associated FDA approvals
+        items:
+          $ref: '#/definitions/FdaApproval'
+      organisation:
+        type: object
+        description: Associated organisation
+        $ref: '#/definitions/Organisation'
+
+  FdaApproval:
+    type: object
+    properties:
+      id:
+        type: string
+        description: FDA approval ID
+      supplement_number:
+        type: integer
+      type:
+        type: string
+        description: Type of FDA approval
+      action_date:
+        type: string
+        format: date-time
+      notes:
+        type: string
+        description: Additional information about the FDA approval
 
   ErrorResponse:
     type: object

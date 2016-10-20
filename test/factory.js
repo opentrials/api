@@ -16,6 +16,8 @@ const Document = require('../api/models/document');
 const File = require('../api/models/file');
 const RiskOfBias = require('../api/models/risk_of_bias');
 const RiskOfBiasCriteria = require('../api/models/risk_of_bias_criteria');
+const FdaApplication = require('../api/models/fda_application');
+const FdaApproval = require('../api/models/fda_approval');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
@@ -229,6 +231,30 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
       .then(() => callback(null, source))
       .catch((err) => callback(err));
   },
+});
+
+factory.define('fda_application', FdaApplication, {
+  id: () => uuid.v1(),
+  drug_name: 'Healer',
+  active_ingredients: 'healing',
+  organisation_id: factory.assoc('organisation', 'id'),
+}, {
+  afterCreate: (fdaApplication, attrs, callback) => {
+    factory.create('fda_approval', { fda_application_id: fdaApplication.id })
+    .then(() => new FdaApplication({ id: fdaApplication.id })
+      .fetch({ withRelated: ['fda_approvals', 'organisation'] }))
+    .then((instance) => callback(null, instance))
+    .catch((err) => callback(err));
+  },
+});
+
+factory.define('fda_approval', FdaApproval, {
+  id: () => uuid.v1(),
+  supplement_number: 0,
+  type: 'Approval',
+  action_date: new Date('2016-01-01'),
+  notes: 'Healing heals',
+  fda_application_id: factory.assoc('fda_application', 'id'),
 });
 
 module.exports = factory;

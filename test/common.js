@@ -18,6 +18,8 @@ function clearDB() {
     'conditions',
     'trials_persons',
     'persons',
+    'fda_approvals',
+    'fda_applications',
     'trials_organisations',
     'organisations',
     'trials_documents',
