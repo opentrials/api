@@ -105,7 +105,7 @@ const Trial = BaseModel.extend({
       'trial_id', 'publication_id');
   },
   documents: function () {
-    return this.hasMany('Document');
+    return this.belongsToMany('Document', 'trials_documents');
   },
   records: function () {
     return this.hasMany('Record');
