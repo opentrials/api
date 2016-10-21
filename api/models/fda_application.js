@@ -3,6 +3,7 @@
 require('./fda_approval');
 require('./organisation');
 
+const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
 const relatedModels = [
@@ -10,7 +11,7 @@ const relatedModels = [
   'organisation',
 ]
 
-const FdaApplication = BaseModel.extend({
+const FDAApplication = BaseModel.extend({
   tableName: 'fda_applications',
   visible: [
     'id',
@@ -20,13 +21,18 @@ const FdaApplication = BaseModel.extend({
     'organisation',
   ],
   fda_approvals: function () {
-    return this.hasMany('FdaApproval');
+    return this.hasMany('FDAApproval');
   },
   organisation: function () {
     return this.belongsTo('Organisation');
-  }
-},{
+  },
+  virtuals: {
+    url: function () {
+      return helpers.urlFor(this);
+    },
+  },
+}, {
   relatedModels
 });
 
-module.exports = bookshelf.model('FdaApplication', FdaApplication);
+module.exports = bookshelf.model('FDAApplication', FDAApplication);

@@ -1,8 +1,8 @@
 'use strict';
 
-const FdaApplication = require('../../../api/models/fda_application');
+const FDAApplication = require('../../../api/models/fda_application');
 
-describe('FdaApplication', () => {
+describe('FDAApplication', () => {
   before(clearDB);
 
   afterEach(clearDB);
@@ -17,11 +17,11 @@ describe('FdaApplication', () => {
 
     it('returns the FDA application', () => (
       factory.create('fda_application').then((model) => {
-        return server.inject('/v1/fda_applications/' + model.attributes.id)
+        return server.inject(`/v1/fda_applications/${model.attributes.id}`)
           .then((response) => {
             response.statusCode.should.equal(200);
 
-            const expectedResult = JSON.parse(JSON.stringify(model.toJSON()));
+            const expectedResult = toJSON(model);
             const result = JSON.parse(response.result);
 
             result.should.deepEqual(expectedResult);
@@ -39,7 +39,7 @@ describe('FdaApplication', () => {
 
             const expectedResult = {
               total_count: 1,
-              items: [JSON.parse(JSON.stringify(model.toJSON()))],
+              items: [toJSON(model)],
             }
             const result = JSON.parse(response.result);
             result.should.deepEqual(expectedResult);

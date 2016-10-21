@@ -1,7 +1,7 @@
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
 
-const FdaApproval = BaseModel.extend({
+const FDAApproval = BaseModel.extend({
   tableName: 'fda_approvals',
   visible: [
     'id',
@@ -12,4 +12,4 @@ const FdaApproval = BaseModel.extend({
   ],
 });
 
-module.exports = bookshelf.model('FdaApproval', FdaApproval);
+module.exports = bookshelf.model('FDAApproval', FDAApproval);

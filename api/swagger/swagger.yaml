@@ -328,7 +328,7 @@ paths:
       tags:
         - fda_applications
       description: Returns FDA applications
-      operationId: getFdaApplications
+      operationId: listFDAApplications
       parameters:
         - name: page
           in: query
@@ -347,7 +347,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/FdaApplications"
+            $ref: "#/definitions/FDAApplicationList"
         default:
           description: Error
           schema:
@@ -359,7 +359,7 @@ paths:
       tags:
         - fda_applications
       description: Returns an FDA application details
-      operationId: getFdaApplication
+      operationId: getFDAApplication
       parameters:
         - name: id
           in: path
@@ -370,7 +370,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/FdaApplication"
+            $ref: "#/definitions/FDAApplication"
         "404":
           description: FDA application not found
         default:
@@ -1030,7 +1030,7 @@ definitions:
       name:
         type: string
 
-  FdaApplications:
+  FDAApplicationList:
     type: object
     required:
       - total_count
@@ -1041,10 +1041,13 @@ definitions:
       items:
         type: array
         items:
-          $ref: '#/definitions/FdaApplication'
+          $ref: '#/definitions/FDAApplication'
 
-  FdaApplication:
+  FDAApplication:
     type: object
+    required:
+      - id
+      - url
     properties:
       id:
         type: string
@@ -1059,13 +1062,16 @@ definitions:
         type: array
         description: Associated FDA approvals
         items:
-          $ref: '#/definitions/FdaApproval'
+          $ref: '#/definitions/FDAApproval'
       organisation:
         type: object
         description: Associated organisation
         $ref: '#/definitions/Organisation'
+      url:
+        type: string
+        description: OpenTrials API URL for this FDA application
 
-  FdaApproval:
+  FDAApproval:
     type: object
     properties:
       id:

@@ -1,16 +1,12 @@
 'use strict';
 
-const FdaApplication = require('../models/fda_application');
+const FDAApplication = require('../models/fda_application');
 
-function getFdaApplication(req, res) {
+function getFDAApplication(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new FdaApplication({ id: id }).fetch({
-      withRelated: ['fda_approvals', 'organisation'],
-    })
-    .catch((err) => {
-      res.finish();
-      throw err;
+  return new FDAApplication({ id: id }).fetch({
+      withRelated: FDAApplication.relatedModels,
     })
     .then((fda_application) => {
       if (fda_application) {
@@ -19,18 +15,22 @@ function getFdaApplication(req, res) {
         res.status(404);
         res.finish();
       }
+    })
+    .catch((err) => {
+      res.finish();
+      throw err;
     });
 }
 
-function getFdaApplications(req, res) {
+function listFDAApplications(req, res) {
   const params = req.swagger.params;
   const page = params.page.value;
   const perPage = params.per_page.value;
 
-  return FdaApplication.fetchPage({
+  return FDAApplication.fetchPage({
       page: page,
       pageSize: perPage,
-      withRelated: ['fda_approvals', 'organisation'],
+      withRelated: FDAApplication.relatedModels,
     })
     .then((fda_applications) => {
       let response = {
@@ -46,6 +46,6 @@ function getFdaApplications(req, res) {
 }
 
 module.exports = {
-  getFdaApplication,
-  getFdaApplications,
+  getFDAApplication,
+  listFDAApplications,
 }
