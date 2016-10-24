@@ -6,7 +6,7 @@ const BaseModel = require('./base');
 const File = BaseModel.extend({
   tableName: 'files',
   visible: [
-    'url',
+    'source_url',
     'documentcloud_id',
     'text',
   ],

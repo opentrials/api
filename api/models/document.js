@@ -10,7 +10,7 @@ const Document = BaseModel.extend({
   visible: [
     'type',
     'name',
-    'url',
+    'source_url',
   ],
   file: function () {
     return this.belongsTo('File');
@@ -21,9 +21,9 @@ const Document = BaseModel.extend({
       Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments)
     );
 
-    const fileURL = this.related('file').toJSON().url;
+    const fileURL = this.related('file').toJSON().source_url;
     if (fileURL) {
-      attributes.url = fileURL;
+      attributes.source_url = fileURL;
     }
 
     return attributes;

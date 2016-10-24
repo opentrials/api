@@ -106,14 +106,14 @@ exports.seed = (knex) => {
     nct: {
       id: 'nct',
       name: 'ClinicalTrials.gov',
-      url: 'https://clinicaltrials.gov',
+      source_url: 'https://clinicaltrials.gov',
       terms_and_conditions_url: 'https://clinicaltrials.gov/ct2/about-site/terms-conditions',
       type: 'register',
     },
     isrctn: {
       id: 'isrctn',
       name: 'ISRCTN',
-      url: 'http://www.isrctn.com',
+      source_url: 'http://www.isrctn.com',
       terms_and_conditions_url: 'http://www.isrctn.com/page/terms',
       type: 'register',
     },
@@ -152,14 +152,14 @@ exports.seed = (knex) => {
       id: '93adc23a-75b9-11e6-8b77-86f30ca893d3',
       documentcloud_id: '1-example-file',
       sha1: '60b27f004e454aca81b0480209cce5081ec52390',
-      url: 'http://example.org/file1.pdf',
+      source_url: 'http://example.org/file1.pdf',
       text: 'Lorem ipsum dolor sit amet',
     },
     {
       id: '9e536a14-75b9-11e6-8b77-86f30ca893d3',
       documentcloud_id: '2-example-file',
       sha1: 'cb99b709a1978bd205ab9dfd4c5aaa1fc91c7523',
-      url: 'http://example.org/file2.pdf',
+      source_url: 'http://example.org/file2.pdf',
       text: 'Sed ut perspiciatis unde omnis iste natus',
     },
   ];
@@ -370,7 +370,7 @@ exports.seed = (knex) => {
         study_phase: 'N/A',
         study_type: 'Interventional',
         target_sample_size: 46,
-        url: 'http://clinicaltrials.gov/show/NCT01846767',
+        source_url: 'http://clinicaltrials.gov/show/NCT01846767',
       }),
 
       identifiers: { nct: 'NCT00000774', isrctn: '1234567890' },
