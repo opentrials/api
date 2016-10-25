@@ -10,7 +10,7 @@ const Source = BaseModel.extend({
   visible: [
     'id',
     'name',
-    'url',
+    'source_url',
     'terms_and_conditions_url',
     'type',
   ],

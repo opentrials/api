@@ -131,7 +131,7 @@ const Trial = BaseModel.extend({
         data[source.id] = {
           id: source.id,
           name: source.name,
-          url: source.url,
+          source_url: source.source_url,
         };
 
         return data;

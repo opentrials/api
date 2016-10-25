@@ -8,19 +8,19 @@ describe('Document', () => {
 
   afterEach(clearDB);
 
-  describe('url', () => {
-    it('should return its own url if it has no file', () => {
+  describe('source_url', () => {
+    it('should return its own source_url if it has no file', () => {
       return factory.create('document', { file_id: undefined })
-        .then((doc) => should(doc.toJSON().url).not.be.undefined());
+        .then((doc) => should(doc.toJSON().source_url).not.be.undefined());
     })
 
     it('should delegate to its file if it exists', () => {
-      const url = 'http://example.com/myfilepath.pdf';
+      const sourceURL = 'http://example.com/myfilepath.pdf';
 
-      return factory.create('file', { url })
+      return factory.create('file', { source_url: sourceURL })
         .then((file) => factory.create('documentWithFile', { file_id: file.attributes.id }))
         .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-        .then((doc) => should(doc.toJSON().url).equal(url));
+        .then((doc) => should(doc.toJSON().source_url).equal(sourceURL));
     })
   });
 

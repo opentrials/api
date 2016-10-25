@@ -65,14 +65,14 @@ factory.define('organisation', Organisation, {
 factory.define('source', Source, {
   id: () => uuid.v1(),
   name: factory.sequence((n) => `source${n}`),
-  url: factory.sequence((n) => `http://example.org/source/${n}`),
+  source_url: factory.sequence((n) => `http://example.org/source/${n}`),
   terms_and_conditions_url: factory.sequence((n) => `http://example.org/source/${n}/terms`),
   type: 'register',
 });
 
 factory.define('file', File, {
   id: () => uuid.v1(),
-  url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
+  source_url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
   sha1: factory.sequence(),
   documentcloud_id: factory.sequence((n) => `${n}-file`),
   text: 'Lorem ipsum dolor sit amet',
@@ -89,7 +89,7 @@ factory.define('document', Document, Object.assign(
   {},
   documentAttributes,
   {
-    url: factory.sequence((n) => `http://example.org/document${n}`),
+    source_url: factory.sequence((n) => `http://example.org/document${n}`),
   }
 ));
 
