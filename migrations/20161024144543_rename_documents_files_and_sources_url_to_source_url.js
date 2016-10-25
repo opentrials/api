@@ -2,37 +2,24 @@
 
 exports.up = (knex) => (
   knex.schema
-    .raw('ALTER TABLE documents DROP CONSTRAINT file_id_xor_url_check')
-    .alterTable('documents', (table) => {
-      table.dropUnique(['type', 'url']);
-      table.renameColumn('url', 'source_url');
-      table.unique(['type', 'source_url']);
-    })
-    .raw(`ALTER TABLE documents
-      ADD CONSTRAINT file_id_xor_source_url_check CHECK (
-      (file_id IS NULL AND source_url IS NOT NULL) OR
-      (file_id IS NOT NULL AND source_url IS NULL)
-    )`)
+    .table('documents', (table) => table.renameColumn('url', 'source_url'))
+    .raw('ALTER TABLE documents RENAME CONSTRAINT documents_type_url_unique TO documents_type_source_url_unique')
+    .raw('ALTER TABLE documents RENAME CONSTRAINT file_id_xor_url_check TO file_id_xor_source_url_check')
 
-    .alterTable('files', (table) => {
-      table.dropUnique(['url']);
-      table.renameColumn('url', 'source_url');
-      table.unique(['source_url']);
-    })
+    .table('files', (table) => table.renameColumn('url', 'source_url'))
+    .raw('ALTER TABLE files RENAME CONSTRAINT files_url_unique TO files_source_url_unique')
+
     .table('sources', (table) => table.renameColumn('url', 'source_url'))
 );
 
 exports.down = (knex) => (
   knex.schema
-    .alterTable('documents', (table) => {
-      table.dropUnique(['type', 'source_url']);
-      table.renameColumn('source_url', 'url');
-      table.unique(['type', 'url']);
-    })
-    .alterTable('files', (table) => {
-      table.dropUnique(['source_url']);
-      table.renameColumn('source_url', 'url');
-      table.unique(['url']);
-    })
+    .table('documents', (table) => table.renameColumn('source_url', 'url'))
+    .raw('ALTER TABLE documents RENAME CONSTRAINT documents_type_source_url_unique TO documents_type_url_unique')
+    .raw('ALTER TABLE documents RENAME CONSTRAINT file_id_xor_source_url_check TO file_id_xor_url_check')
+
+    .table('files', (table) => table.renameColumn('source_url', 'url'))
+    .raw('ALTER TABLE files RENAME CONSTRAINT files_source_url_unique TO files_url_unique')
+
     .table('sources', (table) => table.renameColumn('source_url', 'url'))
 );
