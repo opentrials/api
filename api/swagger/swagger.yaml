@@ -377,6 +377,62 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  
+  /documents:
+    x-swagger-router-controller: documents
+    get:
+      tags:
+        - documents
+      description: Returns documents
+      operationId: listDocuments
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DocumentList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /documents/{id}:
+    x-swagger-router-controller: documents
+    get:
+      tags:
+        - documents
+      description: Returns details of a document
+      operationId: getDocument
+      parameters:
+        - name: id
+          in: path
+          description: ID of the document
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Document"
+        "404":
+          description: Document not found
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
 definitions:
   TrialsPerSource:
@@ -542,7 +598,7 @@ definitions:
         type: array
         description: Documents related to the trial
         items:
-          $ref: '#/definitions/Document'
+          $ref: '#/definitions/DocumentSummary'
       sources:
         type: object
         items:
@@ -564,6 +620,16 @@ definitions:
               - recruitment_countries
               - other
     description: Location of a trial
+
+  TrialSummary:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID of the trial
+      url:
+        type: string
+        description: OpenTrials API ID for this trial
 
   Location:
     type: object
@@ -901,12 +967,8 @@ definitions:
       source_name:
         type: string
 
-  Document:
+  DocumentSummary:
     type: object
-    required:
-      - name
-      - type
-      - source_url
     properties:
       name:
         type: string
@@ -923,10 +985,64 @@ definitions:
           - other
       source_url:
         type: string
+        description: URL of origin for this document or its file
       documentcloud_id:
         type: string
+        description: DocumentCloud ID of this document's file
       text:
         type: string
+        description: Text of this document's file
+
+  Document:
+    type: object
+    required:
+      - id
+      - name
+      - url
+    properties:
+      id:
+        type: string
+        description: ID of the document
+      source_id:
+        type: string
+        description: ID of the document's source
+      name:
+        type: string
+      url:
+        type: string
+        description: OpenTrials API URL of the document
+      trials:
+        type: array
+        items:
+          $ref: '#/definitions/TrialSummary'
+      file:
+        type: object
+        $ref: '#/definitions/FileSummary'
+
+  DocumentList:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Document'
+
+  FileSummary:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID of the file
+      sha1:
+        type: string
+      source_url:
+        type: string
+        description: URL of origin for this file
 
   RiskOfBias:
     type: object
