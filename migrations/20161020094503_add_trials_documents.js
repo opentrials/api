@@ -14,6 +14,7 @@ exports.up = (knex) => (
     .raw(`
       INSERT INTO trials_documents (trial_id, document_id)
       SELECT trial_id, id FROM documents
+        WHERE trial_id IS NOT NULL
     `)
     .table('documents', (table) => {
       table.dropColumn('trial_id');
