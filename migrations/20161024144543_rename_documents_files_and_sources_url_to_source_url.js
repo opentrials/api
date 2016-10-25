@@ -3,7 +3,7 @@
 exports.up = (knex) => (
   knex.schema
     .table('documents', (table) => table.renameColumn('url', 'source_url'))
-    .raw('ALTER TABLE documents RENAME CONSTRAINT documents_type_url_unique TO documents_type_source_url_unique')
+    .raw('ALTER INDEX non_fda_documents_type_url_unique RENAME TO non_fda_documents_type_source_url_unique')
     .raw('ALTER TABLE documents RENAME CONSTRAINT file_id_xor_url_check TO file_id_xor_source_url_check')
 
     .table('files', (table) => table.renameColumn('url', 'source_url'))
@@ -15,7 +15,7 @@ exports.up = (knex) => (
 exports.down = (knex) => (
   knex.schema
     .table('documents', (table) => table.renameColumn('source_url', 'url'))
-    .raw('ALTER TABLE documents RENAME CONSTRAINT documents_type_source_url_unique TO documents_type_url_unique')
+    .raw('ALTER INDEX non_fda_documents_type_source_url_unique RENAME TO non_fda_documents_type_url_unique')
     .raw('ALTER TABLE documents RENAME CONSTRAINT file_id_xor_source_url_check TO file_id_xor_url_check')
 
     .table('files', (table) => table.renameColumn('source_url', 'url'))
