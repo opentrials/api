@@ -8,9 +8,9 @@ function getDocument(req, res) {
   return new Document({ id: id }).fetch({
       withRelated: Document.relatedModels,
     })
-    .then((document) => {
-      if (document) {
-        res.json(document);
+    .then((doc) => {
+      if (doc) {
+        res.json(doc);
       } else {
         res.status(404);
         res.finish();

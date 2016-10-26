@@ -27,8 +27,8 @@ describe('Organisation', () => {
 
   describe('url', () => {
     it('returns the url', () => {
-      return factory.build('person')
-        .then((person) => should(person.toJSON().url).eql(helpers.urlFor(person)));
+      return factory.build('organisation')
+        .then((organisation) => should(organisation.toJSON().url).eql(helpers.urlFor(organisation)));
     });
   });
 });

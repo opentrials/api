@@ -17,5 +17,11 @@ describe('Document', () => {
           source_url: file.attributes.source_url,
         }));
     });
+
+    it('is an empty object if file is empty', () => {
+      const file = new File();
+
+      should(file.toJSONSummary()).deepEqual({});
+    })
   });
 });

@@ -75,10 +75,10 @@ describe('Document', () => {
         .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
         .then((doc) => doc.toJSON().file.should.deepEqual(doc.related('file').toJSONSummary()));
     });
-    it('returns empty object if it lacks file', () => {
+    it('returns undefined when fetching lacking file', () => {
       return factory.create('document', {file_id: undefined})
         .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-        .then((doc) => doc.toJSON().file.should.deepEqual({}));
+        .then((doc) => should(doc.toJSON().file).be.undefined());
     });
   });
 });

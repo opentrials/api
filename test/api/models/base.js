@@ -16,4 +16,26 @@ describe('BaseModel', () => {
 
     base.toJSON().should.not.have.ownProperty('foo');
   });
+
+  it('removes empty plain objects when serializing', () => {
+    const base = new BaseModel({
+      plainObj: {},
+      nonPlainObj: [],
+    });
+
+    base.toJSON().should.not.have.ownProperty('plainObj');
+    base.toJSON().should.have.ownProperty('nonPlainObj');
+  });
+
+  it('removes undefined virtual attributes', () => {
+    const Model = BaseModel.extend({
+      visible: ['data'],
+      virtuals: {
+        data: () => undefined,
+      },
+    });
+    const model = new Model();
+
+    should(model.toJSON()).not.have.ownProperty('data');
+  });
 });

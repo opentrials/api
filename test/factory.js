@@ -199,7 +199,9 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   trial_id: factory.assoc('trial', 'id'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
-  source_data: {},
+  source_data: {
+    foo: 'bar',
+  },
 }), {
   afterCreate: (record, attrs, callback) => {
     new Record({ id: record.id })

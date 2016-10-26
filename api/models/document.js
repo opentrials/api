@@ -31,10 +31,8 @@ const Document = BaseModel.extend({
     attributes.url = this.url;
     attributes.trials = (this.relations.trials || []).map((trial) => trial.toJSONSummary());
 
-    if (this.relations.file) { 
-      attributes.file = this.relations.file.toJSONSummary(); }
-    else {
-      attributes.file = {};
+    if (attributes.file) {
+      attributes.file = this.related('file').toJSONSummary();
     }
 
     return attributes
