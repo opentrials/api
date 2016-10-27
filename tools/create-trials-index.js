@@ -413,6 +413,9 @@ Promise.resolve() // Use bluebird promises
   .then(() => indexAutocompleteModel(Location, autocompleteNewIndexName, 'location'))
   .then(() => indexAutocompleteModel(Person, autocompleteNewIndexName, 'person'))
   .then(() => indexAutocompleteModel(Organisation, autocompleteNewIndexName, 'organisation'))
+  // Remove `trials` index, if it exists, to avoid a name conflict with the alias
+  .then(() => client.indices.delete({ index: 'trials', ignore: 404 }))
+  .then(() => client.indices.delete({ index: 'autocomplete', ignore: 404 }))
   // Autocomplete is populated
   .then(() => client.indices.updateAliases({
     body: {
