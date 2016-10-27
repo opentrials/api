@@ -409,4 +409,14 @@ describe('Trial', () => {
       });
     });
   });
+
+  describe('toJSONSummary', () => {
+    it('returns simplified trial representation', () => {
+      return factory.create('trial')
+        .then((trial) => trial.toJSONSummary().should.deepEqual({
+          id: trial.attributes.id,
+          url: trial.url,
+        }));
+    });
+  });
 });

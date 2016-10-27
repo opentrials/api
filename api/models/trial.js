@@ -79,6 +79,7 @@ const Trial = BaseModel.extend({
 
     attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
     attributes.publications  = (relations.publications || []).map((publication) => publication.toJSONSummary());
+    attributes.documents  = (relations.documents || []).map((document) => document.toJSONSummary());
 
     return attributes;
   },
@@ -112,6 +113,14 @@ const Trial = BaseModel.extend({
   },
   risks_of_bias: function () {
     return this.hasMany('RiskOfBias');
+  },
+  toJSONSummary: function () {
+    const attributes = this.toJSON();
+
+    return {
+      id: attributes.id,
+      url: attributes.url,
+    };
   },
   virtuals: {
     url: function () {

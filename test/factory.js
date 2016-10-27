@@ -16,6 +16,8 @@ const Document = require('../api/models/document');
 const File = require('../api/models/file');
 const RiskOfBias = require('../api/models/risk_of_bias');
 const RiskOfBiasCriteria = require('../api/models/risk_of_bias_criteria');
+const FDAApplication = require('../api/models/fda_application');
+const FDAApproval = require('../api/models/fda_approval');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
@@ -197,7 +199,9 @@ factory.define('record', Record, Object.assign({}, trialAttributes, {
   trial_id: factory.assoc('trial', 'id'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
-  source_data: {},
+  source_data: {
+    foo: 'bar',
+  },
 }), {
   afterCreate: (record, attrs, callback) => {
     new Record({ id: record.id })
@@ -229,6 +233,30 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
       .then(() => callback(null, source))
       .catch((err) => callback(err));
   },
+});
+
+factory.define('fda_application', FDAApplication, {
+  id: () => uuid.v1(),
+  drug_name: 'Healer',
+  active_ingredients: 'healing',
+  organisation_id: factory.assoc('organisation', 'id'),
+}, {
+  afterCreate: (fdaApplication, attrs, callback) => {
+    factory.create('fda_approval', { fda_application_id: fdaApplication.id })
+    .then(() => new FDAApplication({ id: fdaApplication.id })
+      .fetch({ withRelated: FDAApplication.relatedModels }))
+    .then((instance) => callback(null, instance))
+    .catch((err) => callback(err));
+  },
+});
+
+factory.define('fda_approval', FDAApproval, {
+  id: () => uuid.v1(),
+  supplement_number: factory.sequence((n) => n),
+  type: 'Approval',
+  action_date: new Date('2016-01-01'),
+  notes: 'Healing heals',
+  fda_application_id: factory.assoc('fda_application', 'id'),
 });
 
 module.exports = factory;

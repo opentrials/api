@@ -2,33 +2,67 @@
 
 require('./file');
 
+const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+const relatedModels = [
+  'file',
+  'trials',
+]
 
 const Document = BaseModel.extend({
   tableName: 'documents',
   visible: [
-    'type',
+    'id',
+    'source_id',
     'name',
-    'source_url',
+    'type',
+    'trials',
+    'file',
+    'url',
   ],
-  file: function () {
-    return this.belongsTo('File');
-  },
   serialize: function (options) {
     const attributes = Object.assign(
       {},
       Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments)
     );
 
-    const fileURL = this.related('file').toJSON().source_url;
-    if (fileURL) {
-      attributes.source_url = fileURL;
+    attributes.url = this.url;
+    attributes.trials = (this.relations.trials || []).map((trial) => trial.toJSONSummary());
+
+    if (attributes.file) {
+      attributes.file = this.related('file').toJSONSummary();
     }
 
-    return attributes;
+    return attributes
+  },
+  file: function () {
+    return this.belongsTo('File');
+  },
+  trials: function () {
+    return this.belongsToMany('Trial', 'trials_documents');
+  },
+  toJSONSummary: function () {
+    const attributes = this.attributes;
+    const fileURL = this.related('file').toJSON().source_url;
+
+    const result = {
+      name: attributes.name,
+      type: attributes.type,
+      source_url:  attributes.source_url,
+      documentcloud_id: this.documentcloud_id,
+      text: this.text,
+    };
+
+    if (fileURL) {
+      result.source_url = fileURL;
+    }
+    return result;
   },
   virtuals: {
+    url: function () {
+      return helpers.urlFor(this);
+    },
     documentcloud_id: function () {
       return this.related('file').toJSON().documentcloud_id;
     },
@@ -36,6 +70,8 @@ const Document = BaseModel.extend({
       return this.related('file').toJSON().text;
     },
   },
+}, {
+  relatedModels,
 });
 
 module.exports = bookshelf.model('Document', Document);
