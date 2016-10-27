@@ -35,7 +35,7 @@ function listDocuments(req, res) {
     .then((documents) => {
       const response = {
         total_count: documents.pagination.rowCount,
-        items: documents.models.map((m) => m.toJSONSummary()),
+        items: documents.models,
       }
       res.json(response);
     })

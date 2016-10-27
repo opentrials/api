@@ -46,7 +46,7 @@ describe('Document', () => {
 
           const expectedResult = {
             total_count: 1,
-            items: [doc.toJSONSummary()],
+            items: [doc.toJSON()],
           }
           const result = JSON.parse(response.result);
           result.should.deepEqual(expectedResult);
