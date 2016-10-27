@@ -8,12 +8,12 @@ describe('Document', () => {
   afterEach(clearDB);
 
   describe('GET /v1/documents/{id}', () => {
-    it('returns 404 if there\'s no document with the received ID', () => (
-      server.inject('/v1/document/NOID')
+    it('returns 404 if there\'s no document with the received ID', () => {
+      return server.inject('/v1/document/00000000-0000-0000-0000-000000000000')
         .then((response) => {
           response.statusCode.should.equal(404);
         })
-    ));
+    });
 
     it('returns the document', () => (
       factory.create('document').then((model) => {

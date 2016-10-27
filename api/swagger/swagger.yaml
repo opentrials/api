@@ -629,7 +629,7 @@ definitions:
         description: ID of the trial
       url:
         type: string
-        description: OpenTrials API ID for this trial
+        description: OpenTrials API URL for this trial
 
   Location:
     type: object
@@ -1173,7 +1173,7 @@ definitions:
         description: Name of the drug
       active_ingredients:
         type: string
-        description: Active ingredients contained by the drug
+        description: Active ingredients contained in the drug
       fda_approvals:
         type: array
         description: Associated FDA approvals

@@ -12,7 +12,6 @@ const relatedModels = [
 
 const Document = BaseModel.extend({
   tableName: 'documents',
-  outputVirtuals: false,
   visible: [
     'id',
     'source_id',
@@ -72,7 +71,7 @@ const Document = BaseModel.extend({
     },
   },
 }, {
-    relatedModels
+  relatedModels,
 });
 
 module.exports = bookshelf.model('Document', Document);

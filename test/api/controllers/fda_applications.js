@@ -1,7 +1,5 @@
 'use strict';
 
-const FDAApplication = require('../../../api/models/fda_application');
-
 describe('FDAApplication', () => {
   before(clearDB);
 
@@ -9,7 +7,7 @@ describe('FDAApplication', () => {
 
   describe('GET /v1/fda_applications/{id}', () => {
     it('returns 404 if there\'s no FDA application with the received ID', () => (
-      server.inject('/v1/fda_applications/BADFDAID')
+      server.inject('/v1/fda_applications/00000000-0000-0000-0000-000000000000')
         .then((response) => {
           response.statusCode.should.equal(404);
         })
