@@ -57,9 +57,7 @@ const Document = BaseModel.extend({
       type: attributes.type,
       source_id: attributes.source_id,
       source_url:  attributes.source_url,
-      documentcloud_id: this.documentcloud_id,
       url: this.url,
-      text: this.text,
     };
 
     if (fileURL) {

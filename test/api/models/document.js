@@ -22,8 +22,6 @@ describe('Document', () => {
             type: attributes.type,
             source_id: doc.attributes.source_id,
             source_url: doc.related('file').toJSON().source_url,
-            documentcloud_id: doc.attributes.documentcloud_id,
-            text: attributes.text,
           })
         });
     });

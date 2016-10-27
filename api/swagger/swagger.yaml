@@ -969,9 +969,53 @@ definitions:
 
   DocumentSummary:
     type: object
+    required:
+      - id
+      - name
+      - url
+      - type
     properties:
+      id:
+        type: string
       name:
         type: string
+      url:
+        type: string
+        description: OpenTrials API URL of the document
+      type:
+        type: string
+        enum:
+          - csr
+          - csr_synopsis
+          - epar_segment
+          - blank_consent_form
+          - patient_information_sheet
+          - blank_case_report_form
+          - results
+          - other
+      source_id:
+        type: string
+        description: ID of the document's source
+      source_url:
+        type: string
+        description: URL of origin for this document or its file
+
+  Document:
+    type: object
+    required:
+      - id
+      - name
+      - url
+      - type
+    properties:
+      id:
+        type: string
+        description: ID of the document
+      name:
+        type: string
+      url:
+        type: string
+        description: OpenTrials API URL of the document
       type:
         type: string
         enum:
@@ -986,31 +1030,12 @@ definitions:
       source_url:
         type: string
         description: URL of origin for this document or its file
-      documentcloud_id:
-        type: string
-        description: DocumentCloud ID of this document's file
       text:
         type: string
         description: Text of this document's file
-
-  Document:
-    type: object
-    required:
-      - id
-      - name
-      - url
-    properties:
-      id:
+      documentcloud_id:
         type: string
-        description: ID of the document
-      source_id:
-        type: string
-        description: ID of the document's source
-      name:
-        type: string
-      url:
-        type: string
-        description: OpenTrials API URL of the document
+        description: DocumentCloud ID of this document's file
       trials:
         type: array
         items:
