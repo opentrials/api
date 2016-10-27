@@ -15,37 +15,43 @@ describe('Document', () => {
         })
     });
 
-    it('returns the document', () => (
-      factory.create('document').then((model) => {
-        return server.inject(`/v1/documents/${model.attributes.id}`)
-          .then((response) => {
-            response.statusCode.should.equal(200);
+    it('returns the document', () => {
+      let doc;
 
-            const expectedResult = toJSON(model);
-            const result = JSON.parse(response.result);
+      return factory.create('document')
+        .then((_doc) => new Document({ id: _doc.attributes.id }).fetch({ withRelated: Document.relatedModels }))
+        .then((_doc) => doc = _doc)
+        .then(() => server.inject(`/v1/documents/${doc.attributes.id}`))
+        .then((response) => {
+          response.statusCode.should.equal(200);
 
-            result.should.deepEqual(expectedResult);
-          })
-      })
-    ));
+          const expectedResult = doc.toJSON();
+          const result = JSON.parse(response.result);
+
+          result.should.deepEqual(expectedResult);
+        });
+    });
   });
 
   describe('GET /v1/documents', () => {
-    it('returns the documents in pages', () => (
-      factory.create('document').then((model) => {
-        return server.inject('/v1/documents')
-          .then((response) => {
-            response.statusCode.should.equal(200);
+    it('returns the documents in pages', () => {
+      let doc;
 
-            const expectedResult = {
-              total_count: 1,
-              items: [toJSON(model)],
-            }
-            const result = JSON.parse(response.result);
-            result.should.deepEqual(expectedResult);
-          })
-      })
-    ));
+      return factory.create('documentWithFile')
+        .then((_doc) => new Document({ id: _doc.attributes.id }).fetch({ withRelated: Document.relatedModels }))
+        .then((_doc) => doc = _doc)
+        .then(() => server.inject('/v1/documents'))
+        .then((response) => {
+          response.statusCode.should.equal(200);
+
+          const expectedResult = {
+            total_count: 1,
+            items: [doc.toJSONSummary()],
+          }
+          const result = JSON.parse(response.result);
+          result.should.deepEqual(expectedResult);
+        });
+    });
 
     it('returns empty items array when there are no more documents', () => (
       factory.create('document').then((model) => {

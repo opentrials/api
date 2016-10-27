@@ -28,6 +28,7 @@ describe('Trial', () => {
       'publications.source',
       'documents',
       'documents.file',
+      'documents.source',
       'risks_of_bias',
       'risks_of_bias.risk_of_bias_criteria',
     ]);
@@ -278,6 +279,17 @@ describe('Trial', () => {
             const sources = trial.toJSON().sources;
 
             should(sources).have.keys(publicationsSourcesIds);
+          })
+      });
+
+      it('returns the documents sources', () => {
+        return factory.create('trialWithRelated')
+          .then((trial) => {
+            const documents = trial.related('documents');
+            const documentsSourcesIds = documents.map((doc) => doc.attributes.source_id);
+            const sources = trial.toJSON().sources;
+
+            should(sources).have.keys(documentsSourcesIds);
           })
       });
 

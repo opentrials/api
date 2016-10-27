@@ -1018,6 +1018,9 @@ definitions:
       file:
         type: object
         $ref: '#/definitions/FileSummary'
+      source:
+        type: object
+        $ref: '#/definitions/Source'
 
   DocumentList:
     type: object
