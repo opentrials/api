@@ -12,13 +12,20 @@ describe('Document', () => {
     it('returns simplified document representation', () => {
       return factory.create('file')
         .then((file) => factory.create('documentWithFile', { file_id: file.attributes.id }))
-        .then((doc) => doc.toJSONSummary().should.deepEqual({
-          name: doc.attributes.name,
-          type: doc.attributes.type,
-          source_url: doc.related('file').toJSON().source_url,
-          documentcloud_id: doc.documentcloud_id,
-          text: doc.text,
-        }));
+        .then((doc) => {
+          const attributes = doc.toJSON();
+
+          doc.toJSONSummary().should.deepEqual({
+            id: attributes.id,
+            name: attributes.name,
+            url: attributes.url,
+            type: attributes.type,
+            source_id: doc.attributes.source_id,
+            source_url: doc.related('file').toJSON().source_url,
+            documentcloud_id: doc.attributes.documentcloud_id,
+            text: attributes.text,
+          })
+        });
     });
 
     it('should return its own source_url if it has no file', () => {

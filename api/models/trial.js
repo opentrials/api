@@ -27,6 +27,7 @@ const relatedModels = [
   'publications.source',
   'documents',
   'documents.file',
+  'documents.source',
   'risks_of_bias',
   'risks_of_bias.risk_of_bias_criteria',
 ];
@@ -130,10 +131,14 @@ const Trial = BaseModel.extend({
       const publicationsSources = this.related('publications')
                                       .toJSON()
                                       .map((publication) => publication.source);
+      const documentsSources = this.related('documents')
+                                 .toJSON()
+                                 .map((document) => document.source);
       const recordsSources = this.related('records')
                                  .toJSON()
                                  .map((record) => record.source);
       const sources = [...publicationsSources,
+                       ...documentsSources,
                        ...recordsSources];
 
       const result = sources.reduce((data, source) => {
@@ -144,6 +149,7 @@ const Trial = BaseModel.extend({
         };
 
         return data;
+
       }, {});
 
       return result;

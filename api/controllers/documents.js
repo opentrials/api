@@ -33,9 +33,9 @@ function listDocuments(req, res) {
       withRelated: Document.relatedModels,
     })
     .then((documents) => {
-      let response = {
+      const response = {
         total_count: documents.pagination.rowCount,
-        items: documents.models,
+        items: documents.models.map((m) => m.toJSONSummary()),
       }
       res.json(response);
     })
