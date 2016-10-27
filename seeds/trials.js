@@ -100,6 +100,10 @@ exports.seed = (knex) => {
       id: '68b963fa-48d1-4ae8-95ab-0155314c8162',
       name: 'Memorial Sloan Kettering Cancer Center',
     },
+    delcor: {
+      id: '1a3a35f8-7142-11e6-a0cd-0242ac12000b',
+      name: 'DELCOR ASSET CORP',
+    },
   };
 
   const sources = {
@@ -120,6 +124,11 @@ exports.seed = (knex) => {
     cochrane: {
       id: 'cochrane',
       name: 'Cochrane Library',
+      type: 'other',
+    },
+    fda: {
+      id: 'fda',
+      name: 'U.S. Food and Drug Administration',
       type: 'other',
     },
   };
@@ -164,6 +173,38 @@ exports.seed = (knex) => {
     },
   ];
 
+  const FDAApplications = [
+    {
+      id: 'ANDA089644',
+      active_ingredients: 'LIDOCAINE HYDROCHLORIDE AND EPINEPHRINE',
+      drug_name: 'EPINEPHRINE; LIDOCAINE HYDROCHLORIDE',
+    },
+    {
+      id: 'NDA021738',
+      active_ingredients: 'EXTINA',
+      drug_name: 'KETOCONAZOLE',
+      organisation_id: organisations.delcor.id,
+    },
+  ];
+
+  const FDAApprovals = [
+    {
+      id: 'ANDA089644-000',
+      supplement_number: 0,
+      type: 'Approval',
+      action_date: new Date('2015-07-07'),
+      notes: 'Label is not available',
+      fda_application_id: FDAApplications[0].id,
+    },
+    {
+      id: 'NDA021738-000',
+      supplement_number: 0,
+      type: 'Approval',
+      action_date: new Date('2015-07-07'),
+      fda_application_id: FDAApplications[1].id,
+    },
+  ];
+
   const documents = [
     {
       id: '77b81059-19b2-4f5d-a00b-85b9c12b6002',
@@ -178,6 +219,22 @@ exports.seed = (knex) => {
       file_id: files[1].id,
       name: 'Clinical Study Report (CSR)',
       type: 'csr',
+    },
+    {
+      id: '7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
+      source_id: sources.fda.id,
+      name: 'FDA approval document',
+      type: 'other',
+      fda_approval_id: FDAApprovals[0].id,
+      source_url: 'http://example.com/7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
+    },
+    {
+      id: '1d12e160-9c37-11e6-8e62-e4b3181a2c8c',
+      source_id: sources.fda.id,
+      name: 'FDA approval document',
+      type: 'other',
+      fda_approval_id: FDAApprovals[1].id,
+      source_url: 'http://example.com/1d12e160-9c37-11e6-8e62-e4b3181a2c8c',
     },
   ];
 
@@ -248,6 +305,9 @@ exports.seed = (knex) => {
         {
           document: documents[0],
         },
+        {
+          document: documents[3],
+        },
       ],
     },
     {
@@ -298,6 +358,9 @@ exports.seed = (knex) => {
       documents: [
         {
           document: documents[1],
+        },
+        {
+          document: documents[2],
         },
       ],
     },
@@ -566,6 +629,8 @@ exports.seed = (knex) => {
     .then(() => knex('locations').del())
     .then(() => knex('trials_documents').del())
     .then(() => knex('documents').del())
+    .then(() => knex('fda_approvals').del())
+    .then(() => knex('fda_applications').del())
     .then(() => knex('files').del())
     .then(() => knex('trials_interventions').del())
     .then(() => knex('interventions').del())
@@ -599,6 +664,8 @@ exports.seed = (knex) => {
     .then(() => knex('publications').insert(_getEntries(publications)))
     .then(() => knex('trials_publications').insert(trialsPublications))
     .then(() => knex('files').insert(files))
+    .then(() => knex('fda_applications').insert(FDAApplications))
+    .then(() => knex('fda_approvals').insert(FDAApprovals))
     .then(() => knex('documents').insert(documents))
     .then(() => knex('trials_documents').insert(trialsDocuments))
     .then(() => knex('risk_of_biases').insert(riskOfBiases))
