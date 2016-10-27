@@ -10,7 +10,7 @@ const File = BaseModel.extend({
     'id',
     'source_url',
     'documentcloud_id',
-    'text',
+    'pages',
     'sha1',
   ],
   toJSONSummary: function () {

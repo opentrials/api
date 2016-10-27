@@ -77,7 +77,10 @@ factory.define('file', File, {
   source_url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
   sha1: factory.sequence(),
   documentcloud_id: factory.sequence((n) => `${n}-file`),
-  text: 'Lorem ipsum dolor sit amet',
+  pages: [
+    'Lorem ipsum dolor sit amet',
+    'consectetur adipiscing elit',
+  ],
 });
 
 const documentAttributes = {

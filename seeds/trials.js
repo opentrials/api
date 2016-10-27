@@ -162,14 +162,21 @@ exports.seed = (knex) => {
       documentcloud_id: '1-example-file',
       sha1: '60b27f004e454aca81b0480209cce5081ec52390',
       source_url: 'http://example.org/file1.pdf',
-      text: 'Lorem ipsum dolor sit amet',
+      pages: [
+        'Lorem ipsum dolor sit amet',
+        'consectetur adipiscing elit',
+        'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+      ],
     },
     {
       id: '9e536a14-75b9-11e6-8b77-86f30ca893d3',
       documentcloud_id: '2-example-file',
       sha1: 'cb99b709a1978bd205ab9dfd4c5aaa1fc91c7523',
       source_url: 'http://example.org/file2.pdf',
-      text: 'Sed ut perspiciatis unde omnis iste natus',
+      pages: [
+        'Sed ut perspiciatis unde omnis iste natus',
+        'error sit voluptatem accusantium doloremque laudantium',
+      ],
     },
   ];
 

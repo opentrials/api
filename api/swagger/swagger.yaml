@@ -1031,9 +1031,11 @@ definitions:
       source_url:
         type: string
         description: URL of origin for this document or its file
-      text:
-        type: string
+      pages:
+        type: array
         description: Text of this document's file
+        items:
+          type: string
       documentcloud_id:
         type: string
         description: DocumentCloud ID of this document's file

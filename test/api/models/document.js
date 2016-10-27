@@ -83,20 +83,20 @@ describe('Document', () => {
       })
     });
 
-    describe('text', () => {
+    describe('pages', () => {
       it('should delegate to its file', () => {
         return factory.create('documentWithFile')
           .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
           .then((doc) => {
             const file = doc.related('file');
-            should(doc.toJSON().text).equal(file.toJSON().text);
+            should(doc.toJSON().pages).equal(file.toJSON().pages);
           });
       });
 
       it('is undefined when document has no file', () => {
         return factory.create('document', { file_id: null })
           .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => should(doc.toJSON().text).be.undefined());
+          .then((doc) => should(doc.toJSON().pages).be.undefined());
       })
     });
   });

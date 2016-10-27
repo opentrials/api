@@ -74,8 +74,8 @@ const Document = BaseModel.extend({
     documentcloud_id: function () {
       return this.related('file').toJSON().documentcloud_id;
     },
-    text: function () {
-      return this.related('file').toJSON().text;
+    pages: function () {
+      return this.related('file').toJSON().pages;
     },
   },
 }, {
