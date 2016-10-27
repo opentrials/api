@@ -46,6 +46,7 @@ const Trial = BaseModel.extend({
     'status',
     'recruitment_status',
     'registration_date',
+    'completion_date',
   ].concat(relatedModels),
   serialize: function (options) {
     const attributes = Object.assign(

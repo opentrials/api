@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const factory = require('factory-girl').promisify(require('bluebird'));
 require('factory-girl-bookshelf')();
 const uuid = require('node-uuid');
@@ -118,7 +119,7 @@ factory.define('risk_of_bias_criteria', RiskOfBiasCriteria, {
   risk_of_bias: factory.assoc('risk_of_bias', 'id'),
 });
 
-const trialAttributes = {
+const trialRecordAttributes = {
   id: () => uuid.v1(),
   identifiers: {},
   registration_date: new Date('2016-01-01'),
@@ -134,6 +135,10 @@ const trialAttributes = {
   study_design: 'study_design',
   study_phase: 'study_phase',
 };
+
+const trialAttributes = _.merge({
+  completion_date: new Date('2016-12-12'),
+}, trialRecordAttributes);
 
 factory.define('trial', Trial, trialAttributes);
 
@@ -194,7 +199,7 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
   },
 });
 
-factory.define('record', Record, Object.assign({}, trialAttributes, {
+factory.define('record', Record, Object.assign({}, trialRecordAttributes, {
   id: () => uuid.v1(),
   trial_id: factory.assoc('trial', 'id'),
   source_id: factory.assoc('source', 'id'),
