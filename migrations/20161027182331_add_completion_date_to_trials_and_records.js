@@ -1,7 +1,7 @@
 'use strict';
 
 exports.up = (knex) => (
-    knex.schema
+  knex.schema
     .table('trials', (table) => {
       table.date('completion_date')
         .nullable();
@@ -13,7 +13,7 @@ exports.up = (knex) => (
 );
 
 exports.down = (knex) => (
-    knex.schema
+  knex.schema
     .table('trials', (table) => {
       table.dropColumn('completion_date');
     })
