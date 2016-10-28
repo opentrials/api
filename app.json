@@ -12,7 +12,7 @@
   },
   "addons": [
     "heroku-postgresql",
-    "searchbox"
+    "bonsai"
   ],
   "buildpacks": [
     {
