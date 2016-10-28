@@ -15,6 +15,7 @@ describe('Document', () => {
           id: file.attributes.id,
           sha1: file.attributes.sha1,
           source_url: file.attributes.source_url,
+          documentcloud_id: file.attributes.documentcloud_id,
         }));
     });
 

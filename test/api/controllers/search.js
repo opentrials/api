@@ -124,6 +124,9 @@ function basicSearchTests(url, factoryName) {
     it('does not hang the connection if there was an error', () => {
       // FIXME: Remove this when we fix the bug with not being able to change
       // the error response code.
+      //
+      // This test will write an error to the console. We can safely ignore it,
+      // as that's simply logging thrown errors.
       elasticsearch.search.returns(Promise.reject(new Error('ElasticSearch mocked error')));
 
       return server.inject(url);

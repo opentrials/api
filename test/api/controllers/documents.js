@@ -34,7 +34,7 @@ describe('Document', () => {
   });
 
   describe('GET /v1/documents', () => {
-    it('returns the documents in pages', () => {
+    it('returns the documents JSON Summaries in pages', () => {
       let doc;
 
       return factory.create('documentWithFile')
@@ -46,7 +46,7 @@ describe('Document', () => {
 
           const expectedResult = {
             total_count: 1,
-            items: [doc.toJSON()],
+            items: [doc.toJSONSummary()],
           }
           const result = JSON.parse(response.result);
           result.should.deepEqual(expectedResult);

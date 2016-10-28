@@ -1,12 +1,13 @@
 'use strict';
 
 require('./file');
+require('./trial');
+require('./source');
 
 const _ = require('lodash');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
-const Source = require('./source');
 const relatedModels = [
   'file',
   'trials',
@@ -27,15 +28,11 @@ const Document = BaseModel.extend({
   serialize: function (options) {
     const attributes = Object.assign(
       {},
-      Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments)
+      Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments),
+      {
+        trials: this.related('trials').map((trial) => trial.toJSONSummary()),
+      }
     );
-
-    attributes.url = this.url;
-    attributes.trials = (this.relations.trials || []).map((trial) => trial.toJSONSummary());
-
-    if (attributes.file) {
-      attributes.file = this.related('file').toJSONSummary();
-    }
 
     return attributes
   },
@@ -49,33 +46,24 @@ const Document = BaseModel.extend({
     return this.belongsTo('Source');
   },
   toJSONSummary: function () {
-    const attributes = this.attributes;
-    const fileURL = this.related('file').toJSON().source_url;
+    const isEmptyPlainObject = (value) => _.isPlainObject(value) && _.isEmpty(value);
+    const isNilOrEmptyPlainObject = (value) => _.isNil(value) || isEmptyPlainObject(value)
+    const attributes = Object.assign(
+      this.toJSON(),
+      {
+        file: this.related('file').toJSONSummary(),
+        trials: this.related('trials').map((t) => t.toJSONSummary()),
+        source_id: this.attributes.source_id,
+      }
+    );
 
-    const result = {
-      id: attributes.id,
-      name: attributes.name,
-      type: attributes.type,
-      source_id: attributes.source_id,
-      source_url: attributes.source_url,
-      url: this.url,
-    };
+    delete attributes.source;
 
-    if (fileURL) {
-      result.source_url = fileURL;
-    }
-
-    return _.omitBy(result, _.isNil);
+    return _.omitBy(attributes, isNilOrEmptyPlainObject);
   },
   virtuals: {
     url: function () {
       return helpers.urlFor(this);
-    },
-    documentcloud_id: function () {
-      return this.related('file').toJSON().documentcloud_id;
-    },
-    pages: function () {
-      return this.related('file').toJSON().pages;
     },
   },
 }, {

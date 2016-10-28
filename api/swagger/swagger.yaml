@@ -968,39 +968,6 @@ definitions:
       source_name:
         type: string
 
-  DocumentSummary:
-    type: object
-    required:
-      - id
-      - name
-      - url
-      - type
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-      url:
-        type: string
-        description: OpenTrials API URL of the document
-      type:
-        type: string
-        enum:
-          - csr
-          - csr_synopsis
-          - epar_segment
-          - blank_consent_form
-          - patient_information_sheet
-          - blank_case_report_form
-          - results
-          - other
-      source_id:
-        type: string
-        description: ID of the document's source
-      source_url:
-        type: string
-        description: URL of origin for this document or its file
-
   Document:
     type: object
     required:
@@ -1018,27 +985,38 @@ definitions:
         type: string
         description: OpenTrials API URL of the document
       type:
-        type: string
-        enum:
-          - csr
-          - csr_synopsis
-          - epar_segment
-          - blank_consent_form
-          - patient_information_sheet
-          - blank_case_report_form
-          - results
-          - other
+        $ref: '#/definitions/DocumentType'
       source_url:
         type: string
-        description: URL of origin for this document or its file
-      pages:
+        description: URL of origin for this document
+      trials:
         type: array
-        description: Text of this document's file
         items:
-          type: string
-      documentcloud_id:
+          $ref: '#/definitions/TrialSummary'
+      file:
+        type: object
+        $ref: '#/definitions/File'
+      source:
+        type: object
+        $ref: '#/definitions/Source'
+
+  DocumentSummary:
+    type: object
+    required:
+      - id
+      - name
+      - url
+      - type
+    properties:
+      id:
         type: string
-        description: DocumentCloud ID of this document's file
+      name:
+        type: string
+      url:
+        type: string
+        description: OpenTrials API URL of the document
+      type:
+        $ref: '#/definitions/DocumentType'
       trials:
         type: array
         items:
@@ -1046,9 +1024,25 @@ definitions:
       file:
         type: object
         $ref: '#/definitions/FileSummary'
-      source:
-        type: object
-        $ref: '#/definitions/Source'
+      source_id:
+        type: string
+        description: ID of the document's source
+      source_url:
+        type: string
+        description: URL of origin for this document
+
+  DocumentType:
+    type: string
+    description: Type of the document
+    enum:
+      - csr
+      - csr_synopsis
+      - epar_segment
+      - blank_consent_form
+      - patient_information_sheet
+      - blank_case_report_form
+      - results
+      - other
 
   DocumentList:
     type: object
@@ -1061,7 +1055,7 @@ definitions:
       items:
         type: array
         items:
-          $ref: '#/definitions/Document'
+          $ref: '#/definitions/DocumentSummary'
 
   FileSummary:
     type: object
@@ -1074,6 +1068,20 @@ definitions:
       source_url:
         type: string
         description: URL of origin for this file
+      documentcloud_id:
+        type: string
+
+  File:
+    type: object
+    allOf:
+      - $ref: '#/definitions/FileSummary'
+      - type: object
+        properties:
+          pages:
+            type: array
+            description: Array with text of each of the file's pages
+            items:
+              type: string
 
   RiskOfBias:
     type: object

@@ -98,13 +98,28 @@ factory.define('document', Document, Object.assign(
   }
 ));
 
-factory.define('documentWithFile', Document, Object.assign(
+const documentWithFileAttrs = Object.assign(
   {},
   documentAttributes,
   {
     file_id: factory.assoc('file', 'id'),
   }
-));
+);
+
+factory.define('documentWithFile', Document, documentWithFileAttrs);
+
+factory.define('documentWithRelated', Document, documentWithFileAttrs, {
+  afterCreate: (doc, options, callback) => {
+    factory.create('trial').then((trial) => (
+      doc.trials().attach({
+        trial_id: trial.id,
+      })
+    ))
+    .then(() => new Document({ id: doc.id }).fetch({ withRelated: Document.relatedModels }))
+    .then((instance) => callback(null, instance))
+    .catch((err) => callback(err));
+  },
+});
 
 factory.define('risk_of_bias', RiskOfBias, {
   id: () => uuid.v1(),

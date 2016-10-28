@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const should = require('should');
+const helpers = require('../../../api/helpers');
 const Document = require('../../../api/models/document');
 
 describe('Document', () => {
@@ -11,34 +12,27 @@ describe('Document', () => {
 
   describe('toJSONSummary', () => {
     it('returns simplified document representation', () => {
-      return factory.create('file')
-        .then((file) => factory.create('documentWithFile', { file_id: file.attributes.id }))
-        .then((doc) => new Document({ id: doc.id }).fetch({ withRelated: Document.relatedModels }))
+      return factory.create('documentWithRelated')
         .then((doc) => {
           const attributes = doc.toJSON();
-
-          doc.toJSONSummary().should.deepEqual({
+          const expected = {
             id: attributes.id,
             name: attributes.name,
             url: attributes.url,
             type: attributes.type,
+            file: doc.related('file').toJSONSummary(),
+            trials: doc.related('trials').map((t) => t.toJSONSummary()),
             source_id: doc.attributes.source_id,
-            source_url: doc.related('file').toJSON().source_url,
-          })
+          }
+
+          doc.toJSONSummary().should.deepEqual(expected)
         });
     });
 
-    it('should return its own source_url if it has no file', () => {
-      return factory.create('document', { file_id: undefined })
-        .then((doc) => should(doc.toJSONSummary().source_url).not.be.undefined());
-    });
-
-    it('should delegate to its file if it exists', () => {
-      return factory.create('documentWithFile')
-        .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
+    it('returns source_url if it has no file', () => {
+      return factory.create('documentWithRelated', { file_id: null, source_url: 'http://example.org' })
         .then((doc) => {
-          const file = doc.related('file');
-          should(doc.toJSONSummary().source_url).equal(file.toJSON().source_url)
+          should(doc.toJSONSummary().source_url).eql(doc.attributes.source_url);
         });
     });
 
@@ -66,53 +60,22 @@ describe('Document', () => {
   });
 
   describe('virtuals', () => {
-    describe('documentcloud_id', () => {
-      it('should delegate to its file', () => {
-        return factory.create('documentWithFile')
-          .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => {
-            const file = doc.related('file');
-            should(doc.toJSON().documentcloud_id).equal(file.toJSON().documentcloud_id)
-          });
-      });
-
-      it('is undefined when document has no file', () => {
-        return factory.create('document', { file_id: null })
-          .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => should(doc.toJSON().documentcloud_id).be.undefined());
-      })
-    });
-
-    describe('pages', () => {
-      it('should delegate to its file', () => {
-        return factory.create('documentWithFile')
-          .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => {
-            const file = doc.related('file');
-            should(doc.toJSON().pages).equal(file.toJSON().pages);
-          });
-      });
-
-      it('is undefined when document has no file', () => {
-        return factory.create('document', { file_id: null })
-          .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => should(doc.toJSON().pages).be.undefined());
-      })
+    describe('url', () => {
+      it('returns the url', () => (
+        factory.build('document')
+          .then((doc) => should(doc.toJSON().url).eql(helpers.urlFor(doc)))
+      ));
     });
   });
 
   describe('serialize', () => {
-    describe('file', () => {
-      it('is the file\'s JSON summary', () => {
-        return factory.create('documentWithFile')
-          .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => should(doc.toJSON().file).deepEqual(doc.related('file').toJSONSummary()));
-      });
-
-      it('is undefined when document has no file', () => {
-        return factory.create('document', {file_id: undefined})
-          .then((doc) => new Document({ id: doc.attributes.id }).fetch({ withRelated: ['file'] }))
-          .then((doc) => should(doc.toJSON().file).be.undefined());
+    describe('trial', () => {
+      it('is the trial\'s JSON summary', () => {
+        return factory.create('documentWithRelated')
+          .then((doc) => {
+            const trialsJSONSummary = doc.related('trials').map((trial) => trial.toJSONSummary());
+            should(doc.toJSON().trials).deepEqual(trialsJSONSummary);
+          });
       });
     })
   });
