@@ -11,8 +11,18 @@
     }
   },
   "addons": [
-    "heroku-postgresql",
-    "bonsai"
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.4"
+      }
+    }
+    {
+      "plan": "bonsai:sandbox",
+      "options": {
+        "version": "2.3"
+      }
+    }
   ],
   "buildpacks": [
     {
