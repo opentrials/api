@@ -536,6 +536,10 @@ definitions:
         type: string
         description: Date the trial was registered
         format: date-time
+      completion_date:
+        type: string
+        description: Date the trial was completed
+        format: date-time
       status:
         type: string
         description: Completion status of the trial

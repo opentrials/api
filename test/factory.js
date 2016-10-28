@@ -122,6 +122,7 @@ const trialAttributes = {
   id: () => uuid.v1(),
   identifiers: {},
   registration_date: new Date('2016-01-01'),
+  completion_date: new Date('2016-12-12'),
   target_sample_size: 1000,
   gender: 'both',
   has_published_results: true,
