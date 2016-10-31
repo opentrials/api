@@ -152,7 +152,6 @@ const Trial = BaseModel.extend({
         }
 
         return data;
-
       }, {});
 
       return result;

@@ -49,7 +49,7 @@ describe('Document', () => {
             items: [doc.toJSONSummary()],
           }
           const result = JSON.parse(response.result);
-          result.should.deepEqual(expectedResult);
+          result.should.deepEqual(toJSON(expectedResult));
         });
     });
 

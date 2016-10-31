@@ -20,9 +20,10 @@ describe('Document', () => {
             name: attributes.name,
             url: attributes.url,
             type: attributes.type,
+            source_id: doc.attributes.source_id,
             file: doc.related('file').toJSONSummary(),
             trials: doc.related('trials').map((t) => t.toJSONSummary()),
-            source_id: doc.attributes.source_id,
+            fda_approval: doc.related('fda_approval').toJSON(),
           }
 
           doc.toJSONSummary().should.deepEqual(expected)

@@ -30,6 +30,12 @@ const FDAApplication = BaseModel.extend({
     url: function () {
       return helpers.urlFor(this);
     },
+    type: function () {
+      const matches = this.id.match(/^[A-Z]+/i);
+      if (matches) {
+        return matches[0];
+      }
+    },
   },
 }, {
   relatedModels

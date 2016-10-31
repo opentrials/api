@@ -996,6 +996,8 @@ definitions:
       file:
         type: object
         $ref: '#/definitions/File'
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
       source:
         type: object
         $ref: '#/definitions/Source'
@@ -1024,6 +1026,8 @@ definitions:
       file:
         type: object
         $ref: '#/definitions/FileSummary'
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
       source_id:
         type: string
         description: ID of the document's source
@@ -1222,12 +1226,20 @@ definitions:
         type: object
         description: Associated organisation
         $ref: '#/definitions/Organisation'
+      type:
+        type: string
+        description: The FDA application type (e.g. "NDA", "ANDA", etc.)
       url:
         type: string
         description: OpenTrials API URL for this FDA application
 
   FDAApproval:
     type: object
+    required:
+      - id
+      - action_date
+      - supplement_number
+      - type
     properties:
       id:
         type: string
@@ -1243,6 +1255,8 @@ definitions:
       notes:
         type: string
         description: Additional information about the FDA approval
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
 
   ErrorResponse:
     type: object

@@ -103,6 +103,7 @@ const documentWithFileAttrs = Object.assign(
   documentAttributes,
   {
     file_id: factory.assoc('file', 'id'),
+    fda_approval_id: factory.assoc('fda_approval', 'id'),
   }
 );
 
@@ -255,7 +256,7 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
 });
 
 factory.define('fda_application', FDAApplication, {
-  id: () => uuid.v1(),
+  id: factory.sequence((n) => `NDA${n}`),
   drug_name: 'Healer',
   active_ingredients: 'healing',
   organisation_id: factory.assoc('organisation', 'id'),
@@ -270,7 +271,7 @@ factory.define('fda_application', FDAApplication, {
 });
 
 factory.define('fda_approval', FDAApproval, {
-  id: () => uuid.v1(),
+  id: factory.sequence((n) => `NDA${n}-${n}`),
   supplement_number: factory.sequence((n) => n),
   type: 'Approval',
   action_date: new Date('2016-01-01'),

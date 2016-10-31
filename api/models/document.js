@@ -3,6 +3,7 @@
 require('./file');
 require('./trial');
 require('./source');
+require('./fda_approval');
 
 const _ = require('lodash');
 const helpers = require('../helpers');
@@ -12,6 +13,8 @@ const relatedModels = [
   'file',
   'trials',
   'source',
+  'fda_approval',
+  'fda_approval.fda_application',
 ]
 
 const Document = BaseModel.extend({
@@ -24,6 +27,7 @@ const Document = BaseModel.extend({
     'file',
     'trials',
     'source',
+    'fda_approval',
   ],
   serialize: function (options) {
     const attributes = Object.assign(
@@ -45,6 +49,9 @@ const Document = BaseModel.extend({
   source: function () {
     return this.belongsTo('Source');
   },
+  fda_approval: function () {
+    return this.belongsTo('FDAApproval');
+  },
   toJSONSummary: function () {
     const isEmptyPlainObject = (value) => _.isPlainObject(value) && _.isEmpty(value);
     const isNilOrEmptyPlainObject = (value) => _.isNil(value) || isEmptyPlainObject(value)
@@ -52,6 +59,7 @@ const Document = BaseModel.extend({
       this.toJSON(),
       {
         file: this.related('file').toJSONSummary(),
+        fda_approval: this.related('fda_approval').toJSON(),
         trials: this.related('trials').map((t) => t.toJSONSummary()),
         source_id: this.attributes.source_id,
       }
