@@ -2,6 +2,7 @@
 
 require('./file');
 
+const _ = require('lodash');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
@@ -56,7 +57,7 @@ const Document = BaseModel.extend({
       name: attributes.name,
       type: attributes.type,
       source_id: attributes.source_id,
-      source_url:  attributes.source_url,
+      source_url: attributes.source_url,
       url: this.url,
     };
 
@@ -64,7 +65,7 @@ const Document = BaseModel.extend({
       result.source_url = fileURL;
     }
 
-    return result;
+    return _.omitBy(result, _.isNil);
   },
   virtuals: {
     url: function () {
