@@ -16,7 +16,7 @@
       "options": {
         "version": "9.4"
       }
-    }
+    },
     {
       "plan": "bonsai:sandbox",
       "options": {
