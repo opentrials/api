@@ -3,9 +3,6 @@ info:
   version: "0.0.1"
   title: OpenTrials API
 basePath: /v1
-schemes:
-  - http
-  - https
 consumes:
   - application/json
 produces:
