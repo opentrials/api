@@ -6,10 +6,6 @@ function getPerson(req, res) {
   const id = req.swagger.params.id.value;
 
   return new Person({ id: id }).fetch({})
-    .catch((err) => {
-      res.finish();
-      throw err;
-    })
     .then((person) => {
       if (person) {
         res.json(person);
@@ -17,6 +13,10 @@ function getPerson(req, res) {
         res.status(404);
         res.finish();
       }
+    })
+    .catch((err) => {
+      res.finish();
+      throw err;
     });
 }
 

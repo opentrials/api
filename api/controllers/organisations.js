@@ -6,10 +6,6 @@ function getOrganisation(req, res) {
   const id = req.swagger.params.id.value;
 
   return new Organisation({ id: id }).fetch({})
-    .catch((err) => {
-      res.finish();
-      throw err;
-    })
     .then((organisation) => {
       if (organisation) {
         res.json(organisation);
@@ -17,6 +13,10 @@ function getOrganisation(req, res) {
         res.status(404);
         res.finish();
       }
+    })
+    .catch((err) => {
+      res.finish();
+      throw err;
     });
 }
 

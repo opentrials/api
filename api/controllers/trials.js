@@ -7,10 +7,6 @@ function getTrial(req, res) {
   const id = req.swagger.params.id.value;
 
   return new Trial({ id: id }).fetch({ withRelated: Trial.relatedModels })
-    .catch((err) => {
-      res.finish();
-      throw err;
-    })
     .then((trial) => {
       if (trial) {
         res.json(trial);
@@ -18,6 +14,10 @@ function getTrial(req, res) {
         res.status(404);
         res.finish();
       }
+    })
+    .catch((err) => {
+      res.finish();
+      throw err;
     });
 }
 
@@ -25,10 +25,6 @@ function getRecord(req, res) {
   const id = req.swagger.params.id.value;
 
   return new Record({ id: id }).fetch({ withRelated: Record.relatedModels })
-    .catch((err) => {
-      res.finish();
-      throw err;
-    })
     .then((record) => {
       if (record) {
         res.json(record);
@@ -36,6 +32,10 @@ function getRecord(req, res) {
         res.status(404);
         res.finish();
       }
+    })
+    .catch((err) => {
+      res.finish();
+      throw err;
     });
 }
 
@@ -43,12 +43,12 @@ function getRecords(req, res) {
   const id = req.swagger.params.id.value;
 
   return Record.query({ where: { trial_id: id } }).fetchAll({ withRelated: ['source'] })
+    .then((records) => {
+      res.json(records);
+    })
     .catch((err) => {
       res.finish();
       throw err;
-    })
-    .then((records) => {
-      res.json(records);
     });
 }
 

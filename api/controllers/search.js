@@ -36,6 +36,7 @@ function searchTrials(req, res) {
     .catch((err) => {
       // FIXME: Log error and return 500 HTTP code
       res.finish();
+      throw err;
     });
 }
 
@@ -70,6 +71,7 @@ function autocomplete(req, res) {
     .catch((err) => {
       // FIXME: Log error and return 500 HTTP code
       res.finish();
+      throw err;
     });
 }
 
