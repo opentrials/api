@@ -39,8 +39,10 @@ function startServer() {
     if (err) { throw err; }
 
     const port = config.port;
-    const plugins = [swaggerHapi.plugin,
-                     ...config.hapi.plugins];
+    const plugins = [
+      swaggerHapi.plugin,
+      ...config.hapi.plugins,
+    ];
 
     server.connection({
       host: config.host,
