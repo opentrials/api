@@ -303,6 +303,18 @@ describe('Trial', () => {
             should(sources).have.keys(recordsSourcesIds);
           })
       });
+
+      it('ignores documents without sources', () => {
+        return factory.create('trial')
+          .then((trial) => factory.create('document', { source_id: null })
+            .then((doc) => trial.documents().attach({
+              document_id: doc.id,
+            }))
+            .then(() => trial.id)
+          )
+          .then((trial_id) => new Trial({ id: trial_id }).fetch({ withRelated: ['documents', 'documents.source'] }))
+          .then((trial) => should(trial.toJSON().sources).deepEqual({}))
+      });
     });
 
     describe('discrepancies', () => {

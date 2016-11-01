@@ -143,11 +143,13 @@ const Trial = BaseModel.extend({
                        ...recordsSources];
 
       const result = sources.reduce((data, source) => {
-        data[source.id] = {
-          id: source.id,
-          name: source.name,
-          source_url: source.source_url,
-        };
+        if (source !== undefined) {
+          data[source.id] = {
+            id: source.id,
+            name: source.name,
+            source_url: source.source_url,
+          };
+        }
 
         return data;
 
