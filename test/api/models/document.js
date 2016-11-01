@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const should = require('should');
 const Document = require('../../../api/models/document');
 
@@ -12,6 +13,7 @@ describe('Document', () => {
     it('returns simplified document representation', () => {
       return factory.create('file')
         .then((file) => factory.create('documentWithFile', { file_id: file.attributes.id }))
+        .then((doc) => new Document({ id: doc.id }).fetch({ withRelated: Document.relatedModels }))
         .then((doc) => {
           const attributes = doc.toJSON();
 
@@ -39,6 +41,28 @@ describe('Document', () => {
           should(doc.toJSONSummary().source_url).equal(file.toJSON().source_url)
         });
     });
+
+    it('doesn\'t return null or undefined values for documents without files', () => {
+      return factory.create('document', { source_id: null, fda_approval_id: null, file_id: null })
+        .then((doc) => {
+          const jsonSummary = doc.toJSONSummary();
+          const values = _.values(jsonSummary);
+
+          should(values).not.containEql(null);
+          should(values).not.containEql(undefined);
+        })
+    })
+
+    it('doesn\'t return null or undefined values for documents with files', () => {
+      return factory.create('documentWithFile', { source_id: null, fda_approval_id: null, source_url: null })
+        .then((doc) => {
+          const jsonSummary = doc.toJSONSummary();
+          const values = _.values(jsonSummary);
+
+          should(values).not.containEql(null);
+          should(values).not.containEql(undefined);
+        })
+    })
   });
 
   describe('virtuals', () => {
