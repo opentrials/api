@@ -31,6 +31,7 @@ const relatedModels = [
   'documents.fda_approval',
   'documents.fda_approval.fda_application',
   'risks_of_bias',
+  'risks_of_bias.source',
   'risks_of_bias.risk_of_bias_criteria',
 ];
 
@@ -137,14 +138,19 @@ const Trial = BaseModel.extend({
                                       .toJSON()
                                       .map((publication) => publication.source);
       const documentsSources = this.related('documents')
-                                 .toJSON()
-                                 .map((document) => document.source);
+                                   .toJSON()
+                                   .map((doc) => doc.source);
       const recordsSources = this.related('records')
                                  .toJSON()
                                  .map((record) => record.source);
+      const robSources = this.related('risks_of_bias')
+                             .toJSON()
+                             .map((rob) => rob.source);
+
       const sources = [...publicationsSources,
                        ...documentsSources,
-                       ...recordsSources];
+                       ...recordsSources,
+                       ...robSources];
 
       const result = sources.reduce((data, source) => {
         if (source !== undefined) {

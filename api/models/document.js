@@ -15,7 +15,7 @@ const relatedModels = [
   'source',
   'fda_approval',
   'fda_approval.fda_application',
-]
+];
 
 const Document = BaseModel.extend({
   tableName: 'documents',
@@ -42,7 +42,7 @@ const Document = BaseModel.extend({
       attributes.source_url = attributes.file.source_url;
     }
 
-    return attributes
+    return attributes;
   },
   file: function () {
     return this.belongsTo('File');
