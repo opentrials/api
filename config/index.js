@@ -12,6 +12,7 @@ const path = require('path');
 const good = require('good');
 const inert = require('inert');
 const httpAwsEs = require('http-aws-es');
+const Promise = require('bluebird');
 require('./bluebird');
 
 const config = {
@@ -66,6 +67,14 @@ config.bookshelf = bookshelf;
 const elasticsearchConfig = {
   host: process.env.ELASTICSEARCH_URL,
   apiVersion: '2.3',
+  defer: () => {
+    const defer = {};
+    defer.promise = new Promise((resolve, reject) => {
+      defer.resolve = resolve;
+      defer.reject = reject;
+    });
+    return defer;
+  },
 };
 if (process.env.ELASTICSEARCH_AWS_REGION &&
     process.env.ELASTICSEARCH_AWS_ACCESS_KEY &&

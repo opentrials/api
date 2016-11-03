@@ -77,7 +77,10 @@ factory.define('file', File, {
   source_url: factory.sequence((n) => `http://example.org/file${n}.pdf`),
   sha1: factory.sequence(),
   documentcloud_id: factory.sequence((n) => `${n}-file`),
-  text: 'Lorem ipsum dolor sit amet',
+  pages: [
+    'Lorem ipsum dolor sit amet',
+    'consectetur adipiscing elit',
+  ],
 });
 
 const documentAttributes = {
@@ -95,13 +98,29 @@ factory.define('document', Document, Object.assign(
   }
 ));
 
-factory.define('documentWithFile', Document, Object.assign(
+const documentWithFileAttrs = Object.assign(
   {},
   documentAttributes,
   {
     file_id: factory.assoc('file', 'id'),
+    fda_approval_id: factory.assoc('fda_approval', 'id'),
   }
-));
+);
+
+factory.define('documentWithFile', Document, documentWithFileAttrs);
+
+factory.define('documentWithRelated', Document, documentWithFileAttrs, {
+  afterCreate: (doc, options, callback) => {
+    factory.create('trial').then((trial) => (
+      doc.trials().attach({
+        trial_id: trial.id,
+      })
+    ))
+    .then(() => new Document({ id: doc.id }).fetch({ withRelated: Document.relatedModels }))
+    .then((instance) => callback(null, instance))
+    .catch((err) => callback(err));
+  },
+});
 
 factory.define('risk_of_bias', RiskOfBias, {
   id: () => uuid.v1(),
@@ -237,7 +256,7 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
 });
 
 factory.define('fda_application', FDAApplication, {
-  id: () => uuid.v1(),
+  id: factory.sequence((n) => `NDA${n}`),
   drug_name: 'Healer',
   active_ingredients: 'healing',
   organisation_id: factory.assoc('organisation', 'id'),
@@ -252,7 +271,7 @@ factory.define('fda_application', FDAApplication, {
 });
 
 factory.define('fda_approval', FDAApproval, {
-  id: () => uuid.v1(),
+  id: factory.sequence((n) => `NDA${n}-${n}`),
   supplement_number: factory.sequence((n) => n),
   type: 'Approval',
   action_date: new Date('2016-01-01'),

@@ -229,6 +229,36 @@ describe('Trial', () => {
     });
   });
 
+  describe('documents', () => {
+    it('is an empty array if there\'re none', () => {
+      should(toJSON(new Trial()).documents).deepEqual([]);
+    });
+
+    it('adds the documents into the resulting JSON', () => {
+      let trial_id;
+      let doc;
+
+      return factory.create('trial')
+        .then((trial) => {
+          trial_id = trial.id;
+
+          return factory.create('document').then((_doc) => {
+            doc = _doc;
+
+            return trial.documents().attach({
+              document_id: doc.id,
+            });
+          });
+        }).then((trial) => {
+          return new Trial({ id: trial_id }).fetch({ withRelated: 'documents' })
+        }).then((trial) => {
+          should(toJSON(trial).documents).deepEqual([
+            doc.toJSONSummary(),
+          ]);
+        });
+    });
+  });
+
   describe('trialsPerYear', () => {
     it('is an empty array if there\'re none', () => {
       return new Trial().trialsPerYear().then((result) => {

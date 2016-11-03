@@ -1,3 +1,7 @@
+'use strict';
+
+require('./fda_application');
+
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
 
@@ -9,7 +13,11 @@ const FDAApproval = BaseModel.extend({
     'type',
     'action_date',
     'notes',
+    'fda_application',
   ],
+  fda_application: function () {
+    return this.belongsTo('FDAApplication');
+  },
 });
 
 module.exports = bookshelf.model('FDAApproval', FDAApproval);

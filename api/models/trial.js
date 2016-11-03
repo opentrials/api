@@ -81,7 +81,7 @@ const Trial = BaseModel.extend({
 
     attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
     attributes.publications  = (relations.publications || []).map((publication) => publication.toJSONSummary());
-    attributes.documents  = (relations.documents || []).map((document) => document.toJSONSummary());
+    attributes.documents  = (relations.documents || []).map((doc) => doc.toJSONSummary());
 
     return attributes;
   },
@@ -152,7 +152,6 @@ const Trial = BaseModel.extend({
         }
 
         return data;
-
       }, {});
 
       return result;

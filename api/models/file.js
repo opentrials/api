@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
 
@@ -10,19 +9,27 @@ const File = BaseModel.extend({
     'id',
     'source_url',
     'documentcloud_id',
-    'text',
     'sha1',
+    'pages',
   ],
+  serialize: function () {
+    const attributes = Object.assign(
+      {},
+      Object.getPrototypeOf(File.prototype).serialize.call(this, arguments)
+    );
+
+    if (attributes.pages) {
+      attributes.pages = attributes.pages.map((text, num) => ({ text, num: num + 1 }));
+    }
+
+    return attributes;
+  },
   toJSONSummary: function () {
     const attributes = this.toJSON();
 
-    const jsonSummary = {
-      id: attributes.id,
-      sha1: attributes.sha1,
-      source_url:  attributes.source_url,
-    }
+    delete attributes.pages;
 
-    return _.omitBy(jsonSummary, _.isNil);
+    return attributes;
   },
 });
 

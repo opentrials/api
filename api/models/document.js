@@ -1,16 +1,20 @@
 'use strict';
 
 require('./file');
+require('./trial');
+require('./source');
+require('./fda_approval');
 
 const _ = require('lodash');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
-const Source = require('./source');
 const relatedModels = [
   'file',
   'trials',
   'source',
+  'fda_approval',
+  'fda_approval.fda_application',
 ]
 
 const Document = BaseModel.extend({
@@ -19,22 +23,23 @@ const Document = BaseModel.extend({
     'id',
     'name',
     'type',
-    'source_url',
     'file',
     'trials',
     'source',
+    'source_url',
+    'fda_approval',
   ],
   serialize: function (options) {
     const attributes = Object.assign(
       {},
-      Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments)
+      Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments),
+      {
+        trials: this.related('trials').map((trial) => trial.toJSONSummary()),
+      }
     );
 
-    attributes.url = this.url;
-    attributes.trials = (this.relations.trials || []).map((trial) => trial.toJSONSummary());
-
-    if (attributes.file) {
-      attributes.file = this.related('file').toJSONSummary();
+    if (attributes.file !== undefined) {
+      attributes.source_url = attributes.file.source_url;
     }
 
     return attributes
@@ -48,34 +53,38 @@ const Document = BaseModel.extend({
   source: function () {
     return this.belongsTo('Source');
   },
+  fda_approval: function () {
+    return this.belongsTo('FDAApproval');
+  },
   toJSONSummary: function () {
-    const attributes = this.attributes;
-    const fileURL = this.related('file').toJSON().source_url;
+    const isEmptyPlainObject = (value) => _.isPlainObject(value) && _.isEmpty(value);
+    const isNilOrEmptyPlainObject = (value) => _.isNil(value) || isEmptyPlainObject(value)
+    const attributes = Object.assign(
+      this.toJSON(),
+      {
+        file: this.related('file').toJSONSummary(),
+        fda_approval: this.related('fda_approval').toJSON(),
+        trials: this.related('trials').map((t) => t.toJSONSummary()),
+        source_id: this.attributes.source_id,
+      }
+    );
 
-    const result = {
-      id: attributes.id,
-      name: attributes.name,
-      type: attributes.type,
-      source_id: attributes.source_id,
-      source_url: attributes.source_url,
-      url: this.url,
-    };
+    delete attributes.source;
 
-    if (fileURL) {
-      result.source_url = fileURL;
+    return _.omitBy(attributes, isNilOrEmptyPlainObject);
+  },
+  toJSONWithoutPages: function () {
+    const attributes = this.toJSON();
+
+    if (attributes.file !== undefined) {
+      delete attributes.file.pages;
     }
 
-    return _.omitBy(result, _.isNil);
+    return attributes;
   },
   virtuals: {
     url: function () {
       return helpers.urlFor(this);
-    },
-    documentcloud_id: function () {
-      return this.related('file').toJSON().documentcloud_id;
-    },
-    text: function () {
-      return this.related('file').toJSON().text;
     },
   },
 }, {

@@ -105,6 +105,42 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /search/fda_documents:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      description: Search the FDA documents
+      operationId: searchFDADocuments
+      parameters:
+        - name: q
+          in: query
+          description: The search query (follows the [ElasticSearch Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax) syntax)
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FDADocumentSearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /trials/{id}:
     x-swagger-router-controller: trials
     get:
@@ -968,39 +1004,6 @@ definitions:
       source_name:
         type: string
 
-  DocumentSummary:
-    type: object
-    required:
-      - id
-      - name
-      - url
-      - type
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-      url:
-        type: string
-        description: OpenTrials API URL of the document
-      type:
-        type: string
-        enum:
-          - csr
-          - csr_synopsis
-          - epar_segment
-          - blank_consent_form
-          - patient_information_sheet
-          - blank_case_report_form
-          - results
-          - other
-      source_id:
-        type: string
-        description: ID of the document's source
-      source_url:
-        type: string
-        description: URL of origin for this document or its file
-
   Document:
     type: object
     required:
@@ -1018,25 +1021,40 @@ definitions:
         type: string
         description: OpenTrials API URL of the document
       type:
-        type: string
-        enum:
-          - csr
-          - csr_synopsis
-          - epar_segment
-          - blank_consent_form
-          - patient_information_sheet
-          - blank_case_report_form
-          - results
-          - other
+        $ref: '#/definitions/DocumentType'
       source_url:
         type: string
-        description: URL of origin for this document or its file
-      text:
+        description: URL of origin for this document
+      trials:
+        type: array
+        items:
+          $ref: '#/definitions/TrialSummary'
+      file:
+        type: object
+        $ref: '#/definitions/File'
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
+      source:
+        type: object
+        $ref: '#/definitions/Source'
+
+  DocumentSummary:
+    type: object
+    required:
+      - id
+      - name
+      - url
+      - type
+    properties:
+      id:
         type: string
-        description: Text of this document's file
-      documentcloud_id:
+      name:
         type: string
-        description: DocumentCloud ID of this document's file
+      url:
+        type: string
+        description: OpenTrials API URL of the document
+      type:
+        $ref: '#/definitions/DocumentType'
       trials:
         type: array
         items:
@@ -1044,9 +1062,27 @@ definitions:
       file:
         type: object
         $ref: '#/definitions/FileSummary'
-      source:
-        type: object
-        $ref: '#/definitions/Source'
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
+      source_id:
+        type: string
+        description: ID of the document's source
+      source_url:
+        type: string
+        description: URL of origin for this document
+
+  DocumentType:
+    type: string
+    description: Type of the document
+    enum:
+      - csr
+      - csr_synopsis
+      - epar_segment
+      - blank_consent_form
+      - patient_information_sheet
+      - blank_case_report_form
+      - results
+      - other
 
   DocumentList:
     type: object
@@ -1059,7 +1095,7 @@ definitions:
       items:
         type: array
         items:
-          $ref: '#/definitions/Document'
+          $ref: '#/definitions/DocumentSummary'
 
   FileSummary:
     type: object
@@ -1072,6 +1108,30 @@ definitions:
       source_url:
         type: string
         description: URL of origin for this file
+      documentcloud_id:
+        type: string
+
+  File:
+    type: object
+    allOf:
+      - $ref: '#/definitions/FileSummary'
+      - type: object
+        properties:
+          pages:
+            type: array
+            description: Array with text of each of the file's pages
+            items:
+              type: object
+              required:
+                - num
+                - text
+              properties:
+                num:
+                  type: integer
+                  minimum: 1
+                  description: Page number
+                text:
+                  type: string
 
   RiskOfBias:
     type: object
@@ -1137,6 +1197,27 @@ definitions:
         enum:
           - register
           - other
+
+  FDADocumentSearchResults:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/FDADocumentSearchResult'
+
+  FDADocumentSearchResult:
+    allOf:
+      - $ref: '#/definitions/DocumentSummary'
+      - type: object
+        properties:
+          file:
+            $ref: '#/definitions/File'
 
   TrialSearchResults:
     type: object
@@ -1212,12 +1293,20 @@ definitions:
         type: object
         description: Associated organisation
         $ref: '#/definitions/Organisation'
+      type:
+        type: string
+        description: The FDA application type (e.g. "NDA", "ANDA", etc.)
       url:
         type: string
         description: OpenTrials API URL for this FDA application
 
   FDAApproval:
     type: object
+    required:
+      - id
+      - action_date
+      - supplement_number
+      - type
     properties:
       id:
         type: string
@@ -1233,6 +1322,8 @@ definitions:
       notes:
         type: string
         description: Additional information about the FDA approval
+      fda_application:
+        $ref: '#/definitions/FDAApplication'
 
   ErrorResponse:
     type: object
