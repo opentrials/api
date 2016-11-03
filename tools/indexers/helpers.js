@@ -5,8 +5,13 @@ const client = require('../../config').elasticsearch;
 
 const batchSize = 1000;
 
-function indexModel(model, index, indexType, _queryParams, fetchOptions) {
-  return model.count().then((modelCount) => {
+function indexModel(model, index, indexType, _queryParams, fetchOptions, entitiesConverter) {
+  let converter = entitiesConverter;
+  if (converter == undefined) {
+    converter = (entities) => entities;
+  }
+
+  return model.query(_queryParams).count().then((modelCount) => {
     console.info(
       `${modelCount} entities being indexed in "${index}/${indexType}" (${batchSize} at a time).`
     );
@@ -27,6 +32,7 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions) {
 
       chain = chain
         .then(() => model.query(queryParams).fetchAll(fetchOptions))
+        .then(converter)
         .then((entities) => _bulkIndexEntities(entities, index, indexType))
         // eslint-disable-next-line no-loop-func
         .then((resp) => {
@@ -47,7 +53,7 @@ function _bulkIndexEntities(entities, index, indexType) {
     return undefined;
   }
 
-  const bulkBody = entities.models.reduce((result, entity) => {
+  const bulkBody = entities.reduce((result, entity) => {
     const action = {
       index: {
         _index: index,
@@ -55,7 +61,13 @@ function _bulkIndexEntities(entities, index, indexType) {
         _id: entity.id,
       },
     };
-    return result.concat([action, JSON.stringify(entity)]);
+
+    if (entity._parent !== undefined) {
+      action.index._parent = entity._parent;
+      delete entity._parent;
+    }
+
+    return result.concat([action, entity]);
   }, []);
 
   let result;

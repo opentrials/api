@@ -216,9 +216,9 @@ exports.seed = (knex) => {
     {
       id: '77b81059-19b2-4f5d-a00b-85b9c12b6002',
       source_id: sources.nct.id,
-      file_id: files[0].id,
       name: 'Blank Consent Form',
       type: 'blank_consent_form',
+      source_url: 'http://example.com/7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
     },
     {
       id: 'e43a38cc-6a32-44f3-9f97-d4859fc6de47',
@@ -230,18 +230,18 @@ exports.seed = (knex) => {
     {
       id: '7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
       source_id: sources.fda.id,
+      file_id: files[0].id,
       name: 'FDA approval document',
       type: 'other',
       fda_approval_id: FDAApprovals[0].id,
-      source_url: 'http://example.com/7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
     },
     {
       id: '1d12e160-9c37-11e6-8e62-e4b3181a2c8c',
       source_id: sources.fda.id,
+      file_id: files[1].id,
       name: 'FDA approval document',
       type: 'other',
       fda_approval_id: FDAApprovals[1].id,
-      source_url: 'http://example.com/1d12e160-9c37-11e6-8e62-e4b3181a2c8c',
     },
   ];
 

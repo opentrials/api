@@ -69,6 +69,15 @@ const Document = BaseModel.extend({
 
     return _.omitBy(attributes, isNilOrEmptyPlainObject);
   },
+  toJSONWithoutPages: function () {
+    const attributes = this.toJSON();
+
+    if (attributes.file !== undefined) {
+      delete attributes.file.pages;
+    }
+
+    return attributes;
+  },
   virtuals: {
     url: function () {
       return helpers.urlFor(this);

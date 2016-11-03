@@ -9,9 +9,21 @@ const File = BaseModel.extend({
     'id',
     'source_url',
     'documentcloud_id',
-    'pages',
     'sha1',
+    'pages',
   ],
+  serialize: function () {
+    const attributes = Object.assign(
+      {},
+      Object.getPrototypeOf(File.prototype).serialize.call(this, arguments)
+    );
+
+    if (attributes.pages) {
+      attributes.pages = attributes.pages.map((text, num) => ({ text, num: num + 1 }));
+    }
+
+    return attributes;
+  },
   toJSONSummary: function () {
     const attributes = this.toJSON();
 

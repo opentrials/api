@@ -60,6 +60,30 @@ describe('Document', () => {
     })
   });
 
+  describe('toJSONWithoutPages', () => {
+    it('returns JSON removing files.pages', () => {
+      return factory.create('documentWithRelated')
+        .then((doc) => {
+          const json = doc.toJSON();
+          const jsonWithoutPages = doc.toJSONWithoutPages();
+
+          should(json.file.pages).not.be.undefined();
+          should(jsonWithoutPages.pages).be.undefined();
+
+          delete json.file.pages;
+
+          should(jsonWithoutPages).deepEqual(json);
+        });
+    });
+
+    it('returns same as toJSON() if document has no file', () => {
+      return factory.create('document', { file_id: null })
+        .then((doc) => {
+          should(doc.toJSONWithoutPages()).deepEqual(doc.toJSON());
+        })
+    });
+  });
+
   describe('virtuals', () => {
     describe('url', () => {
       it('returns the url', () => (

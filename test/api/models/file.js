@@ -3,7 +3,7 @@
 const should = require('should');
 const File = require('../../../api/models/file');
 
-describe('Document', () => {
+describe('File', () => {
   before(clearDB);
 
   afterEach(clearDB);
@@ -24,5 +24,24 @@ describe('Document', () => {
 
       should(file.toJSONSummary()).deepEqual({});
     })
+  });
+
+  describe('toJSON', () => {
+    it('returns the pages as object with "num" and "text" fields', () => {
+      return factory.create('file', { pages: ['foo', 'bar'] })
+        .then((file) => {
+          file.toJSON().pages.should.deepEqual([
+            { num: 1, text: 'foo' },
+            { num: 2, text: 'bar' },
+          ]);
+        });
+    });
+
+    it('returns the pages undefined when there are no pages', () => {
+      return factory.create('file', { pages: null })
+        .then((file) => {
+          should(file.toJSON().pages).be.undefined();
+        });
+    });
   });
 });

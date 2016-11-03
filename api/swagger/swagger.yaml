@@ -105,6 +105,42 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /search/fda_documents:
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      description: Search the FDA documents
+      operationId: searchFDADocuments
+      parameters:
+        - name: q
+          in: query
+          description: The search query (follows the [ElasticSearch Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax) syntax)
+          type: string
+        - name: page
+          in: query
+          description: The page number
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          type: integer
+          minimum: 10
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/FDADocumentSearchResults"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /trials/{id}:
     x-swagger-router-controller: trials
     get:
@@ -1085,7 +1121,17 @@ definitions:
             type: array
             description: Array with text of each of the file's pages
             items:
-              type: string
+              type: object
+              required:
+                - num
+                - text
+              properties:
+                num:
+                  type: integer
+                  minimum: 1
+                  description: Page number
+                text:
+                  type: string
 
   RiskOfBias:
     type: object
@@ -1151,6 +1197,27 @@ definitions:
         enum:
           - register
           - other
+
+  FDADocumentSearchResults:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/FDADocumentSearchResult'
+
+  FDADocumentSearchResult:
+    allOf:
+      - $ref: '#/definitions/DocumentSummary'
+      - type: object
+        properties:
+          file:
+            $ref: '#/definitions/File'
 
   TrialSearchResults:
     type: object

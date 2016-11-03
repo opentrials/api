@@ -63,6 +63,85 @@ describe('Search', () => {
     describe('GET /v1/search/autocomplete/organisation',
              autocompleteTests('/v1/search/autocomplete/organisation', 'organisation'));
   });
+
+  describe('GET /v1/search/fda_documents', () => {
+    const url = '/v1/search/fda_documents';
+    describe('pagination', paginationTests(url));
+
+    it('returns empty list if no entities were found', () => {
+      const esResult = {
+        hits: {
+          total: 0,
+          hits: [],
+        },
+      };
+
+      elasticsearch.search.returns(Promise.resolve(esResult));
+
+      return server.inject(url)
+        .then((response) => {
+          response.statusCode.should.equal(200);
+          JSON.parse(response.result).should.deepEqual({
+            total_count: 0,
+            items: [],
+          });
+        })
+    });
+
+    it('returns the found entities adding the page inner_hits page to doc.file.pages', () => {
+      let doc;
+
+      return factory.create('documentWithRelated')
+        .then((_doc) => {
+          const esResult = {
+            hits: {
+              total: 1,
+              hits: [
+                {
+                  _source: _doc.toJSONWithoutPages(),
+                  inner_hits: {
+                    page: {
+                      hits: {
+                        hits: _doc.toJSON().file.pages.map((page) => (
+                          { _source: page }
+                        )),
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+          doc = _doc;
+
+          elasticsearch.search.returns(Promise.resolve(esResult));
+        })
+        .then(() => server.inject(url))
+        .then((response) => {
+          response.statusCode.should.equal(200);
+
+          const result = JSON.parse(response.result);
+
+          result.should.deepEqual({
+            total_count: 1,
+            items: [
+              toJSON(doc),
+            ],
+          });
+        });
+    });
+
+    it('does not hang the connection if there was an error', () => {
+      // FIXME: Remove this when we fix the bug with not being able to change
+      // the error response code.
+      //
+      // This test will write an error to the console. We can safely ignore it,
+      // as that's simply logging thrown errors.
+      elasticsearch.search.returns(Promise.reject(new Error('ElasticSearch mocked error')));
+
+      return server.inject(url);
+    });
+  });
 });
 
 
