@@ -23,10 +23,10 @@ const Document = BaseModel.extend({
     'id',
     'name',
     'type',
-    'source_url',
     'file',
     'trials',
     'source',
+    'source_url',
     'fda_approval',
   ],
   serialize: function (options) {
@@ -37,6 +37,10 @@ const Document = BaseModel.extend({
         trials: this.related('trials').map((trial) => trial.toJSONSummary()),
       }
     );
+
+    if (attributes.file !== undefined) {
+      attributes.source_url = attributes.file.source_url;
+    }
 
     return attributes
   },

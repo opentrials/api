@@ -21,19 +21,13 @@ describe('Document', () => {
             url: attributes.url,
             type: attributes.type,
             source_id: doc.attributes.source_id,
+            source_url: doc.related('file').attributes.source_url,
             file: doc.related('file').toJSONSummary(),
             trials: doc.related('trials').map((t) => t.toJSONSummary()),
             fda_approval: doc.related('fda_approval').toJSON(),
           }
 
           doc.toJSONSummary().should.deepEqual(expected)
-        });
-    });
-
-    it('returns source_url if it has no file', () => {
-      return factory.create('documentWithRelated', { file_id: null, source_url: 'http://example.org' })
-        .then((doc) => {
-          should(doc.toJSONSummary().source_url).eql(doc.attributes.source_url);
         });
     });
 
@@ -102,6 +96,14 @@ describe('Document', () => {
             should(doc.toJSON().trials).deepEqual(trialsJSONSummary);
           });
       });
-    })
+    });
+
+    it('returns source_url as file.source_url if it has a file', () => {
+      return factory.create('documentWithRelated')
+        .then((doc) => {
+          const fileSourceUrl = doc.related('file').attributes.source_url;
+          should(doc.toJSON().source_url).eql(fileSourceUrl);
+        });
+    });
   });
 });
