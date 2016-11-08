@@ -3,6 +3,7 @@
 'use strict';
 
 const Promise = require('bluebird');
+const assert = require('assert');
 const client = require('../config').elasticsearch;
 const indexers = require('./indexers');
 
@@ -68,7 +69,25 @@ function removeIndexes(indexes) {
   return result;
 }
 
-Promise.each(Object.keys(indexers), (key) => {
+function indexersToRun() {
+  const argv = process.argv;
+  const knownIndexers = Object.keys(indexers);
+  let result = knownIndexers;
+
+  if (argv.length > 2) {
+    const potentialIndexers = argv.slice(2);
+
+    const unknownIndexers = potentialIndexers.filter((idx) => knownIndexers.indexOf(idx) === -1);
+    const msg = `Unknown indexers: ${unknownIndexers.join(', ')}. Valid indexers are: ${knownIndexers.join(', ')}.`;
+    assert.deepEqual(unknownIndexers.length, 0, msg);
+
+    result = potentialIndexers;
+  }
+
+  return result;
+}
+
+Promise.each(indexersToRun(), (key) => {
   const indexer = indexers[key];
   return runIndexer(
     indexer.index,
