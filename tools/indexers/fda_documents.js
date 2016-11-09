@@ -5,50 +5,6 @@ const Document = require('../../api/models/document');
 const client = require('../../config').elasticsearch;
 
 
-const fdaApprovalMapping = {
-  properties: {
-    id: {
-      type: 'string',
-      index: 'not_analyzed',
-    },
-    notes: {
-      type: 'string',
-    },
-    supplement_number: {
-      type: 'integer',
-    },
-    type: {
-      type: 'string',
-    },
-    action_date: {
-      type: 'date',
-      format: 'dateOptionalTime',
-    },
-    fda_application: {
-      properties: {
-        id: {
-          type: 'string',
-          index: 'not_analyzed',
-        },
-        active_ingredients: {
-          type: 'string',
-        },
-        drug_name: {
-          type: 'string',
-        },
-        type: {
-          type: 'string',
-          index: 'not_analyzed',
-        },
-        url: {
-          type: 'string',
-          index: 'not_analyzed',
-        },
-      },
-    },
-  },
-}
-
 const fdaDocumentMapping = {
   properties: {
     id: {
@@ -73,7 +29,54 @@ const fdaDocumentMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
-    fda_approval: fdaApprovalMapping,
+    fda_approval: {
+      properties: {
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        notes: {
+          type: 'string',
+        },
+        supplement_number: {
+          type: 'integer',
+        },
+        type: {
+          type: 'string',
+        },
+        action_date: {
+          type: 'date',
+          format: 'dateOptionalTime',
+          copy_to: 'action_date',
+        },
+        fda_application: {
+          properties: {
+            id: {
+              type: 'string',
+              index: 'not_analyzed',
+              copy_to: 'application_id',
+            },
+            active_ingredients: {
+              type: 'string',
+              copy_to: 'active_ingredients',
+            },
+            drug_name: {
+              type: 'string',
+              copy_to: 'drug',
+            },
+            type: {
+              type: 'string',
+              index: 'not_analyzed',
+              copy_to: 'application_type',
+            },
+            url: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+          },
+        },
+      },
+    },
     file: {
       properties: {
         id: {
