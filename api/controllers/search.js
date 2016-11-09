@@ -64,32 +64,41 @@ function searchFDADocuments(req, res) {
   const page = params.page.value;
   const perPage = params.per_page.value;
   const queryString = params.q.value;
+  const textQuery = params.text.value;
 
-  let documentQuery;
-  let pageQuery;
-  if (queryString === undefined) {
-    documentQuery = {
-      match_all: {},
-    };
-    pageQuery = {
-      match_all: {},
-    };
-  } else {
-    const queryStringQuery = {
-      query: queryString,
-      default_operator: 'AND',
-    };
-    const pageQueryString = Object.assign(
+  const defaultQueryString = {
+    default_operator: 'AND',
+  };
+
+  let documentQuery = {
+    match_all: {},
+  };
+  if (queryString !== undefined) {
+    const documentQueryString = Object.assign(
       {},
-      queryStringQuery,
+      defaultQueryString,
       {
-        default_field: 'text',
+        query: queryString,
       }
     );
 
     documentQuery = {
-      query_string: queryStringQuery,
+      query_string: documentQueryString,
     };
+  }
+
+  let pageQuery = {
+    match_all: {},
+  };
+  if (textQuery !== undefined) {
+    const pageQueryString = Object.assign(
+      {},
+      defaultQueryString,
+      {
+        query: textQuery,
+        default_field: 'text',
+      }
+    );
     pageQuery = {
       query_string: pageQueryString,
     };
@@ -106,7 +115,7 @@ function searchFDADocuments(req, res) {
     body: {
       query: {
         bool: {
-          minimum_should_match: 1,
+          minimum_should_match: 2,
           should: [
             documentQuery,
             {
