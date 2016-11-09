@@ -122,7 +122,9 @@ function searchFDADocuments(req, res) {
               has_child: {
                 type: 'page',
                 query: pageQuery,
-                inner_hits: {},
+                inner_hits: {
+                  size: 2,
+                },
               },
             },
           ],
