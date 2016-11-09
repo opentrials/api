@@ -3,12 +3,15 @@
 const Promise = require('bluebird');
 const client = require('../../config').elasticsearch;
 
-const batchSize = 1000;
+const defaultBatchSize = 1000;
 
-function indexModel(model, index, indexType, _queryParams, fetchOptions, entitiesConverter) {
+function indexModel(model, index, indexType, _queryParams, fetchOptions, entitiesConverter, batchSize) {
   let converter = entitiesConverter;
-  if (converter == undefined) {
+  if (converter === undefined) {
     converter = (entities) => entities;
+  }
+  if (batchSize === undefined) {
+    batchSize = defaultBatchSize;
   }
 
   return model.query(_queryParams).count().then((modelCount) => {

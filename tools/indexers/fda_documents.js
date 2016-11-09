@@ -177,7 +177,8 @@ function indexerPages(name) {
     {
       withRelated: ['file'],
     },
-    _convertDocumentsFilesPages
+    _convertDocumentsFilesPages,
+    1
   )
 }
 
