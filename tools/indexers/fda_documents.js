@@ -184,7 +184,7 @@ function indexerPages(name) {
 function _convertDocumentsFilesPages(docs) {
   return docs.models.reduce((result, doc) => {
     const docJSON = doc.toJSON();
-    const pages = docJSON.file.pages.map((page, i) => (Object.assign(
+    const pages = (docJSON.file.pages || []).map((page, i) => (Object.assign(
       {},
       page,
       {
