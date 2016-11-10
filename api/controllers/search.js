@@ -127,6 +127,9 @@ function searchFDADocuments(req, res) {
                 query: pageQuery,
                 inner_hits: {
                   size: 2,
+                  sort: [
+                    { num: 'asc' },
+                  ],
                   highlight: {
                     require_field_match: false,
                     fields: {
