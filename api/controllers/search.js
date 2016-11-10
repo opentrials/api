@@ -111,6 +111,9 @@ function searchFDADocuments(req, res) {
     size: perPage,
     sort: [
       '_score:desc',
+      'application_id:desc',
+      'fda_approval.supplement_number:desc',
+      'name:asc',
     ],
     body: {
       query: {
