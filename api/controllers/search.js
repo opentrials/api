@@ -49,7 +49,7 @@ function _convertFDADocumentsElasticSearchResult(esResult) {
       if (hit.inner_hits.page !== undefined) {
         const pages = hit.inner_hits.page.hits.hits;
         doc.file.pages = pages.map((page) => ({
-          text: page._source.text,
+          text: page.highlight.text[0],
           num: page._source.num,
         }));
       }
@@ -124,6 +124,16 @@ function searchFDADocuments(req, res) {
                 query: pageQuery,
                 inner_hits: {
                   size: 2,
+                  highlight: {
+                    require_field_match: false,
+                    fields: {
+                      text: {
+                        fragment_size: 150,
+                        no_match_size: 150,
+                        number_of_fragments: 1,
+                      },
+                    },
+                  },
                 },
               },
             },

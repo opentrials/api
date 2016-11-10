@@ -45,7 +45,7 @@ describe('(e2e) search FDA documents', () => {
       })
   });
 
-  it('returns only pages that contain the "text" query param', () => {
+  it('returns only pages that contain the "text" query param, with terms highlighted', () => {
     let samplePage;
 
     return server.inject('/v1/search/fda_documents')
@@ -77,8 +77,12 @@ describe('(e2e) search FDA documents', () => {
 
           return result.concat(doc.file.pages);
         }, []);
+        const highlightedTerms = samplePage.text
+          .split(' ')
+          .map((term) => `<em>${term}</em>`)
+          .join(' ');
 
-        pages.forEach((page) => should(page.text).eql(samplePage.text));
+        pages.forEach((page) => should(page.text).eql(highlightedTerms));
       })
   });
 
