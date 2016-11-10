@@ -117,6 +117,10 @@ paths:
           in: query
           description: The search query (follows the [ElasticSearch Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-query-string-query.html#query-string-syntax) syntax)
           type: string
+        - name: text
+          in: query
+          description: Search query on the documents file's text (follows the [ElasticSearch Simple Query String](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/query-dsl-simple-query-string-query.html#_simple_query_string_syntax) syntax)
+          type: string
         - name: page
           in: query
           description: The page number

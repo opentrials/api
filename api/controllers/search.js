@@ -49,7 +49,7 @@ function _convertFDADocumentsElasticSearchResult(esResult) {
       if (hit.inner_hits.page !== undefined) {
         const pages = hit.inner_hits.page.hits.hits;
         doc.file.pages = pages.map((page) => ({
-          text: page._source.text,
+          text: page.highlight.text[0],
           num: page._source.num,
         }));
       }
@@ -64,32 +64,41 @@ function searchFDADocuments(req, res) {
   const page = params.page.value;
   const perPage = params.per_page.value;
   const queryString = params.q.value;
+  const textQuery = params.text.value;
 
-  let documentQuery;
-  let pageQuery;
-  if (queryString === undefined) {
-    documentQuery = {
-      match_all: {},
-    };
-    pageQuery = {
-      match_all: {},
-    };
-  } else {
-    const queryStringQuery = {
-      query: queryString,
-      default_operator: 'AND',
-    };
-    const pageQueryString = Object.assign(
+  const defaultQueryString = {
+    default_operator: 'AND',
+  };
+
+  let documentQuery = {
+    match_all: {},
+  };
+  if (queryString !== undefined) {
+    const documentQueryString = Object.assign(
       {},
-      queryStringQuery,
+      defaultQueryString,
       {
-        default_field: 'text',
+        query: queryString,
       }
     );
 
     documentQuery = {
-      query_string: queryStringQuery,
+      query_string: documentQueryString,
     };
+  }
+
+  let pageQuery = {
+    match_all: {},
+  };
+  if (textQuery !== undefined) {
+    const pageQueryString = Object.assign(
+      {},
+      defaultQueryString,
+      {
+        query: textQuery,
+        default_field: 'text',
+      }
+    );
     pageQuery = {
       query_string: pageQueryString,
     };
@@ -102,18 +111,36 @@ function searchFDADocuments(req, res) {
     size: perPage,
     sort: [
       '_score:desc',
+      'application_id:desc',
+      'fda_approval.supplement_number:desc',
+      'name:asc',
     ],
     body: {
       query: {
         bool: {
-          minimum_should_match: 1,
+          minimum_should_match: 2,
           should: [
             documentQuery,
             {
               has_child: {
                 type: 'page',
                 query: pageQuery,
-                inner_hits: {},
+                inner_hits: {
+                  size: 2,
+                  sort: [
+                    { num: 'asc' },
+                  ],
+                  highlight: {
+                    require_field_match: false,
+                    fields: {
+                      text: {
+                        fragment_size: 150,
+                        no_match_size: 150,
+                        number_of_fragments: 1,
+                      },
+                    },
+                  },
+                },
               },
             },
           ],

@@ -23,7 +23,29 @@ describe('(e2e) search FDA documents', () => {
       .then((apiResponse) => should(apiResponse.failedValidation).be.undefined())
   });
 
-  it('returns only pages that contain the query string', () => {
+  it('returns only documents that contain the "q" query string', () => {
+    let sampleDocumentId;
+
+    return server.inject('/v1/search/fda_documents')
+      .then((response) => {
+        // Extract a sample document file's page
+        const result = JSON.parse(response.result);
+
+        // Make sure we have at least 2 documents indexed
+        should(result.items.length).be.above(1);
+
+        sampleDocumentId = result.items[0].id;
+      })
+      .then(() => server.inject(`/v1/search/fda_documents?q=${sampleDocumentId}`))
+      .then((response) => {
+        const result = JSON.parse(response.result);
+
+        should(result.items.length).eql(1);
+        should(result.items[0].id).eql(sampleDocumentId);
+      })
+  });
+
+  it('returns only pages that contain the "text" query param, with terms highlighted', () => {
     let samplePage;
 
     return server.inject('/v1/search/fda_documents')
@@ -45,7 +67,7 @@ describe('(e2e) search FDA documents', () => {
         // Safety net for the case we can't find any page in the DB
         should(samplePage).not.be.undefined();
       })
-      .then(() => server.inject(`/v1/search/fda_documents?q=${encodeURIComponent('"' + samplePage.text + '"')}`))
+      .then(() => server.inject(`/v1/search/fda_documents?text=${encodeURIComponent('"' + samplePage.text + '"')}`))
       .then((response) => {
         const result = JSON.parse(response.result);
         const pages = result.items.reduce((result, doc) => {
@@ -55,8 +77,12 @@ describe('(e2e) search FDA documents', () => {
 
           return result.concat(doc.file.pages);
         }, []);
+        const highlightedTerms = samplePage.text
+          .split(' ')
+          .map((term) => `<em>${term}</em>`)
+          .join(' ');
 
-        pages.forEach((page) => should(page.text).eql(samplePage.text));
+        pages.forEach((page) => should(page.text).eql(highlightedTerms));
       })
   });
 

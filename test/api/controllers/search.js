@@ -103,7 +103,14 @@ describe('Search', () => {
                     page: {
                       hits: {
                         hits: _doc.toJSON().file.pages.map((page) => (
-                          { _source: page }
+                          {
+                            _source: page,
+                            highlight: {
+                              text: [
+                                page.text,
+                              ],
+                            },
+                          }
                         )),
                       },
                     },
