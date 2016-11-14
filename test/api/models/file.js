@@ -16,7 +16,7 @@ describe('File', () => {
           sha1: file.attributes.sha1,
           source_url: file.attributes.source_url,
           documentcloud_id: file.attributes.documentcloud_id,
-          pagesPreview: file._getPagesPreview(file.toJSON().pages, 300)
+          pages_preview: file._getPagesPreview(file.toJSON().pages, 150)
         }));
     });
 

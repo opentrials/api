@@ -30,7 +30,7 @@ const File = BaseModel.extend({
     const attributes = this.toJSON();
 
     if (typeof attributes.pages !== 'undefined' && attributes.pages.length > 0) {
-      attributes.pagesPreview = this._getPagesPreview(attributes.pages, 300);
+      attributes.pages_preview = this._getPagesPreview(attributes.pages, 150);
     }
 
     delete attributes.pages;
