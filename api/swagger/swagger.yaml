@@ -664,6 +664,10 @@ definitions:
 
   TrialSummary:
     type: object
+    required:
+      - id
+      - url
+      - public_title
     properties:
       id:
         type: string
@@ -671,6 +675,9 @@ definitions:
       url:
         type: string
         description: OpenTrials API URL for this trial
+      public_title:
+        type: string
+        description: Title of the record
 
   Location:
     type: object

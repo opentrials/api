@@ -471,6 +471,7 @@ describe('Trial', () => {
       return factory.create('trial')
         .then((trial) => trial.toJSONSummary().should.deepEqual({
           id: trial.attributes.id,
+          public_title: trial.attributes.public_title,
           url: trial.url,
         }));
     });
