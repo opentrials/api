@@ -111,6 +111,9 @@ const fdaDocumentMapping = {
           type: 'string',
           index: 'not_analyzed',
         },
+        public_title: {
+          type: 'string',
+        },
       },
     },
   },

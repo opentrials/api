@@ -123,6 +123,7 @@ const Trial = BaseModel.extend({
 
     return {
       id: attributes.id,
+      public_title: attributes.public_title,
       url: attributes.url,
     };
   },
