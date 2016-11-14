@@ -29,6 +29,8 @@ describe('Trial', () => {
       'documents',
       'documents.file',
       'documents.source',
+      'documents.fda_approval',
+      'documents.fda_approval.fda_application',
       'risks_of_bias',
       'risks_of_bias.risk_of_bias_criteria',
     ]);
