@@ -48,10 +48,17 @@ function _convertFDADocumentsElasticSearchResult(esResult) {
 
       if (hit.inner_hits.page !== undefined) {
         const pages = hit.inner_hits.page.hits.hits;
-        doc.file.pages = pages.map((page) => ({
-          text: page.highlight.text[0],
-          num: page._source.num,
-        }));
+        doc.file.pages = pages.map((page) => {
+          let text = page._source.text;
+          if (page.highlight !== undefined && page.highlight.text.length > 0) {
+            text = page.highlight.text[0];
+          }
+
+          return {
+            text,
+            num: page._source.num,
+          }
+        });
       }
 
       return doc;

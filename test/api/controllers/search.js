@@ -138,6 +138,52 @@ describe('Search', () => {
         });
     });
 
+    it('works even if no highlighted text is returned', () => {
+      // This happens when the page is empty, for example
+      let doc;
+
+      return factory.create('documentWithRelated')
+        .then((_doc) => {
+          const esResult = {
+            hits: {
+              total: 1,
+              hits: [
+                {
+                  _source: _doc.toJSONWithoutPages(),
+                  inner_hits: {
+                    page: {
+                      hits: {
+                        hits: _doc.toJSON().file.pages.map((page) => (
+                          {
+                            _source: page,
+                          }
+                        )),
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+          doc = _doc;
+
+          elasticsearch.search.returns(Promise.resolve(esResult));
+        })
+        .then(() => server.inject(url))
+        .then((response) => {
+          response.statusCode.should.equal(200);
+
+          const result = JSON.parse(response.result);
+
+          result.should.deepEqual({
+            total_count: 1,
+            items: [
+              toJSON(doc),
+            ],
+          });
+        });
+    });
+
     it('does not hang the connection if there was an error', () => {
       // FIXME: Remove this when we fix the bug with not being able to change
       // the error response code.
