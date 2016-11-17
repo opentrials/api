@@ -293,6 +293,10 @@ const trialMapping = {
       type: 'date',
       format: 'dateOptionalTime',
     },
+    completion_date: {
+      type: 'date',
+      format: 'dateOptionalTime',
+    },
   },
 };
 
