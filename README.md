@@ -26,7 +26,7 @@ The OpenTrials API service.
 2. Run `npm install`;
 3. Run `npm run migrate`;
 4. (Optional) If you want, you can add some seed data using `npm run seed`;
-5. Run `npm run reindex`;
+5. (If you ran 4) Run `npm run reindex`;
 
 After the install and migrations ran successfully, you can run `npm run dev` to
 run the project. If you haven't changed the default `PORT`, it should be
