@@ -200,17 +200,6 @@ const Trial = BaseModel.extend({
       return discrepancies;
     },
   },
-  trialsPerYear: function () {
-    return bookshelf.knex
-      .select(
-        bookshelf.knex.raw('to_char(registration_date, \'YYYY\')::int as year'),
-        bookshelf.knex.raw('count(registration_date)::int')
-      )
-      .from('trials')
-      .whereNotNull('registration_date')
-      .groupByRaw('year')
-      .orderBy('year');
-  },
 }, {
   relatedModels,
 });
