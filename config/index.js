@@ -63,6 +63,28 @@ bookshelf.plugin('virtuals');
 bookshelf.plugin('pagination');
 config.bookshelf = bookshelf;
 
+// Overwrite node-pg-types date parser. See https://github.com/tgriesser/knex/issues/1750
+const pgTypes = require('pg').types;
+
+function parseDate(val) {
+  return new Date(Date.parse(val));
+}
+function parseDateArray(value) {
+  if (!value) { return null; }
+
+  const p = pgTypes.arrayParser.create(value, (entry) => {
+    let parsedEntry = entry;
+    if (entry !== null) {
+      parsedEntry = parseDate(entry);
+    }
+    return parsedEntry;
+  });
+
+  return p.parse();
+}
+pgTypes.setTypeParser(1082, parseDate);
+pgTypes.setTypeParser(1182, parseDateArray);
+
 // ElasticSearch
 const elasticsearchConfig = {
   host: process.env.ELASTICSEARCH_URL,
