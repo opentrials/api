@@ -436,21 +436,4 @@ describe('Trial', () => {
         }));
     });
   });
-
-  describe('registration_date', () => {
-    it('does not offset time', () => {
-      let trial_id;
-      const trialAttributes = {
-        registration_date: new Date('2016-09-12'),
-      };
-
-      return factory.create('trial', trialAttributes)
-        .then((trial) => trial_id = trial.attributes.id)
-        .then(() => new Trial({ id: trial_id }).fetch())
-        .then((savedTrial) => {
-          let savedDate = savedTrial.attributes.registration_date.toISOString();
-          savedDate.should.equal(trialAttributes.registration_date.toISOString());
-        });
-    });
-  });
 });
