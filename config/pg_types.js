@@ -19,7 +19,7 @@ function parseDateArray(value) {
     return null;
   }
 
-  const p = pgTypes.arrayParser.create(value, (entry) => {
+  const parser = pgTypes.arrayParser.create(value, (entry) => {
     let parsedEntry = entry;
     if (String(entry).toLowerCase() !== String(null)) {
       parsedEntry = parseDate(entry);
@@ -29,7 +29,7 @@ function parseDateArray(value) {
     return parsedEntry;
   });
 
-  return p.parse();
+  return parser.parse();
 }
 
 pgTypes.setTypeParser(DATE_OID, parseDate);

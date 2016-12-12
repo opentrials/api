@@ -28,27 +28,27 @@ describe('parseDateArray', () => {
 
   it('parses array correctly', () => {
     let testDate = '2014-01-12';
-    let testArray = `{${testDate}}`;
+    let testPgArray = `{${testDate}}`;
     let expectedDate = new Date(testDate).toISOString();
-    let resultedArray = parseDateArray(testArray);
+    let resultedArray = parseDateArray(testPgArray);
     resultedArray.map((date) => date.toISOString()).should.deepEqual([
       expectedDate,
     ]);
   });
 
   it('returns null when value is null', () => {
-    let testArray = null;
-    should(parseDateArray(testArray)).equal(null);
+    let testPgArray = null;
+    should(parseDateArray(testPgArray)).equal(null);
   });
 
   it('returns empty array when there are no values', () => {
-    let testArray = `{}`;
-    parseDateArray(testArray).should.be.empty();
+    let testPgArray = `{}`;
+    parseDateArray(testPgArray).should.be.empty();
   });
 
   it('returns null for the null values', () => {
-    let testArray = `{null}`;
-    parseDateArray(testArray).should.deepEqual([
+    let testPgArray = `{null}`;
+    parseDateArray(testPgArray).should.deepEqual([
       null,
     ]);
   });
