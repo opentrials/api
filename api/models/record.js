@@ -27,6 +27,7 @@ const Record = BaseModel.extend({
     'recruitment_status',
     'registration_date',
     'completion_date',
+    'results_exemption_date',
     'has_published_results',
     'created_at',
     'updated_at',
