@@ -7,18 +7,11 @@ const DATE_OID = 1082;
 const DATE_ARRAY_OID = 1182;
 
 function parseDate(value) {
-  let date;
-
-  if (isNaN(Date.parse(value)) === true) {
-    if (!value) {
-      date = null;
-    } else {
-      throw new Error('Invalid Date');
-    }
-  } else {
-    date = new Date(value);
+  if (!value) {
+    return null;
   }
-  return date;
+
+  return new Date(Date.parse(value));
 }
 
 function parseDateArray(value) {
@@ -28,8 +21,10 @@ function parseDateArray(value) {
 
   const p = pgTypes.arrayParser.create(value, (entry) => {
     let parsedEntry = entry;
-    if (entry !== null) {
+    if (String(entry).toLowerCase() !== String(null)) {
       parsedEntry = parseDate(entry);
+    } else {
+      parsedEntry = null;
     }
     return parsedEntry;
   });
