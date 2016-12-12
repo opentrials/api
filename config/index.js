@@ -1,6 +1,7 @@
 'use strict';
 
 require('dotenv').config();
+require('./pg_types');
 
 if (!process.env.ELASTICSEARCH_URL) {
   // Fallback to BONSAI_URL if ELASTICSEARCH_URL isn't set.
