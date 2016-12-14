@@ -37,6 +37,7 @@ describe('Record', () => {
         source_id: record.attributes.source_id,
         id: recordJSON.id,
         url: recordJSON.url,
+        is_primary: recordJSON.is_primary,
         source_url: recordJSON.source_url,
         updated_at: recordJSON.updated_at,
       });

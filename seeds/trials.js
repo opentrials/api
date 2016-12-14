@@ -382,6 +382,7 @@ exports.seed = (knex) => {
       trial_id: trials[0].id,
       source_id: sources.nct.id,
       source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
+      is_primary: true,
       source_data: JSON.stringify({
         contacts: [
           {
@@ -468,6 +469,7 @@ exports.seed = (knex) => {
       trial_id: trials[1].id,
       source_id: sources.isrctn.id,
       source_url: 'http://www.isrctn.com/ISRCTN11631712',
+      is_primary: false,
       source_data: JSON.stringify({
         acronym: null,
         age_group: 'Not Specified',
