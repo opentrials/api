@@ -4,7 +4,7 @@ exports.up = (knex) => (
   knex.schema
     .table('records', (table) => {
       table.boolean('is_primary')
-        .nullable();
+        .defaultTo(false);
     })
 );
 

@@ -469,7 +469,7 @@ exports.seed = (knex) => {
       trial_id: trials[1].id,
       source_id: sources.isrctn.id,
       source_url: 'http://www.isrctn.com/ISRCTN11631712',
-      is_primary: null,
+      is_primary: false,
       source_data: JSON.stringify({
         acronym: null,
         age_group: 'Not Specified',

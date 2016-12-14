@@ -44,11 +44,8 @@ const Record = BaseModel.extend({
     const result = {
       id: attributes.id,
       source_id: this.attributes.source_id,
+      is_primary: this.attributes.is_primary,
     };
-
-    if (attributes.is_primary) {
-      result.is_primary = attributes.is_primary;
-    }
 
     if (attributes.url) {
       result.url = attributes.url;

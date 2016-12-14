@@ -37,18 +37,9 @@ describe('Record', () => {
         source_id: record.attributes.source_id,
         id: recordJSON.id,
         url: recordJSON.url,
+        is_primary: recordJSON.is_primary,
         source_url: recordJSON.source_url,
         updated_at: recordJSON.updated_at,
-      });
-    });
-  });
-
-  it('#toJSONSummary shows is_primary if true', () => {
-    return factory.create('record', {is_primary: true}).then((record) => {
-      const recordJSON = record.toJSON();
-
-      record.toJSONSummary().should.containEql({
-        is_primary: true,
       });
     });
   });
