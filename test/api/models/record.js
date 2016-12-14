@@ -42,4 +42,14 @@ describe('Record', () => {
       });
     });
   });
+
+  it('#toJSONSummary shows is_primary if true', () => {
+    return factory.create('record', {is_primary: true}).then((record) => {
+      const recordJSON = record.toJSON();
+
+      record.toJSONSummary().should.containEql({
+        is_primary: true,
+      });
+    });
+  });
 });

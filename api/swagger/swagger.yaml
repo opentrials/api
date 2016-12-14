@@ -822,6 +822,9 @@ definitions:
           - not_recruiting
           - unknown
           - other
+      is_primary:
+        type: boolean
+        description: Is this record the primary source of data for its trial
       created_at:
         type: string
         format: date-time
@@ -885,6 +888,8 @@ definitions:
         type: string
       source_id:
         type: string
+      is_primary:
+        type: boolean
 
   PublicationSummary:
     type: object
