@@ -217,6 +217,7 @@ factory.define('trialWithRelated', Trial, trialAttributes, {
 factory.define('record', Record, Object.assign({}, trialAttributes, {
   id: () => uuid.v1(),
   trial_id: factory.assoc('trial', 'id'),
+  last_verification_date: new Date('2016-12-12'),
   source_id: factory.assoc('source', 'id'),
   source_url: factory.sequence((n) => `http://source.com/trial/${n}`),
   source_data: {

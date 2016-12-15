@@ -28,6 +28,7 @@ const Record = BaseModel.extend({
     'registration_date',
     'completion_date',
     'results_exemption_date',
+    'last_verification_date',
     'has_published_results',
     'is_primary',
     'created_at',
@@ -46,6 +47,10 @@ const Record = BaseModel.extend({
       source_id: this.attributes.source_id,
       is_primary: this.attributes.is_primary,
     };
+
+    if (attributes.last_verification_date) {
+      result.last_verification_date = attributes.last_verification_date;
+    }
 
     if (attributes.url) {
       result.url = attributes.url;
