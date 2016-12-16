@@ -40,6 +40,7 @@ describe('Record', () => {
         is_primary: recordJSON.is_primary,
         source_url: recordJSON.source_url,
         updated_at: recordJSON.updated_at,
+        last_verification_date: recordJSON.last_verification_date,
       });
     });
   });

@@ -825,13 +825,17 @@ definitions:
       is_primary:
         type: boolean
         description: Is this record the primary source of data for its trial
+      last_verification_date:
+        type: string
+        format: date-time
+        description: Date when the record's data was last verified by provider
       created_at:
         type: string
         format: date-time
-        description: Date When the record was created
+        description: Date when the record was created
       updated_at:
         type: string
-        description: Date When the record was updated
+        description: Date when the record was updated
         format: date-time
 
   Publication:
@@ -890,6 +894,9 @@ definitions:
         type: string
       is_primary:
         type: boolean
+      last_verification_date:
+        type: string
+        format: date-time
 
   PublicationSummary:
     type: object
