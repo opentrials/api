@@ -18,7 +18,6 @@ const Record = BaseModel.extend({
     'trial_id',
     'source',
     'source_url',
-    'source_data',
     'public_title',
     'brief_summary',
     'target_sample_size',

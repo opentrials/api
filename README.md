@@ -41,3 +41,7 @@ in sync.
 ### Testing
 
 You can run the test suite and linting with `npm test`.
+
+### Interacting with the API
+
+You can find and interact [here](https://api.opentrials.net/v1/docs/) with the available endpoints.
