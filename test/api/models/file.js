@@ -16,6 +16,7 @@ describe('File', () => {
           sha1: file.attributes.sha1,
           source_url: file.attributes.source_url,
           documentcloud_id: file.attributes.documentcloud_id,
+          pages_preview: file._getPagesPreview(file.toJSON().pages, 150)
         }));
     });
 
@@ -23,7 +24,7 @@ describe('File', () => {
       const file = new File();
 
       should(file.toJSONSummary()).deepEqual({});
-    })
+    });
   });
 
   describe('toJSON', () => {
@@ -41,6 +42,33 @@ describe('File', () => {
       return factory.create('file', { pages: null })
         .then((file) => {
           should(file.toJSON().pages).be.undefined();
+        });
+    });
+  });
+
+  describe('_getPagesPreview', () => {
+    it('returns the pages preview if there are pages', () => {
+      return factory.create('file', { pages: ['foo', 'bar'] })
+        .then((file) => {
+          file._getPagesPreview(file.toJSON().pages, 4)
+            .should.deepEqual('foo bar');
+        });
+    });
+
+    it('respects the limit of the preview string', () => {
+      return factory.create('file', { pages: ['foo', 'bar baz'] })
+        .then((file) => {
+          file._getPagesPreview(file.toJSON().pages, 4)
+            .should.deepEqual('foo bar [...]');
+        });
+    });
+
+    it('appends the suffix when string is longer than limit', () => {
+      return factory.create('file', { pages: ['foo', 'bar baz'] })
+        .then((file) => {
+          file._getPagesPreview(file.toJSON().pages, 4)
+            .split(' ').pop()
+            .should.deepEqual('[...]');
         });
     });
   });
