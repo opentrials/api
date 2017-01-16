@@ -1,7 +1,5 @@
 'use strict';
 
-const Person = require('../../../api/models/person');
-
 describe('Persons', () => {
   before(clearDB);
 
@@ -16,8 +14,8 @@ describe('Persons', () => {
     ));
 
     it('returns the Person', () => (
-      factory.create('person').then((model) => {
-        return server.inject('/v1/persons/' + model.attributes.id)
+      factory.create('person').then((model) => (
+        server.inject(`/v1/persons/${model.attributes.id}`)
           .then((response) => {
             response.statusCode.should.equal(200);
 
@@ -26,7 +24,7 @@ describe('Persons', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
   });
 });

@@ -13,15 +13,15 @@ const RiskOfBiasCriteria = BaseModel.extend({
     'name',
     'value',
   ],
-  risk_of_bias: function() {
+  risk_of_bias() {
     return this.belongsToMany('RiskOfBias', 'risk_of_biases_risk_of_bias_criterias',
       'risk_of_bias_id', 'risk_of_bias_criteria_id').withPivot(['value']);
   },
   virtuals: {
-    value: function (options) {
+    value() {
       return this.pivot.attributes.value;
-    }
-  }
+    },
+  },
 });
 
 module.exports = bookshelf.model('RiskOfBiasCriteria', RiskOfBiasCriteria);

@@ -14,8 +14,8 @@ describe('FDAApplication', () => {
     ));
 
     it('returns the FDA application', () => (
-      factory.create('fda_application').then((model) => {
-        return server.inject(`/v1/fda_applications/${model.attributes.id}`)
+      factory.create('fda_application').then((model) => (
+        server.inject(`/v1/fda_applications/${model.attributes.id}`)
           .then((response) => {
             response.statusCode.should.equal(200);
 
@@ -24,41 +24,41 @@ describe('FDAApplication', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
   });
 
   describe('GET /v1/fda_applications', () => {
     it('returns the FDA applications in pages', () => (
-      factory.create('fda_application').then((model) => {
-        return server.inject('/v1/fda_applications')
+      factory.create('fda_application').then((model) => (
+        server.inject('/v1/fda_applications')
           .then((response) => {
             response.statusCode.should.equal(200);
 
             const expectedResult = {
               total_count: 1,
               items: [toJSON(model)],
-            }
+            };
             const result = JSON.parse(response.result);
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
 
     it('returns empty items array when there are no more results', () => (
-      factory.create('fda_application').then((model) => {
-        return server.inject('/v1/fda_applications?page=2')
+      factory.create('fda_application').then(() => (
+        server.inject('/v1/fda_applications?page=2')
           .then((response) => {
             response.statusCode.should.equal(200);
 
             const expectedResult = {
               total_count: 1,
               items: [],
-            }
+            };
             const result = JSON.parse(response.result);
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
   });
 });

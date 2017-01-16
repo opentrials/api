@@ -5,9 +5,9 @@ const helpers = require('../../../api/helpers');
 const Person = require('../../../api/models/person');
 
 describe('Person', () => {
-  before(clearDB)
+  before(clearDB);
 
-  afterEach(clearDB)
+  afterEach(clearDB);
 
   describe('trials', () => {
     it('returns trials related to the person', () => {
@@ -21,14 +21,14 @@ describe('Person', () => {
         }).then((person) => {
           const trialsIds = person.related('trials').models.map((trial) => trial.id);
           should(trialsIds).containEql(trialId);
-        })
-    })
+        });
+    });
   });
 
   describe('url', () => {
-    it('returns the url', () => {
-      return factory.build('person')
-        .then((person) => should(person.toJSON().url).eql(helpers.urlFor(person)));
-    });
+    it('returns the url', () => (
+      factory.build('person')
+        .then((person) => should(person.toJSON().url).eql(helpers.urlFor(person)))
+    ));
   });
 });

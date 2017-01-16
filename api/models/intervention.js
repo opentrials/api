@@ -13,11 +13,11 @@ const Intervention = BaseModel.extend({
     'name',
     'type',
   ],
-  trials: function () {
+  trials() {
     return this.belongsToMany('Trial', 'trials_interventions');
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
   },

@@ -21,14 +21,14 @@ describe('Intervention', () => {
         }).then((intervention) => {
           const trialsIds = intervention.related('trials').models.map((trial) => trial.id);
           should(trialsIds).containEql(trialId);
-        })
-    })
+        });
+    });
   });
 
   describe('url', () => {
-    it('returns the url', () => {
-      return factory.build('intervention')
-        .then((intervention) => should(intervention.toJSON().url).eql(helpers.urlFor(intervention)));
-    });
+    it('returns the url', () => (
+      factory.build('intervention')
+        .then((interven) => should(interven.toJSON().url).eql(helpers.urlFor(interven)))
+    ));
   });
 });

@@ -1,7 +1,5 @@
 'use strict';
 
-const Source = require('../../../api/models/source');
-
 describe('Sources', () => {
   before(clearDB);
 
@@ -9,8 +7,8 @@ describe('Sources', () => {
 
   describe('GET /v1/sources', () => {
     it('returns all the sources', () => (
-      factory.createMany('source', 2).then((models) => {
-        return server.inject('/v1/sources')
+      factory.createMany('source', 2).then((models) => (
+        server.inject('/v1/sources')
           .then((response) => {
             response.statusCode.should.equal(200);
 
@@ -19,7 +17,7 @@ describe('Sources', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
   });
 });

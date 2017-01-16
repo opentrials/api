@@ -15,6 +15,7 @@ const _ = require('lodash');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+
 const relatedModels = [
   'locations',
   'interventions',
@@ -52,10 +53,10 @@ const Trial = BaseModel.extend({
     'completion_date',
     'results_exemption_date',
   ].concat(relatedModels),
-  serialize: function (options) {
+  serialize(...args) {
     const attributes = Object.assign(
       {},
-      Object.getPrototypeOf(Trial.prototype).serialize.call(this, arguments)
+      Object.getPrototypeOf(Trial.prototype).serialize.call(this, args)
     );
     const relations = this.relations;
 
@@ -66,61 +67,61 @@ const Trial = BaseModel.extend({
     attributes.organisations = [];
     attributes.risks_of_bias = [];
 
-    for (let relationName of Object.keys(relations)) {
+    for (const relationName of Object.keys(relations)) {
       attributes[relationName] = relations[relationName].map((model) => {
-        const attributes = model.toJSON();
+        const attrs = model.toJSON();
 
         if (model.pivot) {
           Object.keys(model.pivot.attributes).forEach((key) => {
             const value = model.pivot.attributes[key];
             if (!key.endsWith('_id') && value) {
-              attributes[key] = value;
+              attrs[key] = value;
             }
           });
         }
 
-        return attributes;
+        return attrs;
       });
     }
 
     attributes.records = (relations.records || []).map((record) => record.toJSONSummary());
-    attributes.publications  = (relations.publications || []).map((publication) => publication.toJSONSummary());
-    attributes.documents  = (relations.documents || []).map((doc) => doc.toJSONSummary());
+    attributes.publications = (relations.publications || []).map((pub) => pub.toJSONSummary());
+    attributes.documents = (relations.documents || []).map((doc) => doc.toJSONSummary());
 
     return attributes;
   },
-  locations: function () {
+  locations() {
     return this.belongsToMany('Location', 'trials_locations',
       'trial_id', 'location_id').withPivot(['role']);
   },
-  interventions: function () {
+  interventions() {
     return this.belongsToMany('Intervention', 'trials_interventions');
   },
-  conditions: function () {
+  conditions() {
     return this.belongsToMany('Condition', 'trials_conditions');
   },
-  persons: function () {
+  persons() {
     return this.belongsToMany('Person', 'trials_persons',
         'trial_id', 'person_id').withPivot(['role']);
   },
-  organisations: function () {
+  organisations() {
     return this.belongsToMany('Organisation', 'trials_organisations',
       'trial_id', 'organisation_id').withPivot(['role']);
   },
-  publications: function () {
+  publications() {
     return this.belongsToMany('Publication', 'trials_publications',
       'trial_id', 'publication_id');
   },
-  documents: function () {
+  documents() {
     return this.belongsToMany('Document', 'trials_documents');
   },
-  records: function () {
+  records() {
     return this.hasMany('Record');
   },
-  risks_of_bias: function () {
+  risks_of_bias() {
     return this.hasMany('RiskOfBias');
   },
-  toJSONSummary: function () {
+  toJSONSummary() {
     const attributes = this.toJSON();
 
     return {
@@ -130,10 +131,10 @@ const Trial = BaseModel.extend({
     };
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
-    sources: function () {
+    sources() {
       const publicationsSources = this.related('publications')
                                       .toJSON()
                                       .map((publication) => publication.source);
@@ -147,13 +148,16 @@ const Trial = BaseModel.extend({
                              .toJSON()
                              .map((rob) => rob.source);
 
-      const sources = [...publicationsSources,
-                       ...documentsSources,
-                       ...recordsSources,
-                       ...robSources];
+      const sources = [
+        ...publicationsSources,
+        ...documentsSources,
+        ...recordsSources,
+        ...robSources,
+      ];
 
       const result = sources.reduce((data, source) => {
         if (source !== undefined) {
+          // eslint-disable-next-line no-param-reassign
           data[source.id] = {
             id: source.id,
             name: source.name,
@@ -166,7 +170,7 @@ const Trial = BaseModel.extend({
 
       return result;
     },
-    discrepancies: function () {
+    discrepancies() {
       const discrepancyFields = [
         'target_sample_size',
         'gender',
@@ -177,7 +181,7 @@ const Trial = BaseModel.extend({
       const ignoredSources = ['euctr', 'ictrp'];
       const records = this.related('records')
                           .toJSON()
-                          .filter((record) => ignoredSources.indexOf(record.source.id) === -1 );
+                          .filter((record) => ignoredSources.indexOf(record.source.id) === -1);
       let discrepancies;
 
       for (const field of discrepancyFields) {
@@ -195,7 +199,7 @@ const Trial = BaseModel.extend({
 
         // Have to convert to JSON to handle values that normally aren't
         // comparable like dates.
-        const cleanValues = JSON.parse(JSON.stringify(values))
+        const cleanValues = JSON.parse(JSON.stringify(values));
 
         const hasDiscrepantValues = (_.uniqBy(cleanValues, 'value').length > 1);
         if (hasDiscrepantValues) {

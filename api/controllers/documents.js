@@ -5,9 +5,9 @@ const Document = require('../models/document');
 function getDocument(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Document({ id: id }).fetch({
-      withRelated: Document.relatedModels,
-    })
+  return new Document({ id }).fetch({
+    withRelated: Document.relatedModels,
+  })
     .then((doc) => {
       if (doc) {
         res.json(doc);
@@ -28,15 +28,15 @@ function listDocuments(req, res) {
   const perPage = params.per_page.value;
 
   return Document.fetchPage({
-      page: page,
-      pageSize: perPage,
-      withRelated: Document.relatedModels,
-    })
+    page,
+    pageSize: perPage,
+    withRelated: Document.relatedModels,
+  })
     .then((documents) => {
       const response = {
         total_count: documents.pagination.rowCount,
         items: documents.models.map((m) => m.toJSONSummary()),
-      }
+      };
       res.json(response);
     })
     .catch((err) => {
@@ -48,4 +48,4 @@ function listDocuments(req, res) {
 module.exports = {
   getDocument,
   listDocuments,
-}
+};

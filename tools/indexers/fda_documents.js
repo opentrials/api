@@ -2,7 +2,6 @@
 
 const esHelpers = require('./helpers');
 const Document = require('../../api/models/document');
-const client = require('../../config').elasticsearch;
 
 
 const fdaDocumentMapping = {
@@ -117,7 +116,7 @@ const fdaDocumentMapping = {
       },
     },
   },
-}
+};
 
 const pageMapping = {
   _parent: {
@@ -145,7 +144,7 @@ const index = {
       page: pageMapping,
     },
   },
-}
+};
 
 function indexer(name) {
   return indexerFDADocuments(name)
@@ -166,7 +165,7 @@ function indexerFDADocuments(name) {
       withRelated: Document.relatedModels,
     },
     (entities) => entities.models.map((entity) => entity.toJSONSummary())
-  )
+  );
 }
 
 function indexerPages(name) {
@@ -185,7 +184,7 @@ function indexerPages(name) {
     },
     _convertDocumentsFilesPages,
     1
-  )
+  );
 }
 
 function _convertDocumentsFilesPages(docs) {
@@ -199,7 +198,7 @@ function _convertDocumentsFilesPages(docs) {
         // Must add parent's ID because multiple documents can point to the
         // same file. This means we'll be indexing the same file multiple
         // times.
-        id: `${docJSON.id}_${docJSON.file.id}_${i+1}`,
+        id: `${docJSON.id}_${docJSON.file.id}_${i + 1}`,
       }
     )));
 
@@ -211,4 +210,4 @@ module.exports = {
   alias: 'fda_documents',
   index,
   indexer,
-}
+};

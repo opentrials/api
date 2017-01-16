@@ -6,10 +6,11 @@ require('./organisation');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+
 const relatedModels = [
   'fda_approvals',
   'organisation',
-]
+];
 
 const FDAApplication = BaseModel.extend({
   tableName: 'fda_applications',
@@ -20,25 +21,26 @@ const FDAApplication = BaseModel.extend({
     'fda_approvals',
     'organisation',
   ],
-  fda_approvals: function () {
+  fda_approvals() {
     return this.hasMany('FDAApproval');
   },
-  organisation: function () {
+  organisation() {
     return this.belongsTo('Organisation');
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
-    type: function () {
+    type() {
       const matches = this.id.match(/^[A-Z]+/i);
       if (matches) {
         return matches[0];
       }
+      return undefined;
     },
   },
 }, {
-  relatedModels
+  relatedModels,
 });
 
 module.exports = bookshelf.model('FDAApplication', FDAApplication);

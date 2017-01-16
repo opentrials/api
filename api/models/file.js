@@ -12,10 +12,10 @@ const File = BaseModel.extend({
     'sha1',
     'pages',
   ],
-  serialize: function () {
+  serialize(...args) {
     const attributes = Object.assign(
       {},
-      Object.getPrototypeOf(File.prototype).serialize.call(this, arguments)
+      Object.getPrototypeOf(File.prototype).serialize.call(this, args)
     );
 
     if (attributes.pages) {
@@ -24,7 +24,7 @@ const File = BaseModel.extend({
 
     return attributes;
   },
-  toJSONSummary: function () {
+  toJSONSummary() {
     const attributes = this.toJSON();
 
     delete attributes.pages;

@@ -4,7 +4,7 @@ const Publication = require('../models/publication');
 
 function getPublication(req, res) {
   const id = req.swagger.params.id.value;
-  return new Publication({ id: id }).fetch({ withRelated: Publication.relatedModels })
+  return new Publication({ id }).fetch({ withRelated: Publication.relatedModels })
     .then((publication) => {
       if (publication) {
         res.json(publication);
@@ -21,4 +21,4 @@ function getPublication(req, res) {
 
 module.exports = {
   getPublication,
-}
+};

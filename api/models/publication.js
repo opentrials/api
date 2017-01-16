@@ -2,8 +2,8 @@
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
-const Source = require('./source');
 const helpers = require('../helpers');
+require('./source');
 
 const relatedModels = [
   'source',
@@ -22,10 +22,10 @@ const Publication = BaseModel.extend({
     'updated_at',
     'authors',
   ],
-  source: function () {
+  source() {
     return this.belongsTo('Source');
   },
-  toJSONSummary: function () {
+  toJSONSummary() {
     const attributes = this.toJSON();
     const result = {
       id: attributes.id,
@@ -38,12 +38,12 @@ const Publication = BaseModel.extend({
     return result;
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
   },
 }, {
-  relatedModels
+  relatedModels,
 });
 
 module.exports = bookshelf.model('Publication', Publication);

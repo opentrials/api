@@ -5,10 +5,10 @@ const uuid = require('node-uuid');
 const bookshelf = require('../../config').bookshelf;
 
 const BaseModel = bookshelf.Model.extend({
-  serialize: function (options) {
+  serialize(...args) {
     const attributes = Object.assign(
       {},
-      Object.getPrototypeOf(BaseModel.prototype).serialize.call(this, arguments)
+      Object.getPrototypeOf(BaseModel.prototype).serialize.call(this, args)
     );
 
     // FIXME: We don't want empty objects to be added to the resulting JSON.
@@ -23,20 +23,21 @@ const BaseModel = bookshelf.Model.extend({
 
     return _.omitBy(attributes, isNullOrEmptyPlainObject);
   },
-  toJSON: function () {
+  toJSON(...args) {
     // FIXME: Bookshelf's virtuals plugin adds the virtual attributes
     // regardless of their value. We can't change this behaviour on
     // `serialize()`, because the plugin overwrittes it, so we need to do it
     // here.
-    const json = Object.getPrototypeOf(BaseModel.prototype).toJSON.call(this, arguments);
+    const json = Object.getPrototypeOf(BaseModel.prototype).toJSON.call(this, args);
 
     return _.omitBy(json, _.isUndefined);
   },
-  initialize: function () {
+  initialize() {
     this.on('saving', this.addIdIfNeeded);
   },
   addIdIfNeeded: (model) => {
     if (!model.attributes.id) {
+        // eslint-disable-next-line no-param-reassign
       model.attributes.id = uuid.v1();
     }
   },

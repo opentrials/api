@@ -2,6 +2,12 @@
 extends: ../.eslintrc
 env:
   mocha: true
+globals:
+  server: false
+  factory: false
+  config: false
+  clearDB: false
+  toJSON: false
 rules:
   import/no-extraneous-dependencies:
     - error

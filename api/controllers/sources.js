@@ -15,4 +15,4 @@ function listSources(req, res) {
 
 module.exports = {
   list: listSources,
-}
+};

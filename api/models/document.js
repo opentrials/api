@@ -9,6 +9,7 @@ const _ = require('lodash');
 const helpers = require('../helpers');
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
+
 const relatedModels = [
   'file',
   'trials',
@@ -29,10 +30,10 @@ const Document = BaseModel.extend({
     'source_url',
     'fda_approval',
   ],
-  serialize: function (options) {
+  serialize(...args) {
     const attributes = Object.assign(
       {},
-      Object.getPrototypeOf(Document.prototype).serialize.call(this, arguments),
+      Object.getPrototypeOf(Document.prototype).serialize.call(this, args),
       {
         trials: this.related('trials').map((trial) => trial.toJSONSummary()),
       }
@@ -44,21 +45,21 @@ const Document = BaseModel.extend({
 
     return attributes;
   },
-  file: function () {
+  file() {
     return this.belongsTo('File');
   },
-  trials: function () {
+  trials() {
     return this.belongsToMany('Trial', 'trials_documents');
   },
-  source: function () {
+  source() {
     return this.belongsTo('Source');
   },
-  fda_approval: function () {
+  fda_approval() {
     return this.belongsTo('FDAApproval');
   },
-  toJSONSummary: function () {
+  toJSONSummary() {
     const isEmptyPlainObject = (value) => _.isPlainObject(value) && _.isEmpty(value);
-    const isNilOrEmptyPlainObject = (value) => _.isNil(value) || isEmptyPlainObject(value)
+    const isNilOrEmptyPlainObject = (value) => _.isNil(value) || isEmptyPlainObject(value);
     const attributes = Object.assign(
       this.toJSON(),
       {
@@ -73,7 +74,7 @@ const Document = BaseModel.extend({
 
     return _.omitBy(attributes, isNilOrEmptyPlainObject);
   },
-  toJSONWithoutPages: function () {
+  toJSONWithoutPages() {
     const attributes = this.toJSON();
 
     if (attributes.file !== undefined) {
@@ -83,7 +84,7 @@ const Document = BaseModel.extend({
     return attributes;
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
   },
