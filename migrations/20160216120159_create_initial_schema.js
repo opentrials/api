@@ -51,7 +51,7 @@ exports.up = (knex) => {
       .notNullable();
     table.text('study_design')
       .notNullable();
-    table.text('study_phase')
+    table.jsonb('study_phase')
       .notNullable();
 
     table.jsonb('primary_outcomes')

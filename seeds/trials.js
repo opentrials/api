@@ -260,7 +260,7 @@ exports.seed = (knex) => {
       eligibility_criteria: JSON.stringify([]),
       study_type: 'Interventional',
       study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Treatment',
-      study_phase: 'Phase 1',
+      study_phase: JSON.stringify(['Phase 1']),
       target_sample_size: 2000,
       gender: 'both',
       has_published_results: true,
@@ -331,7 +331,7 @@ exports.seed = (knex) => {
       eligibility_criteria: JSON.stringify([]),
       study_type: 'Observational',
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
-      study_phase: 'N/A',
+      study_phase: JSON.stringify(['N/A']),
       target_sample_size: 250,
       locations: [
         {
