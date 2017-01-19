@@ -15,7 +15,7 @@ const FDAApproval = BaseModel.extend({
     'notes',
     'fda_application',
   ],
-  fda_application: function () {
+  fda_application() {
     return this.belongsTo('FDAApplication');
   },
 });

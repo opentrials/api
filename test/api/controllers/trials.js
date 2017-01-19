@@ -1,7 +1,6 @@
 'use strict';
 
 const should = require('should');
-const Trial = require('../../../api/models/trial');
 const Record = require('../../../api/models/record');
 
 describe('Trials', () => {
@@ -20,7 +19,7 @@ describe('Trials', () => {
     it('returns the Trial', () => (
       factory.create('trialWithRelated')
         .then((trial) => (
-          server.inject('/v1/trials/'+trial.attributes.id)
+          server.inject(`/v1/trials/${trial.attributes.id}`)
             .then((response) => {
               response.statusCode.should.equal(200);
 
@@ -46,7 +45,7 @@ describe('Trials', () => {
     it('returns the records', () => (
       factory.create('record')
         .then((record) => (
-          server.inject('/v1/trials/'+record.attributes.trial_id+'/records/'+record.attributes.id)
+          server.inject(`/v1/trials/${record.attributes.trial_id}/records/${record.attributes.id}`)
             .then((response) => {
               response.statusCode.should.equal(200);
 
@@ -63,15 +62,15 @@ describe('Trials', () => {
 
   describe('GET /v1/trials/{id}/records', () => {
     it('returns an array with all trial\'s records', () => {
-      let trial_id;
+      let trialId;
       let records;
 
       return factory.create('trial')
-        .then((trial) => trial_id = trial.attributes.id)
-        .then(() => factory.createMany('record', { trial_id }, 2))
-        .then(() => Record.query({ where: { trial_id } }).fetchAll({ withRelated: ['source'] }))
-        .then((_records) => records = _records)
-        .then(() => server.inject(`/v1/trials/${trial_id}/records`))
+        .then((trial) => (trialId = trial.attributes.id))
+        .then(() => factory.createMany('record', { trial_id: trialId }, 2))
+        .then(() => Record.query({ where: { trial_id: trialId } }).fetchAll({ withRelated: ['source'] }))
+        .then((_records) => (records = _records))
+        .then(() => server.inject(`/v1/trials/${trialId}/records`))
         .then((response) => {
           response.statusCode.should.equal(200);
 
@@ -80,14 +79,14 @@ describe('Trials', () => {
         });
     });
 
-    it('returns empty array if the trial has no records', () => {
-      return server.inject('/v1/trials/00000000-0000-0000-0000-000000000000/records')
+    it('returns empty array if the trial has no records', () => (
+      server.inject('/v1/trials/00000000-0000-0000-0000-000000000000/records')
         .then((response) => {
           response.statusCode.should.equal(200);
 
           const result = JSON.parse(response.result);
           should(result).deepEqual([]);
-        });
-    });
+        })
+    ));
   });
 });

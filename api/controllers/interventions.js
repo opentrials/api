@@ -5,7 +5,7 @@ const Intervention = require('../models/intervention');
 function getIntervention(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Intervention({ id: id }).fetch({})
+  return new Intervention({ id }).fetch({})
     .then((intervention) => {
       if (intervention) {
         res.json(intervention);
@@ -22,4 +22,4 @@ function getIntervention(req, res) {
 
 module.exports = {
   getIntervention,
-}
+};

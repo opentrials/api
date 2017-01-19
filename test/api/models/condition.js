@@ -21,14 +21,14 @@ describe('Condition', () => {
         }).then((condition) => {
           const trialsIds = condition.related('trials').models.map((trial) => trial.id);
           should(trialsIds).containEql(trialId);
-        })
-    })
+        });
+    });
   });
 
   describe('url', () => {
-    it('returns the url', () => {
-      return factory.build('condition')
-        .then((condition) => should(condition.toJSON().url).eql(helpers.urlFor(condition)));
-    });
+    it('returns the url', () => (
+      factory.build('condition')
+        .then((condition) => should(condition.toJSON().url).eql(helpers.urlFor(condition)))
+    ));
   });
 });

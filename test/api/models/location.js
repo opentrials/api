@@ -1,13 +1,12 @@
 'use strict';
 
 const should = require('should');
-const helpers = require('../../../api/helpers');
 const Location = require('../../../api/models/location');
 
 describe('Location', () => {
-  before(clearDB)
+  before(clearDB);
 
-  afterEach(clearDB)
+  afterEach(clearDB);
 
   describe('trials', () => {
     it('returns trials related to the location', () => {
@@ -21,7 +20,7 @@ describe('Location', () => {
         }).then((loc) => {
           const trialsIds = loc.related('trials').models.map((trial) => trial.id);
           should(trialsIds).containEql(trialId);
-        })
-    })
+        });
+    });
   });
 });

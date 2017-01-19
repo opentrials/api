@@ -12,11 +12,11 @@ const Condition = BaseModel.extend({
     'id',
     'name',
   ],
-  trials: function () {
+  trials() {
     return this.belongsToMany('Trial', 'trials_conditions');
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
   },

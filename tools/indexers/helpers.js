@@ -1,3 +1,5 @@
+/* eslint-disable no-console, max-len */
+
 'use strict';
 
 const Promise = require('bluebird');
@@ -5,13 +7,11 @@ const client = require('../../config').elasticsearch;
 
 const defaultBatchSize = 1000;
 
-function indexModel(model, index, indexType, _queryParams, fetchOptions, entitiesConverter, batchSize) {
+function indexModel(model, index, indexType, _queryParams, fetchOptions, entitiesConverter, _batchSize) {
+  const batchSize = _batchSize || defaultBatchSize;
   let converter = entitiesConverter;
   if (converter === undefined) {
     converter = (entities) => entities;
-  }
-  if (batchSize === undefined) {
-    batchSize = defaultBatchSize;
   }
 
   return model.query(_queryParams).count().then((modelCount) => {
@@ -67,10 +67,14 @@ function _bulkIndexEntities(entities, index, indexType) {
 
     if (entity._parent !== undefined) {
       action.index._parent = entity._parent;
-      delete entity._parent;
+      delete entity._parent;  // eslint-disable-line no-param-reassign
     }
 
-    return result.concat([action, entity]);
+    return [
+      ...result,
+      action,
+      entity,
+    ];
   }, []);
 
   let result;
@@ -85,4 +89,4 @@ function _bulkIndexEntities(entities, index, indexType) {
 
 module.exports = {
   indexModel,
-}
+};

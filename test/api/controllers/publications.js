@@ -1,7 +1,5 @@
 'use strict';
 
-const Publication = require('../../../api/models/publication');
-
 describe('Publication', () => {
   before(clearDB);
 
@@ -19,7 +17,7 @@ describe('Publication', () => {
       let publication;
 
       return factory.create('publication')
-        .then((_publication) => publication = _publication)
+        .then((_publication) => (publication = _publication))
         .then(() => server.inject(`/v1/publications/${publication.attributes.id}`))
         .then((response) => {
           response.statusCode.should.equal(200);
