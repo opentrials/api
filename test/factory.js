@@ -152,7 +152,7 @@ const trialAttributes = {
   eligibility_criteria: [],
   study_type: 'study_type',
   study_design: 'study_design',
-  study_phase: 'study_phase',
+  study_phase: ['study_phase'],
 };
 
 factory.define('trial', Trial, trialAttributes);
