@@ -540,6 +540,7 @@ definitions:
           - suspended
           - terminated
           - complete
+          - unknown
           - other
       recruitment_status:
         type: string
@@ -809,6 +810,7 @@ definitions:
           - suspended
           - terminated
           - complete
+          - unknown
           - other
       recruitment_status:
         type: string
