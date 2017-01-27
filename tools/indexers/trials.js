@@ -285,6 +285,9 @@ const trialMapping = {
     has_published_results: {
       type: 'boolean',
     },
+    is_registered: {
+      type: 'boolean',
+    },
     recruitment_status: {
       type: 'string',
       index: 'not_analyzed',

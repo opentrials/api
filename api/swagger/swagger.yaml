@@ -519,6 +519,9 @@ definitions:
       has_published_results:
         type: boolean
         description: Trial has its results published (true/false)
+      is_registered:
+        type: boolean
+        description: Whether the trial is registered in a clinical trial registry
       registration_date:
         type: string
         description: Date the trial was registered

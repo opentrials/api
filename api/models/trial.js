@@ -161,6 +161,7 @@ const Trial = BaseModel.extend({
           data[source.id] = {
             id: source.id,
             name: source.name,
+            type: source.type,
             source_url: source.source_url,
           };
         }
@@ -209,6 +210,12 @@ const Trial = BaseModel.extend({
       }
 
       return discrepancies;
+    },
+    is_registered() {
+      // Be aware that this depends on `source_id` to be accurate
+      // So if a trial has a `nct` source but a `pubmed` source_id, the bug is elsewhere
+      const source = this.sources[this.attributes.source_id];
+      return source.type === 'register';
     },
   },
 }, {
