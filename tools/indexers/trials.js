@@ -336,5 +336,5 @@ module.exports = {
   },
   indexer: (indexName) => (
     esHelpers.indexModel(Trial, indexName, 'trial', {}, { withRelated: Trial.relatedModels })
-  )
-}
+  ),
+};

@@ -53,16 +53,16 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "e2e": "mocha --grep e2e",
-    "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert",
+    "e2e": "mocha --harmony_rest_parameters --grep e2e",
+    "test": "node --harmony_rest_parameters ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert",
     "posttest": "npm run lint",
-    "lint": "eslint *.js **/*.js",
+    "lint": "eslint .",
     "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
-    "dev": "nodemon server.js",
-    "reindex": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./tools/reindex.js"
+    "start": "node --harmony_rest_parameters --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
+    "dev": "nodemon --harmony_rest_parameters server.js",
+    "reindex": "node --harmony_rest_parameters --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./tools/reindex.js"
   }
 }

@@ -21,10 +21,10 @@ const RiskOfBias = BaseModel.extend({
     'updated_at',
     'source',
   ],
-  source: function () {
+  source() {
     return this.belongsTo('Source', 'source_id');
   },
-  risk_of_bias_criteria: function() {
+  risk_of_bias_criteria() {
     return this.belongsToMany('RiskOfBiasCriteria', 'risk_of_biases_risk_of_bias_criterias',
       'risk_of_bias_id', 'risk_of_bias_criteria_id').withPivot(['value']);
   },

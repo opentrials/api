@@ -2,9 +2,10 @@
 
 const bookshelf = require('../../config').bookshelf;
 const BaseModel = require('./base');
-const Trial = require('./trial');
-const Source = require('./source');
 const helpers = require('../helpers');
+require('./trial');
+require('./source');
+
 const relatedModels = [
   'trial',
   'source',
@@ -33,13 +34,13 @@ const Record = BaseModel.extend({
     'created_at',
     'updated_at',
   ],
-  trial: function () {
+  trial() {
     return this.belongsTo('Trial');
   },
-  source: function () {
+  source() {
     return this.belongsTo('Source', 'source_id');
   },
-  toJSONSummary: function () {
+  toJSONSummary() {
     const attributes = this.toJSON();
     const result = {
       id: attributes.id,
@@ -64,12 +65,12 @@ const Record = BaseModel.extend({
     return result;
   },
   virtuals: {
-    url: function () {
+    url() {
       const fakeTrial = { id: this.attributes.trial_id, tableName: 'trials' };
       const fakeRecord = { id: this.id, tableName: 'records' };
       return helpers.urlFor([fakeTrial, fakeRecord]);
     },
-    trial_url: function () {
+    trial_url() {
       const fakeTrial = { id: this.attributes.trial_id, tableName: 'trials' };
       return helpers.urlFor(fakeTrial);
     },

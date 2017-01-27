@@ -14,10 +14,10 @@ describe('Record', () => {
       'trial',
       'source',
     ]);
-  })
+  });
 
-  it('defines url and trial_url', () => {
-    return factory.create('record')
+  it('defines url and trial_url', () => (
+    factory.create('record')
       .then((record) => {
         const trial = record.related('trial');
         const fakeRecord = { id: record.id, tableName: 'records' };
@@ -26,11 +26,11 @@ describe('Record', () => {
           url: helpers.urlFor([trial, fakeRecord]),
           trial_url: helpers.urlFor(trial),
         });
-      });
-  });
+      })
+  ));
 
-  it('#toJSONSummary returns simplified record representation', () => {
-    return factory.create('record').then((record) => {
+  it('#toJSONSummary returns simplified record representation', () => (
+    factory.create('record').then((record) => {
       const recordJSON = record.toJSON();
 
       record.toJSONSummary().should.deepEqual({
@@ -42,6 +42,6 @@ describe('Record', () => {
         updated_at: recordJSON.updated_at,
         last_verification_date: recordJSON.last_verification_date,
       });
-    });
-  });
+    })
+  ));
 });

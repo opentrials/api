@@ -5,7 +5,7 @@ const Condition = require('../models/condition');
 function getCondition(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Condition({ id: id }).fetch({})
+  return new Condition({ id }).fetch({})
     .then((condition) => {
       if (condition) {
         res.json(condition);
@@ -22,4 +22,4 @@ function getCondition(req, res) {
 
 module.exports = {
   getCondition,
-}
+};

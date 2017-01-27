@@ -4,14 +4,21 @@ const should = require('should');
 const sinon = require('sinon');
 const elasticsearch = require('../../../config').elasticsearch;
 
+const EMPTY_ES_RESPONSE = {
+  hits: {
+    total: 0,
+    hits: [],
+  },
+};
+
 
 describe('Search', () => {
-  before(clearDB)
+  before(clearDB);
 
-  afterEach(clearDB)
+  afterEach(clearDB);
 
   beforeEach(() => {
-    sinon.stub(elasticsearch, 'search')
+    sinon.stub(elasticsearch, 'search');
   });
 
   afterEach(() => {
@@ -85,7 +92,7 @@ describe('Search', () => {
             total_count: 0,
             items: [],
           });
-        })
+        });
     });
 
     it('returns the found entities adding the page inner_hits page to doc.file.pages', () => {
@@ -217,7 +224,7 @@ function basicSearchTests(url, factoryName) {
             total_count: 0,
             items: [],
           });
-        })
+        });
     });
 
     it('returns the found entities', () => {
@@ -239,9 +246,9 @@ function basicSearchTests(url, factoryName) {
           response.statusCode.should.equal(200);
           JSON.parse(response.result).should.deepEqual({
             total_count: items.length,
-            items: items,
+            items,
           });
-        })
+        });
     });
 
     it('defines the default operator as AND', () => {
@@ -284,33 +291,33 @@ function paginationTests(url) {
       elasticsearch.search.returns(Promise.resolve(EMPTY_ES_RESPONSE));
     });
 
-    it('defaults to first page and 20 items per page', () => {
-      return server.inject(url)
+    it('defaults to first page and 20 items per page', () => (
+      server.inject(url)
         .then(() => {
           elasticsearch.search.calledWithMatch({ from: 0, size: 20 }).should.be.true();
-        });
-    });
+        })
+    ));
 
-    it('allows getting other pages', () => {
-      return server.inject(`${url}?page=3&per_page=20`)
+    it('allows getting other pages', () => (
+      server.inject(`${url}?page=3&per_page=20`)
         .then(() => {
           elasticsearch.search.calledWithMatch({ from: 40, size: 20 }).should.be.true();
-        });
-    });
+        })
+    ));
 
-    it('allows changing number of items per page', () => {
-      return server.inject(`${url}?per_page=33`)
+    it('allows changing number of items per page', () => (
+      server.inject(`${url}?per_page=33`)
         .then(() => {
           elasticsearch.search.calledWithMatch({ from: 0, size: 33 }).should.be.true();
-        });
-    });
+        })
+    ));
 
     it('total_count contains the number of items in total, not per page', () => {
       const esResult = {
         hits: {
           total: 51,
-          hits: []
-        }
+          hits: [],
+        },
       };
 
       elasticsearch.search.returns(Promise.resolve(esResult));
@@ -323,54 +330,54 @@ function paginationTests(url) {
         });
     });
 
-    it('validates that page is greater than 1', () => {
+    it('validates that page is greater than 1', () => (
       // FIXME: Should return error HTTP status code
-      return server.inject(`${url}?page=0`)
+      server.inject(`${url}?page=0`)
         .then((response) => {
           const result = JSON.parse(response.result);
 
           should(result.failedValidation).be.true();
           should(result.code).equal('MINIMUM');
           should(result.paramName).equal('page');
-        });
-    });
+        })
+    ));
 
-    it('validates that page is smaller than 100', () => {
+    it('validates that page is smaller than 100', () => (
       // FIXME: Should return error HTTP status code
-      return server.inject(`${url}?page=101`)
+      server.inject(`${url}?page=101`)
         .then((response) => {
           const result = JSON.parse(response.result);
 
           should(result.failedValidation).be.true();
           should(result.code).equal('MAXIMUM');
           should(result.paramName).equal('page');
-        });
-    });
+        })
+    ));
 
-    it('validates that items per page is greater than 10', () => {
+    it('validates that items per page is greater than 10', () => (
       // FIXME: Should return error HTTP status code
-      return server.inject(`${url}?per_page=9`)
+      server.inject(`${url}?per_page=9`)
         .then((response) => {
           const result = JSON.parse(response.result);
 
           should(result.failedValidation).be.true();
           should(result.code).equal('MINIMUM');
           should(result.paramName).equal('per_page');
-        });
-    });
+        })
+    ));
 
-    it('validates that items per page is smaller than 100', () => {
+    it('validates that items per page is smaller than 100', () => (
       // FIXME: Should return error HTTP status code
-      return server.inject(`${url}?per_page=101`)
+      server.inject(`${url}?per_page=101`)
         .then((response) => {
           const result = JSON.parse(response.result);
 
           should(result.failedValidation).be.true();
           should(result.code).equal('MAXIMUM');
           should(result.paramName).equal('per_page');
-        });
-    });
-  }
+        })
+    ));
+  };
 }
 
 function autocompleteTests(url, factoryName) {
@@ -406,11 +413,3 @@ function autocompleteTests(url, factoryName) {
     });
   };
 }
-
-
-const EMPTY_ES_RESPONSE = {
-  hits: {
-    total: 0,
-    hits: [],
-  },
-};

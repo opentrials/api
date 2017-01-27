@@ -12,12 +12,12 @@ const Organisation = BaseModel.extend({
     'id',
     'name',
   ],
-  trials: function () {
+  trials() {
     return this.belongsToMany('Trial', 'trials_organisations',
       'organisation_id', 'trial_id').withPivot(['role']);
   },
   virtuals: {
-    url: function () {
+    url() {
       return helpers.urlFor(this);
     },
   },

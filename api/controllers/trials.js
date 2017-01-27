@@ -6,7 +6,7 @@ const Record = require('../models/record');
 function getTrial(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Trial({ id: id }).fetch({ withRelated: Trial.relatedModels })
+  return new Trial({ id }).fetch({ withRelated: Trial.relatedModels })
     .then((trial) => {
       if (trial) {
         res.json(trial);
@@ -24,7 +24,7 @@ function getTrial(req, res) {
 function getRecord(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Record({ id: id }).fetch({ withRelated: Record.relatedModels })
+  return new Record({ id }).fetch({ withRelated: Record.relatedModels })
     .then((record) => {
       if (record) {
         res.json(record);
@@ -56,4 +56,4 @@ module.exports = {
   getTrial,
   getRecord,
   getRecords,
-}
+};

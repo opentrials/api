@@ -13,10 +13,10 @@ describe('Publication', () => {
     should(Publication.relatedModels).deepEqual([
       'source',
     ]);
-  })
+  });
 
-  it('#toJSONSummary returns simplified record representation', () => {
-    return factory.create('publication')
+  it('#toJSONSummary returns simplified record representation', () => (
+    factory.create('publication')
       .then((publication) => {
         publication.toJSONSummary().should.deepEqual({
           id: publication.attributes.id,
@@ -25,13 +25,13 @@ describe('Publication', () => {
           source_id: publication.attributes.source_id,
           source_url: publication.attributes.source_url,
         });
-      });
-  });
+      })
+  ));
 
   describe('url', () => {
-    it('returns the url', () => {
-      return factory.build('publication')
-        .then((publication) => should(publication.toJSON().url).eql(helpers.urlFor(publication)));
-    });
+    it('returns the url', () => (
+      factory.build('publication')
+        .then((publication) => should(publication.toJSON().url).eql(helpers.urlFor(publication)))
+    ));
   });
 });

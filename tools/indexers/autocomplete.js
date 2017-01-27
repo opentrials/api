@@ -85,7 +85,7 @@ function indexer(indexName) {
     .then(() => indexAutocompleteModel(Intervention, indexName, 'intervention'))
     .then(() => indexAutocompleteModel(Location, indexName, 'location'))
     .then(() => indexAutocompleteModel(Person, indexName, 'person'))
-    .then(() => indexAutocompleteModel(Organisation, indexName, 'organisation'))
+    .then(() => indexAutocompleteModel(Organisation, indexName, 'organisation'));
 }
 
 
@@ -93,4 +93,4 @@ module.exports = {
   alias: 'autocomplete',
   index: autocompleteIndex,
   indexer,
-}
+};

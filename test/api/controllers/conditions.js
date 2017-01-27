@@ -1,7 +1,5 @@
 'use strict';
 
-const Condition = require('../../../api/models/condition');
-
 describe('Conditions', () => {
   before(clearDB);
 
@@ -16,8 +14,8 @@ describe('Conditions', () => {
     ));
 
     it('returns the Condition', () => (
-      factory.create('condition').then((model) => {
-        return server.inject('/v1/conditions/' + model.attributes.id)
+      factory.create('condition').then((model) => (
+        server.inject(`/v1/conditions/${model.attributes.id}`)
           .then((response) => {
             response.statusCode.should.equal(200);
 
@@ -26,7 +24,7 @@ describe('Conditions', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
   });
 });

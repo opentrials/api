@@ -5,7 +5,7 @@ const Organisation = require('../models/organisation');
 function getOrganisation(req, res) {
   const id = req.swagger.params.id.value;
 
-  return new Organisation({ id: id }).fetch({})
+  return new Organisation({ id }).fetch({})
     .then((organisation) => {
       if (organisation) {
         res.json(organisation);
@@ -22,4 +22,4 @@ function getOrganisation(req, res) {
 
 module.exports = {
   getOrganisation,
-}
+};

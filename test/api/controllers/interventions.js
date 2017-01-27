@@ -1,7 +1,5 @@
 'use strict';
 
-const Intervention = require('../../../api/models/intervention');
-
 describe('Interventions', () => {
   before(clearDB);
 
@@ -16,8 +14,8 @@ describe('Interventions', () => {
     ));
 
     it('returns the Intervention', () => (
-      factory.create('intervention').then((model) => {
-        return server.inject('/v1/interventions/' + model.attributes.id)
+      factory.create('intervention').then((model) => (
+        server.inject(`/v1/interventions/${model.attributes.id}`)
           .then((response) => {
             response.statusCode.should.equal(200);
 
@@ -26,7 +24,7 @@ describe('Interventions', () => {
 
             result.should.deepEqual(expectedResult);
           })
-      })
+      ))
     ));
   });
 });

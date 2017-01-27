@@ -57,7 +57,7 @@ function _convertFDADocumentsElasticSearchResult(esResult) {
           return {
             text,
             num: page._source.num,
-          }
+          };
         });
       }
 
@@ -150,7 +150,7 @@ function searchFDADocuments(req, res) {
               },
             },
           ],
-        }
+        },
       },
     },
   };
@@ -188,11 +188,11 @@ function autocomplete(req, res) {
           name: params.q.value,
         },
       },
-    }
+    };
   } else {
     // Return all results
     searchQuery.q = undefined;
-  };
+  }
 
   return client.search(searchQuery)
     .then(_convertElasticSearchResult)
