@@ -31,6 +31,7 @@ const relatedModels = [
   'documents.source',
   'documents.fda_approval',
   'documents.fda_approval.fda_application',
+  'documents.document_category',
   'risks_of_bias',
   'risks_of_bias.source',
   'risks_of_bias.risk_of_bias_criteria',

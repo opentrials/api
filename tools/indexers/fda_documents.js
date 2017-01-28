@@ -21,12 +21,24 @@ const fdaDocumentMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
-    type: {
-      type: 'string',
-    },
     url: {
       type: 'string',
       index: 'not_analyzed',
+    },
+    document_category: {
+      properties: {
+        id: {
+          type: 'integer',
+        },
+        name: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        group: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+      },
     },
     fda_approval: {
       properties: {

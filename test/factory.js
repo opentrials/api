@@ -18,6 +18,7 @@ const RiskOfBias = require('../api/models/risk_of_bias');
 const RiskOfBiasCriteria = require('../api/models/risk_of_bias_criteria');
 const FDAApplication = require('../api/models/fda_application');
 const FDAApproval = require('../api/models/fda_approval');
+const DocumentCategory = require('../api/models/document_category');
 
 factory.define('publication', Publication, {
   id: () => uuid.v1(),
@@ -83,11 +84,17 @@ factory.define('file', File, {
   ],
 });
 
+factory.define('document_category', DocumentCategory, {
+  id: factory.sequence(),
+  name: factory.sequence((n) => `Subcategory ${n}`),
+  group: factory.sequence((n) => `Category ${n}`),
+});
+
 const documentAttributes = {
   id: () => uuid.v1(),
   source_id: factory.assoc('source', 'id'),
   name: factory.sequence((n) => `Document ${n}`),
-  type: 'other',
+  document_category_id: factory.assoc('document_category', 'id'),
 };
 
 factory.define('document', Document, Object.assign(
