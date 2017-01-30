@@ -13,7 +13,7 @@ The OpenTrials API service.
 
 ### Requirements
 
-* Node 5.8
+* Node 6.9
 * PostgreSQL 9.4
 * ElasticSearch 2.3.5
 

@@ -18,7 +18,7 @@
     "Vitor Baptista <vitor@vitorbaptista.com> (http://vitorbaptista.com)"
   ],
   "engines": {
-    "node": "5.8.0"
+    "node": "6.9.4"
   },
   "dependencies": {
     "bluebird": "^3.4.6",
@@ -47,22 +47,22 @@
     "factory-girl-bookshelf": "^1.0.3",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
-    "nodemon": "^1.10.2",
+    "nodemon": "^1.11.0",
     "should": "^11.1.0",
     "sinon": "^1.17.3",
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "e2e": "mocha --harmony_rest_parameters --grep e2e",
-    "test": "node --harmony_rest_parameters ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert",
+    "e2e": "mocha --grep e2e",
+    "test": "node ./node_modules/.bin/istanbul cover _mocha -- --grep e2e --invert",
     "posttest": "npm run lint",
     "lint": "eslint .",
     "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "start": "node --harmony_rest_parameters --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
-    "dev": "nodemon --harmony_rest_parameters server.js",
-    "reindex": "node --harmony_rest_parameters --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./tools/reindex.js"
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
+    "dev": "nodemon server.js",
+    "reindex": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./tools/reindex.js"
   }
 }
