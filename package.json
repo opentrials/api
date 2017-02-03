@@ -60,7 +60,7 @@
     "precoveralls": "npm test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
+    "seed": "[ \"$NODE_ENV\" != \"production\" ] && knex seed:run || echo Can\\'t run seed in production",
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
     "dev": "nodemon server.js",
     "reindex": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./tools/reindex.js"
