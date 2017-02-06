@@ -21,6 +21,7 @@ function clearDB() {
     'trials_organisations',
     'trials_documents',
     'documents',
+    'document_categories',
     'fda_approvals',
     'fda_applications',
     'organisations',

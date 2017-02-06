@@ -18,12 +18,12 @@ describe('Document', () => {
             id: attributes.id,
             name: attributes.name,
             url: attributes.url,
-            type: attributes.type,
             source_id: doc.attributes.source_id,
             source_url: doc.related('file').attributes.source_url,
             file: doc.related('file').toJSONSummary(),
             trials: doc.related('trials').map((t) => t.toJSONSummary()),
             fda_approval: doc.related('fda_approval').toJSON(),
+            document_category: doc.related('document_category').toJSON(),
           };
 
           doc.toJSONSummary().should.deepEqual(expected);

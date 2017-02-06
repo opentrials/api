@@ -212,12 +212,29 @@ exports.seed = (knex) => {
     },
   ];
 
+  const documentCategories = [
+    {
+      id: 33,
+      name: 'Patient information sheet / Consent form',
+      group: 'Study documents',
+    },
+    {
+      id: 22,
+      name: 'Clinical study report',
+      group: 'Results',
+    },
+    {
+      id: 20,
+      name: 'Other',
+    },
+  ];
+
   const documents = [
     {
       id: '77b81059-19b2-4f5d-a00b-85b9c12b6002',
       source_id: sources.nct.id,
       name: 'Blank Consent Form',
-      type: 'blank_consent_form',
+      document_category_id: documentCategories[0].id,
       source_url: 'http://example.com/7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
     },
     {
@@ -225,14 +242,14 @@ exports.seed = (knex) => {
       source_id: sources.isrctn.id,
       file_id: files[1].id,
       name: 'Clinical Study Report (CSR)',
-      type: 'csr',
+      document_category_id: documentCategories[1].id,
     },
     {
       id: '7a80616a-9c2d-11e6-8e62-e4b3181a2c8c',
       source_id: sources.fda.id,
       file_id: files[0].id,
       name: 'FDA approval document',
-      type: 'other',
+      document_category_id: documentCategories[2].id,
       fda_approval_id: FDAApprovals[0].id,
     },
     {
@@ -240,7 +257,7 @@ exports.seed = (knex) => {
       source_id: sources.fda.id,
       file_id: files[1].id,
       name: 'FDA approval document',
-      type: 'other',
+      document_category_id: documentCategories[2].id,
       fda_approval_id: FDAApprovals[1].id,
     },
   ];
