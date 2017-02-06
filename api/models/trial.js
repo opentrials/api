@@ -34,6 +34,7 @@ const relatedModels = [
   'risks_of_bias',
   'risks_of_bias.source',
   'risks_of_bias.risk_of_bias_criteria',
+  'source',
 ];
 
 const Trial = BaseModel.extend({
@@ -59,6 +60,8 @@ const Trial = BaseModel.extend({
       Object.getPrototypeOf(Trial.prototype).serialize.call(this, args)
     );
     const relations = this.relations;
+    const ignoredRelations = ['source'];
+    const serializedRelations = _.difference(Object.keys(relations), ignoredRelations);
 
     attributes.locations = [];
     attributes.interventions = [];
@@ -67,7 +70,7 @@ const Trial = BaseModel.extend({
     attributes.organisations = [];
     attributes.risks_of_bias = [];
 
-    for (const relationName of Object.keys(relations)) {
+    for (const relationName of serializedRelations) {
       attributes[relationName] = relations[relationName].map((model) => {
         const attrs = model.toJSON();
 
@@ -121,6 +124,9 @@ const Trial = BaseModel.extend({
   risks_of_bias() {
     return this.hasMany('RiskOfBias');
   },
+  source() {
+    return this.belongsTo('Source', 'source_id');
+  },
   toJSONSummary() {
     const attributes = this.toJSON();
 
@@ -147,8 +153,12 @@ const Trial = BaseModel.extend({
       const robSources = this.related('risks_of_bias')
                              .toJSON()
                              .map((rob) => rob.source);
+      const trialSource = this.related('source').toJSON().id !== undefined ?
+            this.related('source').toJSON() :
+            undefined;
 
       const sources = [
+        trialSource,
         ...publicationsSources,
         ...documentsSources,
         ...recordsSources,
@@ -212,10 +222,12 @@ const Trial = BaseModel.extend({
       return discrepancies;
     },
     is_registered() {
-      // Be aware that this depends on `source_id` to be accurate
-      // So if a trial has a `nct` source but a `pubmed` source_id, the bug is elsewhere
-      const source = this.sources[this.attributes.source_id];
-      return source.type === 'register';
+      let status;
+      const source = this.sources[this.attributes.source_id] || { type: null };
+      if (source.type !== null) {
+        status = source.type === 'register';
+      }
+      return status;
     },
   },
 }, {

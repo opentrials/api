@@ -32,8 +32,15 @@ describe('Trial', () => {
       'risks_of_bias',
       'risks_of_bias.source',
       'risks_of_bias.risk_of_bias_criteria',
+      'source',
     ]);
   });
+
+  it('does not return its own source directly', () => (
+    factory.create('source', { id: 'nct' })
+      .then(() => factory.create('trial', { source_id: 'nct' }))
+      .then((trial) => (should(trial.toJSON().source).equal(undefined)))
+  ));
 
   describe('locations', () => {
     it('is an empty array if there\'re none', () => {
@@ -300,6 +307,14 @@ describe('Trial', () => {
           .then((trialId) => new Trial({ id: trialId }).fetch({ withRelated: ['documents', 'documents.source'] }))
           .then((trial) => should(trial.toJSON().sources).deepEqual({}))
       ));
+
+      it('returns its own source', () => (
+        factory.create('source')
+          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
+          .then((trial) => new Trial({ id: trial.attributes.id }).fetch({ withRelated: ['source'] }))
+          .then((trial) => (should(trial.toJSON().sources).have.key(trial.attributes.source_id))
+          )
+      ));
     });
 
     describe('discrepancies', () => {
@@ -415,6 +430,26 @@ describe('Trial', () => {
           ]))
           .then(() => new Trial({ id: trialId }).fetch({ withRelated: ['records', 'records.source'] }))
           .then((trial) => should(trial.discrepancies).be.undefined());
+      });
+    });
+    describe('is_registered', () => {
+      it('returns undefined if trial source is undefined', () => {
+        factory.create('source')
+          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
+          .then((trial) => new Trial({ id: trial.attributes.id }).fetch())
+          .then((trial) => (should(trial.toJSON().is_registered).be.undefined()));
+      });
+      it('returns true is trial source is a register', () => {
+        factory.create('source', { type: 'register' })
+          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
+          .then((trial) => new Trial({ id: trial.attributes.id }).fetch({ withRelated: ['source'] }))
+          .then((trial) => (should(trial.toJSON().is_registered).be.true()));
+      });
+      it('returns false is trial source is not a register', () => {
+        factory.create('source', { type: 'other' })
+          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
+          .then((trial) => new Trial({ id: trial.attributes.id }).fetch({ withRelated: ['source'] }))
+          .then((trial) => (should(trial.toJSON().is_registered).be.false()));
       });
     });
   });
