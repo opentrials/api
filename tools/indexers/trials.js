@@ -178,8 +178,20 @@ const trialMapping = {
           type: 'string',
           index: 'not_analyzed',
         },
-        type: {
-          type: 'string',
+        document_category: {
+          properties: {
+            id: {
+              type: 'integer',
+            },
+            name: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+            group: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+          },
         },
         url: {
           type: 'string',

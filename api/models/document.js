@@ -4,6 +4,7 @@ require('./file');
 require('./trial');
 require('./source');
 require('./fda_approval');
+require('./document_category');
 
 const _ = require('lodash');
 const helpers = require('../helpers');
@@ -16,6 +17,7 @@ const relatedModels = [
   'source',
   'fda_approval',
   'fda_approval.fda_application',
+  'document_category',
 ];
 
 const Document = BaseModel.extend({
@@ -23,12 +25,12 @@ const Document = BaseModel.extend({
   visible: [
     'id',
     'name',
-    'type',
     'file',
     'trials',
     'source',
     'source_url',
     'fda_approval',
+    'document_category',
   ],
   serialize(...args) {
     const attributes = Object.assign(
@@ -57,6 +59,9 @@ const Document = BaseModel.extend({
   fda_approval() {
     return this.belongsTo('FDAApproval');
   },
+  document_category() {
+    return this.belongsTo('DocumentCategory');
+  },
   toJSONSummary() {
     const isEmptyPlainObject = (value) => _.isPlainObject(value) && _.isEmpty(value);
     const isNilOrEmptyPlainObject = (value) => _.isNil(value) || isEmptyPlainObject(value);
@@ -67,6 +72,7 @@ const Document = BaseModel.extend({
         fda_approval: this.related('fda_approval').toJSON(),
         trials: this.related('trials').map((t) => t.toJSONSummary()),
         source_id: this.attributes.source_id,
+        document_category: this.related('document_category').toJSON(),
       }
     );
 
