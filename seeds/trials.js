@@ -131,6 +131,11 @@ exports.seed = (knex) => {
       name: 'U.S. Food and Drug Administration',
       type: 'other',
     },
+    pubmed: {
+      id: 'pubmed',
+      name: 'PubMed',
+      type: 'other',
+    },
   };
 
   const publications = {
@@ -424,7 +429,7 @@ exports.seed = (knex) => {
       trial_id: trials[1].id,
       source_id: sources.isrctn.id,
       source_url: 'http://www.isrctn.com/ISRCTN11631712',
-      is_primary: false,
+      is_primary: true,
       identifiers: { isrctn: 'ISRCTN11631712' },
       public_title: 'A randomised controlled trial of faecal occult blood screening for colorectal cancer',
       brief_summary: 'We are doing this study to learn more about colon and rectal cancer survivors. We want to know if survivors want more information about life after cancer. Do cancer survivors want to know more about their own cancer? Do cancer survivors want to know about their treatment? Do cancer survivors want to know what health care they should get in the future? We want to know what information to give to cancer survivors when they finish treatment.',
@@ -439,6 +444,27 @@ exports.seed = (knex) => {
       target_sample_size: 250,
       created_at: new Date('2016-01-20'),
       updated_at: new Date('2016-04-20'),
+    },
+    {
+      id: '8e1e260c-4dad-4cc6-bab5-eb414cbde32d',
+      trial_id: trials[1].id,
+      source_id: sources.nct.id,
+      source_url: 'https://clinicaltrials.gov/ct2/show/NCT00403793',
+      is_primary: false,
+      identifiers: { nct: 'NCT00403793' },
+      public_title: 'Hormonal Contraception in Healthy Young Men (P42306)(COMPLETED)(P06057)',
+      brief_summary: 'Male volunteers receive a new hormonal contraceptive consisting of an implant releasing a hormone and hormone injections in order to investigate the suppressive effect on sperm production and reversibility of sperm production after end of treatment.',
+      registration_date: new Date('2006-11-22'),
+      last_verification_date: new Date('2015-07-01'),
+      status: 'complete',
+      recruitment_status: 'not_recruiting',
+      eligibility_criteria: JSON.stringify([]),
+      study_type: 'Interventional',
+      study_design: 'Allocation: Randomized, Endpoint Classification: Safety/Efficacy Study, Intervention Model: Parallel Assignment, Masking: Double Blind (Subject, Investigator), Primary Purpose: Prevention',
+      study_phase: ['Phase 2'],
+      target_sample_size: 350,
+      created_at: new Date('2016-12-05'),
+      updated_at: new Date('2017-01-18'),
     },
   ];
 
