@@ -18,7 +18,6 @@ exports.up = (knex) => (
   knex.schema.table('documents', (table) =>
     table.integer('document_category_id')
       .references('document_categories.id')
-      .notNullable()
   )
   .then(() =>
     Promise.map(_.keys(typeToCategoryMapping), (type) =>
@@ -28,16 +27,19 @@ exports.up = (knex) => (
   )
   .then(() =>
     knex('documents').where({ type: 'results', source_id: 'euctr' })
-      .update('document_category_id', 24)
+      .update('document_category_id', typeToCategoryMapping.epar_segment)
   )
   .then(() =>
     knex('documents').where({ type: 'results', source_id: 'nct' })
-      .update('document_category_id', 22)
+      .update('document_category_id', typeToCategoryMapping.csr)
   )
   .then(() =>
     knex.schema.table('documents', (table) =>
       table.dropColumn('type')
     )
+  )
+  .then(() =>
+    knex.schema.raw('ALTER TABLE documents ALTER COLUMN document_category_id SET NOT NULL')
   )
 );
 
