@@ -47,7 +47,11 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions, entitie
       offset += batchSize;
     } while (offset <= modelCount);
 
-    return chain.catch(console.error);
+    return chain
+      .catch((err) => {
+        console.error(err);
+        process.exit(-1);
+      });
   });
 }
 
