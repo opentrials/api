@@ -3,9 +3,13 @@
 exports.up = (knex) => (
   knex.schema
     .createTable('trial_deduplication_logs', (table) => {
+      table.increments();
+      
       table.uuid('record_id')
-        .primary();
-      table.uuid('trial_id');
+        .references('records.id');
+      
+      table.uuid('trial_id')
+            .references('trials.id');
 
       table.text('method')
         .notNullable();
@@ -16,12 +20,6 @@ exports.up = (knex) => (
       table.timestamps(true, true);
 
     })
-    .raw(`ALTER TABLE trial_deduplication_logs ADD CONSTRAINT   
-            trial_deduplication_logs_trials_id_foreign  FOREIGN KEY 
-            (trial_id) REFERENCES trials (id);`)
-    .raw(`ALTER TABLE trial_deduplication_logs ADD CONSTRAINT  
-            trial_deduplication_logs_records_id_foreign FOREIGN KEY 
-            (record_id) REFERENCES records (id);`)
 );
 
 exports.down = (knex) => (
