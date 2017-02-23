@@ -73,7 +73,7 @@ function _bulkIndexEntities(entities, index, indexType) {
     return [
       ...result,
       action,
-      entity,
+      JSON.parse(JSON.stringify(entity)),
     ];
   }, []);
 
