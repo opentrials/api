@@ -471,31 +471,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /document_categories/{id}:
-    x-swagger-router-controller: document_categories
-    get:
-      tags:
-        - document_categories
-      description: Returns a single document category
-      operationId: getDocumentCategory
-      parameters:
-        - name: id
-          in: path
-          description: ID of the document
-          required: true
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/DocumentCategory"
-        "404":
-          description: Category not found
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /document_categories:
     x-swagger-router-controller: document_categories
     get:
