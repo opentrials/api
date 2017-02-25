@@ -74,11 +74,10 @@ function _bulkIndexEntities(entities, index, indexType) {
       delete entity._parent;  // eslint-disable-line no-param-reassign
     }
 
-    return [
-      ...result,
+    return result.concat([
       action,
-      JSON.parse(JSON.stringify(entity)),
-    ];
+      entity,
+    ]);
   }, []);
 
   let result;
