@@ -471,6 +471,23 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /document_categories:
+    x-swagger-router-controller: document_categories
+    get:
+      tags:
+        - document_categories
+      description: Returns document categories
+      operationId: listDocumentCategories
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DocumentCategoryList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 definitions:
   Trial:
     type: object
@@ -1065,6 +1082,19 @@ definitions:
       name:
         type: string
         description: Name of document sub-category
+
+  DocumentCategoryList:
+    type: object
+    required:
+      - total_count
+      - items
+    properties:
+      total_count:
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentCategory'
 
   DocumentList:
     type: object
