@@ -551,6 +551,11 @@ definitions:
         type: string
         description: Date when a certification of exemption has been filed for the trial
         format: date-time
+      study_phase:
+        type: array
+        description: Phases of the study (e.g. `["Phase 2"]` or `["Phase 1", "Phase 2"]`)
+        items:
+          type: string
       status:
         type: string
         description: Completion status of the trial

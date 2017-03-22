@@ -312,6 +312,10 @@ const trialMapping = {
       type: 'date',
       format: 'dateOptionalTime',
     },
+    study_phase: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
   },
 };
 
