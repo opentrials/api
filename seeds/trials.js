@@ -141,8 +141,6 @@ exports.seed = (knex) => {
   const publications = {
     publication1: {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe00',
-      created_at: new Date('2016-01-01'),
-      updated_at: new Date('2016-04-01'),
       source_id: sources.nct.id,
       source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
       title: 'Test title1',
@@ -151,8 +149,6 @@ exports.seed = (knex) => {
     },
     publication2: {
       id: '7cd88d88-031d-11e6-b512-3e1d05defe01',
-      created_at: new Date('2016-01-01'),
-      updated_at: new Date('2016-04-01'),
       source_id: sources.nct.id,
       source_url: 'https://clinicaltrials.gov/ct2/show/NCT00000774',
       title: 'Test title2',
@@ -421,8 +417,6 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       has_published_results: true,
-      created_at: new Date('2016-01-01'),
-      updated_at: new Date('2016-04-01'),
     },
     {
       id: '2e3406c4-031f-11e6-b512-3e1d05defe78',
@@ -442,8 +436,6 @@ exports.seed = (knex) => {
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
       study_phase: ['Not applicable'],
       target_sample_size: 250,
-      created_at: new Date('2016-01-20'),
-      updated_at: new Date('2016-04-20'),
     },
     {
       id: '8e1e260c-4dad-4cc6-bab5-eb414cbde32d',
@@ -472,22 +464,16 @@ exports.seed = (knex) => {
     {
       id: '756b06ca-8414-11e6-a6fa-e4b3181a2c8c',
       name: 'blinding',
-      created_at: new Date('2016-01-02'),
-      updated_at: new Date('2016-02-01'),
     },
     {
       id: '7036b016-841c-11e6-a6fa-e4b3181a2c8c',
       name: 'detection bias',
-      created_at: new Date('2016-01-02'),
-      updated_at: new Date('2016-02-01'),
     },
   ];
 
   const riskOfBiases = [
     {
       id: 'fbc67980-83af-11e6-831c-e4b3181a2c8c',
-      created_at: new Date('2016-01-02'),
-      updated_at: new Date('2015-02-01'),
       source_id: sources.cochrane.id,
       trial_id: trials[0].id,
       source_url: 'http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD006081/full',
@@ -495,8 +481,6 @@ exports.seed = (knex) => {
     },
     {
       id: '44470c86-83ee-11e6-a6fa-e4b3181a2c8c',
-      created_at: new Date('2016-02-03'),
-      updated_at: new Date('2016-03-02'),
       source_id: sources.cochrane.id,
       trial_id: trials[1].id,
       source_url: 'http://onlinelibrary.wiley.com/doi/10.1002/14651858.CD009766/full',

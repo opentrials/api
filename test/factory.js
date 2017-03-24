@@ -246,11 +246,9 @@ factory.define('sourceRelatedToSeveralRecords', Source, {
     const records = [
       {
         source_id: source.id,
-        updated_at: new Date('2015-01-01'),
       },
       {
         source_id: source.id,
-        updated_at: new Date('2016-01-01'),
       },
     ];
 
