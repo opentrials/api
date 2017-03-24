@@ -2,9 +2,18 @@
 
 const Promise = require('bluebird');
 
-const tablesWithTimestamps = ['conditions', 'fda_applications', 'fda_approvals',
-  'interventions', 'locations', 'organisations', 'persons', 'publications',
-  'records', 'risk_of_bias_criterias', 'risk_of_biases', 'sources', 'trials'];
+const tablesWithTimestamps = [
+  'conditions',
+  'fda_approvals',
+  'interventions',
+  'locations',
+  'organisations',
+  'persons',
+  'publications',
+  'records',
+  'sources',
+  'trials',
+];
 
 exports.up = (knex) => (
   Promise.map(tablesWithTimestamps, (table) =>
