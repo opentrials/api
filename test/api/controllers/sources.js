@@ -19,6 +19,21 @@ describe('Sources', () => {
           })
       ))
     ));
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'name',
+        'source_url',
+        'terms_and_conditions_url',
+        'type',
+      ];
+      factory.create('source').then(() => (
+        server.inject('/v1/sources')
+          .then((response) => JSON.parse(response.payload)[0]
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 });
 
