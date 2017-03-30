@@ -33,6 +33,23 @@ describe('Document', () => {
           result.should.deepEqual(expectedResult);
         });
     });
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'name',
+        'trials',
+        'source',
+        'source_url',
+        'document_category',
+        'url',
+      ];
+      factory.create('document').then((model) => (
+        server.inject(`/v1/documents/${model.attributes.id}`)
+          .then((response) => JSON.parse(response.payload)
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 
   describe('GET /v1/documents', () => {

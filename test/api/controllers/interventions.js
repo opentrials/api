@@ -26,5 +26,18 @@ describe('Interventions', () => {
           })
       ))
     ));
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'name',
+        'url',
+      ];
+      factory.create('intervention').then((model) => (
+        server.inject(`/v1/interventions/${model.attributes.id}`)
+          .then((response) => JSON.parse(response.payload)
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 });

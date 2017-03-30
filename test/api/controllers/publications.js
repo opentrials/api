@@ -27,5 +27,24 @@ describe('Publication', () => {
           result.should.deepEqual(expectedResult);
         });
     });
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'source',
+        'source_url',
+        'title',
+        'abstract',
+        'created_at',
+        'updated_at',
+        'authors',
+        'url',
+      ];
+      factory.create('publication').then((model) => (
+        server.inject(`/v1/publications/${model.attributes.id}`)
+          .then((response) => JSON.parse(response.payload)
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 });

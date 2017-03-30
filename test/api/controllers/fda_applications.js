@@ -26,6 +26,22 @@ describe('FDAApplication', () => {
           })
       ))
     ));
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'drug_name',
+        'active_ingredients',
+        'fda_approvals',
+        'url',
+        'type',
+      ];
+      factory.create('fda_application').then((model) => (
+        server.inject(`/v1/fda_applications/${model.attributes.id}`)
+          .then((response) => JSON.parse(response.payload)
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 
   describe('GET /v1/fda_applications', () => {

@@ -26,5 +26,18 @@ describe('Conditions', () => {
           })
       ))
     ));
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'name',
+        'url',
+      ];
+      factory.create('condition').then((model) => (
+        server.inject(`/v1/conditions/${model.attributes.id}`)
+          .then((response) => JSON.parse(response.payload)
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 });

@@ -26,5 +26,18 @@ describe('Persons', () => {
           })
       ))
     ));
+
+    it('returns all the attributes', () => {
+      const attributes = [
+        'id',
+        'name',
+        'url',
+      ];
+      factory.create('person').then((model) => (
+        server.inject(`/v1/persons/${model.attributes.id}`)
+          .then((response) => JSON.parse(response.payload)
+                .should.have.keys(...attributes))
+      ));
+    });
   });
 });
