@@ -2,6 +2,7 @@
 
 'use strict';
 
+const _ = require('lodash');
 const Promise = require('bluebird');
 const client = require('../../config').elasticsearch;
 
@@ -39,6 +40,11 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions, entitie
         .then((entities) => _bulkIndexEntities(entities, index, indexType))
         // eslint-disable-next-line no-loop-func
         .then((resp) => {
+          if (resp && resp.errors) {
+            const failedModels = _.filter(resp.items, 'index.error');
+            console.error(`${failedModels.length} failed to reindex.`);
+            throw _.map(failedModels, (item) => item.index);
+          }
           const count = (resp) ? resp.items.length : 0;
           numReindexedModels += count;
           console.info(`${numReindexedModels} successfully reindexed, ${modelCount - numReindexedModels} remaining.`);
@@ -47,11 +53,7 @@ function indexModel(model, index, indexType, _queryParams, fetchOptions, entitie
       offset += batchSize;
     } while (offset <= modelCount);
 
-    return chain
-      .catch((err) => {
-        console.error(err);
-        process.exit(-1);
-      });
+    return chain;
   });
 }
 

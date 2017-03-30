@@ -19,6 +19,12 @@ function runIndexer(indexDefinition, alias, indexer) {
   return Promise.resolve()
     .then(() => client.indices.create(mapping))
     .then(() => indexer(index))
+    .catch((err) => {
+      const errors = [].concat(err);
+      errors.map((error) => console.error(error));
+      removeIndexes([index])
+        .then(() => process.exit(-1));
+    })
     .then(() => updateAlias(index, alias));
 }
 
@@ -62,7 +68,7 @@ function removeIndexes(indexes) {
   let result;
 
   if (indexes) {
-    console.log('Removing old indexes:', indexes.join(', '));
+    console.log('Removing indexes:', indexes.join(', '));
     result = client.indices.delete({ index: indexes, ignore: 404 });
   }
 
