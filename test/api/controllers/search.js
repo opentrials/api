@@ -55,20 +55,8 @@ describe('Search', () => {
   });
 
   describe('GET /v1/search/autocomplete/{in}', () => {
-    describe('GET /v1/search/autocomplete/condition',
-             autocompleteTests('/v1/search/autocomplete/condition', 'condition'));
-
-    describe('GET /v1/search/autocomplete/intervention',
-             autocompleteTests('/v1/search/autocomplete/intervention', 'intervention'));
-
     describe('GET /v1/search/autocomplete/location',
              autocompleteTests('/v1/search/autocomplete/location', 'location'));
-
-    describe('GET /v1/search/autocomplete/person',
-             autocompleteTests('/v1/search/autocomplete/person', 'person'));
-
-    describe('GET /v1/search/autocomplete/organisation',
-             autocompleteTests('/v1/search/autocomplete/organisation', 'organisation'));
   });
 
   describe('GET /v1/search/fda_documents', () => {

@@ -61,7 +61,7 @@ paths:
       tags:
         - search
       description: Autocomplete search feature for supported database entities
-                   (`condition`, `intervention`, `location`, `person`, `organisation`).
+                   (`location`).
                    It has the same options as a regular `search` operation, with an extra **required**
                    `in` parameter indicating the entity type to search.
       operationId: autocomplete
@@ -72,11 +72,7 @@ paths:
           description: The entity to search for
           type: string
           enum:
-            - condition
-            - intervention
             - location
-            - person
-            - organisation
         - name: q
           in: query
           description: The search query

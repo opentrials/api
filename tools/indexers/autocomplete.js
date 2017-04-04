@@ -1,11 +1,7 @@
 'use strict';
 
 const esHelpers = require('./helpers');
-const Condition = require('../../api/models/condition');
-const Intervention = require('../../api/models/intervention');
 const Location = require('../../api/models/location');
-const Person = require('../../api/models/person');
-const Organisation = require('../../api/models/organisation');
 
 
 const autocompleteModelMapping = {
@@ -47,11 +43,7 @@ const autocompleteIndex = {
       },
     },
     mappings: {
-      condition: autocompleteModelMapping,
-      intervention: autocompleteModelMapping,
       location: autocompleteModelMapping,
-      person: autocompleteModelMapping,
-      organisation: autocompleteModelMapping,
     },
   },
 };
@@ -81,11 +73,7 @@ function indexAutocompleteModel(model, index, indexType) {
 
 function indexer(indexName) {
   return Promise.resolve()
-    .then(() => indexAutocompleteModel(Condition, indexName, 'condition'))
-    .then(() => indexAutocompleteModel(Intervention, indexName, 'intervention'))
-    .then(() => indexAutocompleteModel(Location, indexName, 'location'))
-    .then(() => indexAutocompleteModel(Person, indexName, 'person'))
-    .then(() => indexAutocompleteModel(Organisation, indexName, 'organisation'));
+    .then(() => indexAutocompleteModel(Location, indexName, 'location'));
 }
 
 
