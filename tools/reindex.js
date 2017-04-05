@@ -19,13 +19,12 @@ function runIndexer(indexDefinition, alias, indexer) {
   return Promise.resolve()
     .then(() => client.indices.create(mapping))
     .then(() => indexer(index))
+    .catch((err) => removeIndexes([index]).then(() => { throw err; }))
+    .then(() => updateAlias(index, alias))
     .catch((err) => {
-      const errors = [].concat(err);
-      errors.map((error) => console.error(error));
-      removeIndexes([index])
-        .then(() => process.exit(-1));
-    })
-    .then(() => updateAlias(index, alias));
+      console.error(err);
+      process.exit(-1);
+    });
 }
 
 function uniqueIndexName(alias) {
