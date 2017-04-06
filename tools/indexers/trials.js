@@ -3,6 +3,31 @@
 const esHelpers = require('./helpers');
 const Trial = require('../../api/models/trial');
 
+const sourceMapping = {
+  properties: {
+    id: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    name: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    source_url: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    terms_and_conditions_url: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    type: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+  },
+};
+
 const trialMapping = {
   dynamic_templates: [
     {
@@ -14,8 +39,23 @@ const trialMapping = {
         },
       },
     },
+    {
+      sources_consists_of_source_objects: {
+        path_match: 'sources.*',
+        mapping: sourceMapping,
+      },
+    },
   ],
+  dynamic: 'strict',
   properties: {
+    identifiers: {
+      type: 'object',
+      dynamic: true,
+    },
+    sources: {
+      type: 'object',
+      dynamic: true,
+    },
     brief_summary: {
       type: 'string',
     },
@@ -42,6 +82,10 @@ const trialMapping = {
           copy_to: 'intervention',
         },
         url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        type: {
           type: 'string',
           index: 'not_analyzed',
         },
@@ -156,6 +200,14 @@ const trialMapping = {
           type: 'string',
           copy_to: 'publication',
         },
+        source_url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        source_id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
       },
     },
     publication: {
@@ -177,6 +229,21 @@ const trialMapping = {
         source_url: {
           type: 'string',
           index: 'not_analyzed',
+        },
+        trials: {
+          properties: {
+            id: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+            url: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+            public_title: {
+              type: 'string',
+            },
+          },
         },
         document_category: {
           properties: {
@@ -284,6 +351,86 @@ const trialMapping = {
         }),
       },
     },
+    records: {
+      properties: {
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        source_id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        is_primary: {
+          type: 'boolean',
+        },
+        last_verification_date: {
+          type: 'date',
+          format: 'dateOptionalTime',
+        },
+        source_url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        updated_at: {
+          type: 'date',
+          format: 'date_time',
+        },
+      },
+    },
+    risks_of_bias: {
+      properties: {
+        id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        source_id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        source_url: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        updated_at: {
+          type: 'date',
+          format: 'date_time',
+        },
+        created_at: {
+          type: 'date',
+          format: 'date_time',
+        },
+        study_id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        trial_id: {
+          type: 'string',
+          index: 'not_analyzed',
+        },
+        source: sourceMapping,
+        risk_of_bias_criteria: {
+          properties: {
+            id: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+            name: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+            value: {
+              type: 'string',
+              index: 'not_analyzed',
+            },
+          },
+        },
+      },
+    },
     public_title: {
       type: 'string',
     },
@@ -316,6 +463,15 @@ const trialMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
+    status: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    results_exemption_date: {
+      type: 'date',
+      format: 'dateOptionalTime',
+    },
+    source: sourceMapping,
   },
 };
 
@@ -326,19 +482,15 @@ function getDiscrepancyRecordMapping(valueMapping) {
       field: {
         enabled: 'false',
       },
-      records: {
-        properties: {
-          record_id: {
-            type: 'string',
-            index: 'not_analyzed',
-          },
-          source_name: {
-            type: 'string',
-            index: 'not_analyzed',
-          },
-          value: valueMapping,
-        },
+      record_id: {
+        type: 'string',
+        index: 'not_analyzed',
       },
+      source_name: {
+        type: 'string',
+        index: 'not_analyzed',
+      },
+      value: valueMapping,
     },
   };
 }

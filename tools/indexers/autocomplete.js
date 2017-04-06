@@ -9,6 +9,7 @@ const Organisation = require('../../api/models/organisation');
 
 
 const autocompleteModelMapping = {
+  dynamic: 'strict',
   properties: {
     id: {
       type: 'string',
@@ -18,6 +19,10 @@ const autocompleteModelMapping = {
       type: 'string',
       analyzer: 'autocomplete',
       search_analyzer: 'standard',
+    },
+    url: {
+      type: 'string',
+      index: 'not_analyzed',
     },
   },
 };
