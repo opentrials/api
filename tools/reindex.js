@@ -19,7 +19,12 @@ function runIndexer(indexDefinition, alias, indexer) {
   return Promise.resolve()
     .then(() => client.indices.create(mapping))
     .then(() => indexer(index))
-    .then(() => updateAlias(index, alias));
+    .catch((err) => removeIndexes([index]).then(() => { throw err; }))
+    .then(() => updateAlias(index, alias))
+    .catch((err) => {
+      console.error(err);
+      process.exit(-1);
+    });
 }
 
 function uniqueIndexName(alias) {
@@ -62,7 +67,7 @@ function removeIndexes(indexes) {
   let result;
 
   if (indexes) {
-    console.log('Removing old indexes:', indexes.join(', '));
+    console.log('Removing indexes:', indexes.join(', '));
     result = client.indices.delete({ index: indexes, ignore: 404 });
   }
 
