@@ -414,7 +414,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+
   /documents:
     x-swagger-router-controller: documents
     get:
@@ -1213,6 +1213,7 @@ definitions:
         type: string
         enum:
           - register
+          - journal
           - other
 
   FDADocumentSearchResults:
