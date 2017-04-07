@@ -134,7 +134,7 @@ exports.seed = (knex) => {
     pubmed: {
       id: 'pubmed',
       name: 'PubMed',
-      type: 'other',
+      type: 'journal',
     },
   };
 
