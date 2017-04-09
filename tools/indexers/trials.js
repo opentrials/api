@@ -332,11 +332,16 @@ const trialMapping = {
     },
     discrepancies: {
       properties: {
-        public_title: getDiscrepancyRecordMapping({
+        status: getDiscrepancyRecordMapping({
           type: 'string',
+          index: 'not_analyzed',
         }),
-        brief_summary: getDiscrepancyRecordMapping({
+        recruitment_status: getDiscrepancyRecordMapping({
           type: 'string',
+          index: 'not_analyzed',
+        }),
+        has_published_results: getDiscrepancyRecordMapping({
+          type: 'boolean',
         }),
         gender: getDiscrepancyRecordMapping({
           type: 'string',
@@ -344,10 +349,6 @@ const trialMapping = {
         }),
         target_sample_size: getDiscrepancyRecordMapping({
           type: 'integer',
-        }),
-        registration_date: getDiscrepancyRecordMapping({
-          type: 'date',
-          format: 'dateOptionalTime',
         }),
       },
     },
