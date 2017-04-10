@@ -5,6 +5,7 @@ const Location = require('../../api/models/location');
 
 
 const autocompleteModelMapping = {
+  dynamic: 'strict',
   properties: {
     id: {
       type: 'string',
@@ -14,6 +15,10 @@ const autocompleteModelMapping = {
       type: 'string',
       analyzer: 'autocomplete',
       search_analyzer: 'standard',
+    },
+    url: {
+      type: 'string',
+      index: 'not_analyzed',
     },
   },
 };

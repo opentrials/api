@@ -5,6 +5,7 @@ const Document = require('../../api/models/document');
 
 
 const fdaDocumentMapping = {
+  dynamic: 'strict',
   properties: {
     id: {
       type: 'string',
@@ -87,6 +88,24 @@ const fdaDocumentMapping = {
           },
         },
       },
+    },
+    action_date: {
+      type: 'date',
+      format: 'dateOptionalTime',
+    },
+    application_id: {
+      type: 'string',
+      index: 'not_analyzed',
+    },
+    active_ingredients: {
+      type: 'string',
+    },
+    drug: {
+      type: 'string',
+    },
+    application_type: {
+      type: 'string',
+      index: 'not_analyzed',
     },
     file: {
       properties: {
