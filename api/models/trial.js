@@ -223,14 +223,6 @@ const Trial = BaseModel.extend({
 
       return discrepancies;
     },
-    is_registered() {
-      let status;
-      const source = this.sources[this.attributes.source_id] || { type: null };
-      if (source.type !== null) {
-        status = source.type === 'register';
-      }
-      return status;
-    },
   },
 }, {
   relatedModels,
