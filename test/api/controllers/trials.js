@@ -59,7 +59,6 @@ describe('Trials', () => {
         'study_phase',
         'url',
         'sources',
-        'is_registered',
       ];
       server.inject('/v1/trials/05cc77ad-5575-4c04-9309-4c64d5144b07')
         .then((response) => JSON.parse(response.payload)

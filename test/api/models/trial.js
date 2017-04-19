@@ -433,26 +433,6 @@ describe('Trial', () => {
           .then((trial) => should(trial.discrepancies).be.undefined());
       });
     });
-    describe('is_registered', () => {
-      it('returns undefined if trial source is undefined', () => {
-        factory.create('source')
-          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
-          .then((trial) => new Trial({ id: trial.attributes.id }).fetch())
-          .then((trial) => (should(trial.toJSON().is_registered).be.undefined()));
-      });
-      it('returns true is trial source is a register', () => {
-        factory.create('source', { type: 'register' })
-          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
-          .then((trial) => new Trial({ id: trial.attributes.id }).fetch({ withRelated: ['source'] }))
-          .then((trial) => (should(trial.toJSON().is_registered).be.true()));
-      });
-      it('returns false is trial source is not a register', () => {
-        factory.create('source', { type: 'other' })
-          .then((source) => factory.create('trial', { source_id: source.attributes.id }))
-          .then((trial) => new Trial({ id: trial.attributes.id }).fetch({ withRelated: ['source'] }))
-          .then((trial) => (should(trial.toJSON().is_registered).be.false()));
-      });
-    });
   });
 
   describe('toJSONSummary', () => {
