@@ -32,39 +32,6 @@ describe('Trials', () => {
             })
         ))
     ));
-
-    it('returns all the attributes', () => {
-      const attributes = [
-        'id',
-        'source_id',
-        'identifiers',
-        'public_title',
-        'brief_summary',
-        'target_sample_size',
-        'gender',
-        'has_published_results',
-        'status',
-        'recruitment_status',
-        'registration_date',
-        'locations',
-        'interventions',
-        'conditions',
-        'persons',
-        'organisations',
-        'records',
-        'publications',
-        'documents',
-        'risks_of_bias',
-        'source',
-        'study_phase',
-        'url',
-        'sources',
-      ];
-      server.inject('/v1/trials/05cc77ad-5575-4c04-9309-4c64d5144b07')
-        .then((response) => JSON.parse(response.payload)
-              .should.have.keys(...attributes)
-        );
-    });
   });
 
   describe('GET /v1/trials/{id}/records/{id}', () => {

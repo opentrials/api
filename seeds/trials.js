@@ -282,8 +282,8 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       age_range: {
-        'minimum_age': '18 Years',
-        'maximum_age': '60 Years',
+        minimum_age: '18 Years',
+        maximum_age: '60 Years',
       },
       has_published_results: true,
       publications: [
@@ -356,7 +356,7 @@ exports.seed = (knex) => {
       study_phase: ['Not applicable'],
       target_sample_size: 250,
       age_range: {
-        'minimum_age': '18 Years',
+        minimum_age: '18 Years',
       },
       locations: [
         {
