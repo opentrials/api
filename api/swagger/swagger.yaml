@@ -529,6 +529,17 @@ definitions:
           - both
           - male
           - female
+      age_range:
+        type: object
+        properties:
+          minimum_age:
+            type: string
+            description: Minimum participant age (e.g. "12 Years", "1 Month",
+              "15 Days"). If unknown, it's "Unknown". If no limit, it's undefined.
+          maximum_age:
+            type: string
+            description: Maximum participant age (e.g. "12 Years", "1 Month",
+              "15 Days"). If unknown, it's "Unknown". If no limit, it's undefined.
       has_published_results:
         type: boolean
         description: Trial has its results published (true/false)

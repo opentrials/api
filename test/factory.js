@@ -151,6 +151,10 @@ const trialAttributes = {
   completion_date: new Date('2016-12-12'),
   target_sample_size: 1000,
   gender: 'both',
+  age_range: {
+    minimum_age: '18 Years',
+    maximum_age: '60 Years',
+  },
   has_published_results: true,
   public_title: 'public_title',
   brief_summary: 'brief_summary',

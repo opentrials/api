@@ -442,6 +442,16 @@ const trialMapping = {
       type: 'string',
       index: 'not_analyzed',
     },
+    age_range: {
+      properties: {
+        minimum_age: {
+          type: 'string',
+        },
+        maximum_age: {
+          type: 'string',
+        },
+      },
+    },
     has_published_results: {
       type: 'boolean',
     },

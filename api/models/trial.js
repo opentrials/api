@@ -48,6 +48,7 @@ const Trial = BaseModel.extend({
     'brief_summary',
     'target_sample_size',
     'gender',
+    'age_range',
     'has_published_results',
     'status',
     'recruitment_status',
