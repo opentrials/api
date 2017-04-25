@@ -281,6 +281,10 @@ exports.seed = (knex) => {
       study_phase: ['Phase 1', 'Phase 2'],
       target_sample_size: 2000,
       gender: 'both',
+      age_range: {
+        'minimum_age': '18 Years',
+        'maximum_age': '60 Years',
+      },
       has_published_results: true,
       publications: [
         {
@@ -351,6 +355,9 @@ exports.seed = (knex) => {
       study_design: 'Observational Model: Cohort, Time Perspective: Prospective',
       study_phase: ['Not applicable'],
       target_sample_size: 250,
+      age_range: {
+        'minimum_age': '18 Years',
+      },
       locations: [
         {
           location: locations.usa,
