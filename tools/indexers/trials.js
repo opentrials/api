@@ -444,10 +444,10 @@ const trialMapping = {
     },
     age_range: {
       properties: {
-        minimum_age: {
+        min_age: {
           type: 'string',
         },
-        maximum_age: {
+        max_age: {
           type: 'string',
         },
       },

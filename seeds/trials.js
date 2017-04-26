@@ -282,8 +282,8 @@ exports.seed = (knex) => {
       target_sample_size: 2000,
       gender: 'both',
       age_range: {
-        minimum_age: '18 Years',
-        maximum_age: '60 Years',
+        min_age: '18 Years',
+        max_age: '60 Years',
       },
       has_published_results: true,
       publications: [
@@ -356,7 +356,7 @@ exports.seed = (knex) => {
       study_phase: ['Not applicable'],
       target_sample_size: 250,
       age_range: {
-        minimum_age: '18 Years',
+        min_age: '18 Years',
       },
       locations: [
         {
@@ -544,6 +544,7 @@ exports.seed = (knex) => {
     .then(() => knex('persons').del())
     .then(() => knex('trials_organisations').del())
     .then(() => knex('organisations').del())
+    .then(() => knex('trial_deduplication_logs').del())
     .then(() => knex('records').del())
     .then(() => knex('trials_publications').del())
     .then(() => knex('publications').del())

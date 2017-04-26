@@ -532,14 +532,16 @@ definitions:
       age_range:
         type: object
         properties:
-          minimum_age:
+          min_age:
             type: string
             description: Minimum participant age (e.g. "12 Years", "1 Month",
-              "15 Days"). If unknown, it's "Unknown". If no limit, it's undefined.
-          maximum_age:
+              "15 Days"). If unknown, it's `undefined`. If no limit, it's "any".
+              If not applicable, it's "N/A".
+          max_age:
             type: string
             description: Maximum participant age (e.g. "12 Years", "1 Month",
-              "15 Days"). If unknown, it's "Unknown". If no limit, it's undefined.
+              "15 Days"). If unknown, it's `undefined`. If no limit, it's "any".
+              If not applicable, it's "N/A".
       has_published_results:
         type: boolean
         description: Trial has its results published (true/false)
