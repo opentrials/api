@@ -67,7 +67,7 @@ config.bookshelf = bookshelf;
 // ElasticSearch
 const elasticsearchConfig = {
   host: process.env.ELASTICSEARCH_URL,
-  apiVersion: '2.3',
+  apiVersion: '5.6',
   defer: () => {
     const defer = {};
     defer.promise = new Promise((resolve, reject) => {

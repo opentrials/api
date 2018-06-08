@@ -13,6 +13,7 @@ const fdaDocumentMapping = {
     },
     name: {
       type: 'string',
+      fielddata: true,
     },
     source_id: {
       type: 'string',

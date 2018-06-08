@@ -24,7 +24,7 @@
     "bluebird": "^3.4.6",
     "bookshelf": "^0.10.1",
     "dotenv": "^2.0.0",
-    "elasticsearch": "^11.0.1",
+    "elasticsearch": "^15.0.0",
     "good": "^7.0.2",
     "good-console": "^6.1.2",
     "hapi": "^15.0.3",

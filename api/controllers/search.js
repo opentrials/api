@@ -16,7 +16,7 @@ function searchTrials(req, res) {
   const searchQuery = {
     index: 'trials',
     type: 'trial',
-    q: params.q.value,
+    q: params.q.value || '*',
     from: (page - 1) * perPage,
     size: perPage,
     defaultOperator: 'AND',
@@ -70,8 +70,8 @@ function searchFDADocuments(req, res) {
   const params = req.swagger.params;
   const page = params.page.value;
   const perPage = params.per_page.value;
-  const queryString = params.q.value;
-  const textQuery = params.text.value;
+  const queryString = params.q.value || '*';
+  const textQuery = params.text.value || '*';
 
   const defaultQueryString = {
     default_operator: 'AND',
@@ -80,7 +80,7 @@ function searchFDADocuments(req, res) {
   let documentQuery = {
     match_all: {},
   };
-  if (queryString !== undefined) {
+  if (queryString !== '*') {
     const documentQueryString = Object.assign(
       {},
       defaultQueryString,
@@ -97,7 +97,7 @@ function searchFDADocuments(req, res) {
   let pageQuery = {
     match_all: {},
   };
-  if (textQuery !== undefined) {
+  if (textQuery !== '*') {
     const pageQueryString = Object.assign(
       {},
       defaultQueryString,
@@ -191,7 +191,7 @@ function autocomplete(req, res) {
     };
   } else {
     // Return all results
-    searchQuery.q = undefined;
+    searchQuery.q = '*';
   }
 
   return client.search(searchQuery)

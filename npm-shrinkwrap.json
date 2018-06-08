@@ -19,6 +19,11 @@
         }
       }
     },
+    "agentkeepalive": {
+      "version": "3.4.1",
+      "from": "agentkeepalive@>=3.4.1 <4.0.0",
+      "resolved": "https://registry.npmjs.org/agentkeepalive/-/agentkeepalive-3.4.1.tgz"
+    },
     "ammo": {
       "version": "2.0.1",
       "from": "ammo@http://registry.npmjs.org/ammo/-/ammo-2.0.1.tgz",
@@ -70,11 +75,6 @@
       "version": "0.2.1",
       "from": "array-unique@http://registry.npmjs.org/array-unique/-/array-unique-0.2.1.tgz",
       "resolved": "http://registry.npmjs.org/array-unique/-/array-unique-0.2.1.tgz"
-    },
-    "asap": {
-      "version": "2.0.4",
-      "from": "asap@http://registry.npmjs.org/asap/-/asap-2.0.4.tgz",
-      "resolved": "http://registry.npmjs.org/asap/-/asap-2.0.4.tgz"
     },
     "asn1": {
       "version": "0.2.3",
@@ -453,14 +453,14 @@
       "resolved": "http://registry.npmjs.org/ee-first/-/ee-first-1.1.0.tgz"
     },
     "elasticsearch": {
-      "version": "11.0.1",
-      "from": "elasticsearch@http://registry.npmjs.org/elasticsearch/-/elasticsearch-11.0.1.tgz",
-      "resolved": "http://registry.npmjs.org/elasticsearch/-/elasticsearch-11.0.1.tgz",
+      "version": "15.0.0",
+      "from": "elasticsearch@latest",
+      "resolved": "https://registry.npmjs.org/elasticsearch/-/elasticsearch-15.0.0.tgz",
       "dependencies": {
         "lodash": {
-          "version": "3.10.1",
-          "from": "lodash@https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
+          "version": "4.17.10",
+          "from": "lodash@>=4.17.10 <5.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.10.tgz"
         }
       }
     },
@@ -760,6 +760,18 @@
       "version": "1.1.1",
       "from": "http-signature@http://registry.npmjs.org/http-signature/-/http-signature-1.1.1.tgz",
       "resolved": "http://registry.npmjs.org/http-signature/-/http-signature-1.1.1.tgz"
+    },
+    "humanize-ms": {
+      "version": "1.2.1",
+      "from": "humanize-ms@>=1.2.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/humanize-ms/-/humanize-ms-1.2.1.tgz",
+      "dependencies": {
+        "ms": {
+          "version": "2.1.1",
+          "from": "ms@>=2.0.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.1.tgz"
+        }
+      }
     },
     "iconv-lite": {
       "version": "0.4.8",
@@ -1561,11 +1573,6 @@
       "version": "1.0.7",
       "from": "process-nextick-args@http://registry.npmjs.org/process-nextick-args/-/process-nextick-args-1.0.7.tgz",
       "resolved": "http://registry.npmjs.org/process-nextick-args/-/process-nextick-args-1.0.7.tgz"
-    },
-    "promise": {
-      "version": "7.1.1",
-      "from": "promise@http://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
-      "resolved": "http://registry.npmjs.org/promise/-/promise-7.1.1.tgz"
     },
     "pseudomap": {
       "version": "1.0.2",
