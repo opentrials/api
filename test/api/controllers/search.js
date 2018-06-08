@@ -378,7 +378,7 @@ function autocompleteTests(url, factoryName) {
 
       return server.inject(url)
         .then(() => {
-          elasticsearch.search.calledWithMatch({ q: undefined }).should.be.true();
+          elasticsearch.search.calledWithMatch({ q: '*' }).should.be.true();
         });
     });
 
