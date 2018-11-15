@@ -45,3 +45,5 @@ You can run the test suite and linting with `npm test`.
 ### Interacting with the API
 
 You can find and interact [here](https://api.opentrials.net/v1/docs/) with the available endpoints.
+
+Seems like some of the packages need to be updated
