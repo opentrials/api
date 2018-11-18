@@ -1,6 +1,6 @@
 # IDE files
 .idea
-
+.env
 # Logs
 logs
 *.log
